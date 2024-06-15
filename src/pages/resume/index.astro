@@ -1,0 +1,355 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "@layouts/PageLayout.astro";
+import TopLayout from "@layouts/TopLayout.astro";
+import BottomLayout from "@layouts/BottomLayout.astro";
+import { RESUME, SOCIALS } from "@consts";
+import StackCard from "@components/StackCard.astro";
+
+const resumeCollection = await getCollection("resume");
+const certificationsCollection = await getCollection("certifications");
+const projectsCollection = await getCollection("projects");
+
+resumeCollection.sort(
+  (a, b) =>
+    new Date(b.data.dateStart).getTime() - new Date(a.data.dateStart).getTime()
+);
+
+certificationsCollection.sort(
+  (a, b) =>
+    new Date(b.data.dateStart).getTime() - new Date(a.data.dateStart).getTime()
+);
+
+const pinnedProjects = projectsCollection
+  .filter((project) => project.data.pin && !isNaN(parseInt(project.data.pin)))
+  .sort((a, b) => parseInt(a.data.pin) - parseInt(b.data.pin));
+
+const resume = await Promise.all(
+  resumeCollection.map(async (item) => {
+    const { Content } = await item.render();
+    return { ...item, Content };
+  })
+);
+
+const certifications = await Promise.all(
+  certificationsCollection.map(async (item) => {
+    const { Content } = await item.render();
+    return { ...item, Content };
+  })
+);
+
+const projects = await Promise.all(
+  pinnedProjects.map(async (item) => {
+    const { Content } = await item.render();
+    return { ...item, Content };
+  })
+);
+
+function formatWorkDate(input: Date | string) {
+  if (typeof input === "string") return input;
+
+  const month = input.toLocaleDateString("en-US", {
+    month: "short",
+  });
+
+  const year = new Date(input).getFullYear();
+  return `${month} ${year}`;
+}
+
+const stack = [
+  {
+    text: "Python",
+    icon: "python",
+  },
+  {
+    text: "Pandas",
+    icon: "pandas",
+  },
+  {
+    text: "NumPy",
+    icon: "numpy",
+  },
+  {
+    text: "Matplotlib",
+    icon: "matplotlib",
+  },
+  {
+    text: "Scikit Learn",
+    icon: "sklearn",
+  },
+  {
+    text: "Streamlit",
+    icon: "streamlit",
+  },
+  {
+    text: "SQL",
+    icon: "sql",
+  },
+  {
+    text: "Anaconda",
+    icon: "anaconda",
+  },
+  {
+    text: "Git",
+    icon: "git",
+  },
+  {
+    text: "VS Code",
+    icon: "vscode",
+  },
+];
+---
+
+<PageLayout title={RESUME.TITLE} description={RESUME.DESCRIPTION}>
+  <!-- Profile Section -->
+
+  <TopLayout>
+    <section class="animate text-center mb-3 py-3">
+      <a
+        href="https://links.vedant.me/resume"
+        class="py-2 px-4 rounded uppercase truncate text-xs md:text-sm lg:text-base bg-black dark:bg-white text-white dark:text-black hover:opacity-75 blend"
+      >
+        Download My Resume
+      </a>
+    </section>
+    <div
+      class="text-xl md:text-2xl lg:text-3xl text-center animate page-heading"
+    >
+      Vedant Andhale
+    </div>
+    <div
+      class="text-base md:text-lg lg:text-xl font-semibold text-center animate"
+    >
+      "Concepts Drive Adaptability: Mastering idas over tools"
+    </div>
+  </TopLayout>
+
+  <BottomLayout>
+    <!-- Tech Stack Section -->
+    <section class="animate">
+      <div class="space-y-4">
+        <p
+          class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white font-semibold"
+        >
+          Tech Stack
+        </p>
+        <div class="flex flex-wrap items-center gap-2 mt-5 pb-8">
+          {stack.map((item) => <StackCard text={item.text} icon={item.icon} />)}
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <div class="resume-section">
+      <h2
+        class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white font-semibold"
+      >
+        Projects
+      </h2>
+      <ul>
+        {
+          projects.map((entry) => (
+            <li class="animate mt-0 py-0 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
+              <div class="flex justify-between w-full text-xs md:text-sm lg:text-base uppercase mb-0">
+                <div class="text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
+                  {entry.data.title}
+                </div>
+                <div>{formatWorkDate(entry.data.date)}</div>
+              </div>
+              <div class="flex justify-between w-full text-base md:text-lg lg:text-xl font-semibold">
+                <div class="text-base md:text-lg lg:text-xl font-semibold py-2">
+                  {entry.data.technology}
+                </div>
+                <div class="flex gap-2 ">
+                  {entry.data.demoUrl && (
+                    <a
+                      href={entry.data.demoUrl}
+                      target="_blank"
+                      class="group flex gap-2 items-center px-3  truncate rounded text-xs md:text-sm lg:text-base blend"
+                    >
+                      <svg class="size-4">
+                        <use
+                          href="/ui.svg#globe"
+                          class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
+                        />
+                      </svg>
+                      <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
+                        View {entry.data.card}
+                      </span>
+                    </a>
+                  )}
+                  {entry.data.repoUrl && (
+                    <a
+                      href={entry.data.repoUrl}
+                      target="_blank"
+                      class="group flex gap-2 items-center px-3  truncate rounded text-xs md:text-sm lg:text-base blend"
+                    >
+                      <svg class="size-4">
+                        <use
+                          href="/social.svg#github"
+                          class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
+                        />
+                      </svg>
+                      <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
+                        View Source
+                      </span>
+                    </a>
+                  )}
+                </div>
+              </div>
+              <article class="text-sm md:text-base lg:text-lg prose dark:prose-invert pb-8">
+                {/* <entry.Content /> */}
+                {entry.data.summary}
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <section class="animate text-center m-5 pb-8">
+      <a
+        href="/projects"
+        class="py-2 px-4 rounded uppercase truncate text-xs md:text-sm lg:text-base bg-black dark:bg-white text-white dark:text-black hover:opacity-75 blend"
+      >
+        View All Projects
+      </a>
+    </section>
+
+    <!-- Certifications Section -->
+    <div class="resume-section">
+      <h2
+        class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white font-semibold"
+      >
+        Certifications
+      </h2>
+      <ul>
+        {
+          certifications.map((entry) => (
+            <li class="animate mt-0 py-0 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
+              <div class="flex justify-between w-full text-xs md:text-sm lg:text-base uppercase mb-0">
+                <div class="text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
+                  {entry.data.course}
+                </div>
+                <div>{formatWorkDate(entry.data.dateStart)}</div>
+              </div>
+              <div class="flex justify-between w-full text-base md:text-lg lg:text-xl font-semibold py-2">
+                <div class="text-base md:text-md lg:text-lg font-semibold">
+                  {entry.data.platform}
+                </div>
+                <div class="flex gap-2">
+                  {entry.data.certificate && (
+                    <a
+                      href={entry.data.certificate}
+                      target="_blank"
+                      class="group flex gap-2 items-center px-3 truncate rounded text-xs md:text-sm lg:text-base blend"
+                    >
+                      <svg class="size-4">
+                        <use
+                          href="/ui.svg#globe"
+                          class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
+                        />
+                      </svg>
+                      <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
+                        View Certificate
+                      </span>
+                    </a>
+                  )}
+                  {entry.data.credly && (
+                    <a
+                      href={entry.data.credly}
+                      target="_blank"
+                      class="group flex gap-2 items-center px-3 truncate rounded text-xs md:text-sm lg:text-base blend"
+                    >
+                      <svg class="size-4">
+                        <use
+                          href="/ui.svg#link"
+                          class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
+                        />
+                      </svg>
+                      <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
+                        View Credly
+                      </span>
+                    </a>
+                  )}
+                </div>
+              </div>
+              <article class="text-sm md:text-base lg:text-lg prose dark:prose-invert pb-8">
+                <entry.Content />
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Education Section -->
+    <div class="resume-section">
+      <h2
+        class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white"
+      >
+        Education
+      </h2>
+      <ul>
+        {
+          resume.map((entry) => (
+            <li class="animate mt-0 py-0 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
+              <div class="flex justify-between w-full text-xs md:text-sm lg:text-base">
+                <div class="text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
+                  {entry.data.company}
+                </div>
+                <div>
+                  {formatWorkDate(entry.data.dateStart)} -{" "}
+                  {formatWorkDate(entry.data.dateEnd)}
+                </div>
+              </div>
+              <div class="text-base md:text-md lg:text-lg font-semibold">
+                {entry.data.role}
+              </div>
+              <article class="text-sm md:text-base lg:text-lg prose dark:prose-invert ">
+                <entry.Content />
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="animate">
+      <div>
+        <h2
+          class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white"
+        >
+          Let's Connect
+        </h2>
+        <p class="text-base md:text-lg lg:text-xl font-normal">
+          Reach out to me via email or on social media.
+        </p>
+        <div class="grid grid-cols-4 gap-y-2 mt-4 auto-cols-min">
+          {
+            SOCIALS.map((social) => (
+              <>
+                <div class="col-span-1 flex items-center gap-1">
+                  <span class="text-sm md:text-base lg:text-lg whitespace-nowrap truncate">
+                    {social.NAME}
+                  </span>
+                </div>
+                <div class="col-span-3 truncate">
+                  <a
+                    href={social.HREF}
+                    target="_blank"
+                    class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-black/25 dark:decoration-white/50 hover:decoration-black dark:hover:decoration-white text-black dark:text-white underline-offset-2 blend"
+                  >
+                    <span class="text-sm md:text-base lg:text-lg text-black/75 dark:text-white/75 group-hover:text-black group-hover:dark:text-white blend">
+                      {social.TEXT}
+                    </span>
+                  </a>
+                </div>
+              </>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </BottomLayout>
+</PageLayout>
