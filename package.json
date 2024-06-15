@@ -22,7 +22,6 @@
     "@astrojs/tailwind": "^5.1.0",
     "@tailwindcss/typography": "^0.5.10",
     "astro": "^4.4.13",
-    "astro-compress": "^2.2.28",
     "clsx": "^2.1.0",
     "fuse.js": "^7.0.0",
     "markdown-it": "^14.1.0",
