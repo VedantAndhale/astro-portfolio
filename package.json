@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.1",
-    "@types/sanitize-html": "^2.11.0"
+    "@types/sanitize-html": "^2.11.0",
+    "astro-critters": "^2.1.10"
   }
 }
