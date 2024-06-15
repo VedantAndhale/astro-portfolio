@@ -1,6 +1,6 @@
 function changeTheme() {
   const element = document.documentElement
-  const theme = element.classList.contains("dark") ? "dark" : "light"
+  const theme = element.classList.contains("dark") ? "light" : "dark"
 
   const css = document.createElement("style")
 
