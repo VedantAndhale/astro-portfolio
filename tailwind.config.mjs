@@ -73,5 +73,4 @@ export default {
     },
   },
   plugins: [require("@tailwindcss/typography")],
-  purge: ['./src/**/*.{astro,html,js,jsx,ts,tsx}'],
 };
