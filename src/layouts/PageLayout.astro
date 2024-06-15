@@ -12,6 +12,10 @@ import { SITE } from "@consts"
 <html lang="en">
   <head>
     <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
+    <link rel="preload" href="../styles/global.css" as="style" onload="this.rel='stylesheet'">
+    <noscript>
+    <link rel="stylesheet" href="../styles/global.css">
+    </noscript>
   </head>
   <body>
     <Header />
