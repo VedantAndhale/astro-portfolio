@@ -1,6 +1,6 @@
 function changeTheme() {
   const element = document.documentElement
-  const theme = element.classList.contains("dark") ? "light" : "dark"
+  const theme = element.classList.contains("dark") ? "dark" : "light"
 
   const css = document.createElement("style")
 
@@ -56,8 +56,8 @@ window.onload = () => {
     const drawerThemeButton = document.getElementById("drawer-theme-button")
     headerThemeButton?.addEventListener("click", changeTheme)
     drawerThemeButton?.addEventListener("click", changeTheme)
-  } 
-  
+  }
+
   document.addEventListener("astro:after-swap", initializeThemeButtons)
   initializeThemeButtons()
 }
