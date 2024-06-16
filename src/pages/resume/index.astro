@@ -156,47 +156,47 @@ const stack = [
                 </div>
                 <div>{formatWorkDate(entry.data.date)}</div>
               </div>
-              <div class="flex justify-between w-full text-base md:text-lg lg:text-xl font-semibold">
-                <div class="text-base md:text-lg lg:text-xl font-semibold py-2">
-                  {entry.data.technology}
-                </div>
-                <div class="flex gap-2 ">
-                  {entry.data.demoUrl && (
-                    <a
-                      href={entry.data.demoUrl}
-                      target="_blank"
-                      class="group flex gap-2 items-center px-3  truncate rounded text-xs md:text-sm lg:text-base blend"
-                    >
-                      <svg class="size-4">
-                        <use
-                          href="/ui.svg#globe"
-                          class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
-                        />
-                      </svg>
-                      <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
-                        View {entry.data.card}
-                      </span>
-                    </a>
-                  )}
-                  {entry.data.repoUrl && (
-                    <a
-                      href={entry.data.repoUrl}
-                      target="_blank"
-                      class="group flex gap-2 items-center px-3  truncate rounded text-xs md:text-sm lg:text-base blend"
-                    >
-                      <svg class="size-4">
-                        <use
-                          href="/social.svg#github"
-                          class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
-                        />
-                      </svg>
-                      <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
-                        View Source
-                      </span>
-                    </a>
-                  )}
-                </div>
-              </div>
+              <div class="flex flex-col md:flex-row justify-between w-full text-base md:text-lg lg:text-xl font-semibold">
+  <div class="text-base md:text-lg lg:text-xl font-semibold py-2">
+    {entry.data.technology}
+  </div>
+  <div class="flex flex-col md:flex-row gap-2">
+    {entry.data.demoUrl && (
+      <a
+        href={entry.data.demoUrl}
+        target="_blank"
+        class="group flex gap-2 items-center px-3 truncate rounded text-xs md:text-sm lg:text-base blend"
+      >
+        <svg class="size-4">
+          <use
+            href="/ui.svg#globe"
+            class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
+          />
+        </svg>
+        <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
+          View {entry.data.card}
+        </span>
+      </a>
+    )}
+    {entry.data.repoUrl && (
+      <a
+        href={entry.data.repoUrl}
+        target="_blank"
+        class="group flex gap-2 items-center px-3 truncate rounded text-xs md:text-sm lg:text-base blend"
+      >
+        <svg class="size-4">
+          <use
+            href="/social.svg#github"
+            class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
+          />
+        </svg>
+        <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
+          View Source
+        </span>
+      </a>
+    )}
+  </div>
+</div>
               <article class="text-sm md:text-base lg:text-lg prose dark:prose-invert pb-8">
                 {/* <entry.Content /> */}
                 {entry.data.summary}
