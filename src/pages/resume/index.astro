@@ -150,14 +150,15 @@ const stack = [
         {
           projects.map((entry) => (
             <li class="animate mt-0 py-0 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
-              <div class="flex flex-col md:flex-row justify-between w-full text-xs md:text-sm lg:text-base uppercase mb-0">
+              <div class="flex flex-col-reverse md:flex-row justify-between w-full text-xs md:text-sm lg:text-base uppercase mb-0">
   <div class="text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
     {entry.data.title}
   </div>
-  <div class="md:ml-4 text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
+  <div class="text-xs md:text-sm lg:text-base">
     {formatWorkDate(entry.data.date)}
   </div>
 </div>
+
 
               <div class="flex flex-col md:flex-row justify-between w-full text-base md:text-lg lg:text-xl font-semibold">
   <div class="text-base md:text-lg lg:text-xl font-semibold py-2">
