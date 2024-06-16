@@ -1,5 +1,5 @@
 ---
-title: "SQL EDA 1"
+title: "SQL EDA 1 SQl End to End Project SQl End to End Project"
 technology: "python | SQL | EDA"
 summary: "SQl End to End Project"
 date: "Jun 25 2024"
