@@ -223,70 +223,71 @@ const stack = [
 
     <!-- Certifications Section -->
     <div class="resume-section">
-      <h2
-        class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white font-semibold"
-      >
-        Certifications
-      </h2>
-      <ul>
-        {
-          certifications.map((entry) => (
-            <li class="animate mt-0 py-0 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
-              <div class="flex justify-between w-full text-xs md:text-sm lg:text-base uppercase mb-0">
-                <div class="text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
-                  {entry.data.course}
-                </div>
-                <div>{formatWorkDate(entry.data.dateStart)}</div>
-              </div>
-              <div class="flex justify-between w-full text-base md:text-lg lg:text-xl font-semibold py-2">
-                <div class="text-base md:text-md lg:text-lg font-semibold">
-                  {entry.data.platform}
-                </div>
-                <div class="flex gap-2">
-                  {entry.data.certificate && (
-                    <a
-                      href={entry.data.certificate}
-                      target="_blank"
-                      class="group flex gap-2 items-center px-3 truncate rounded text-xs md:text-sm lg:text-base blend"
-                    >
-                      <svg class="size-4">
-                        <use
-                          href="/ui.svg#globe"
-                          class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
-                        />
-                      </svg>
-                      <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
-                        View Certificate
-                      </span>
-                    </a>
-                  )}
-                  {entry.data.credly && (
-                    <a
-                      href={entry.data.credly}
-                      target="_blank"
-                      class="group flex gap-2 items-center px-3 truncate rounded text-xs md:text-sm lg:text-base blend"
-                    >
-                      <svg class="size-4">
-                        <use
-                          href="/ui.svg#link"
-                          class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
-                        />
-                      </svg>
-                      <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
-                        View Credly
-                      </span>
-                    </a>
-                  )}
-                </div>
-              </div>
-              <article class="text-sm md:text-base lg:text-lg prose dark:prose-invert pb-8">
-                <entry.Content />
-              </article>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+  <h2
+    class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white font-semibold"
+  >
+    Certifications
+  </h2>
+  <ul>
+    {certifications.map((entry) => (
+      <li class="animate mt-0 py-0 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
+        <div class="flex flex-col-reverse md:flex-row justify-between w-full text-xs md:text-sm lg:text-base uppercase mb-0">
+          <div class="text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
+            {entry.data.course}
+          </div>
+          <div class="text-xs md:text-sm lg:text-base">
+            {formatWorkDate(entry.data.dateStart)}
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row justify-between w-full text-base md:text-lg lg:text-xl font-semibold py-2">
+          <div class="text-base md:text-md lg:text-lg font-semibold">
+            {entry.data.platform}
+          </div>
+          <div class="flex gap-2">
+            {entry.data.certificate && (
+              <a
+                href={entry.data.certificate}
+                target="_blank"
+                class="group flex gap-2 items-center px-3 truncate rounded text-xs md:text-sm lg:text-base blend"
+              >
+                <svg class="size-4">
+                  <use
+                    href="/ui.svg#globe"
+                    class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
+                  />
+                </svg>
+                <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
+                  View Certificate
+                </span>
+              </a>
+            )}
+            {entry.data.credly && (
+              <a
+                href={entry.data.credly}
+                target="_blank"
+                class="group flex gap-2 items-center px-3 truncate rounded text-xs md:text-sm lg:text-base blend"
+              >
+                <svg class="size-4">
+                  <use
+                    href="/ui.svg#link"
+                    class="fill-current group-hover:fill-black group-hover:dark:fill-white blend"
+                  />
+                </svg>
+                <span class="text-sm md:text-base lg:text-lg text-current group-hover:text-black group-hover:dark:text-white blend">
+                  View Credly
+                </span>
+              </a>
+            )}
+          </div>
+        </div>
+        <article class="text-sm md:text-base lg:text-lg prose dark:prose-invert pb-8">
+          <entry.Content />
+        </article>
+      </li>
+    ))}
+  </ul>
+</div>
+
 
     <!-- Education Section -->
     <div class="resume-section">
