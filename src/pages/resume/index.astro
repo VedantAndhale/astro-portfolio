@@ -291,35 +291,33 @@ const stack = [
 
     <!-- Education Section -->
     <div class="resume-section">
-      <h2
-        class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white"
-      >
-        Education
-      </h2>
-      <ul>
-        {
-          resume.map((entry) => (
-            <li class="animate mt-0 py-0 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
-              <div class="flex justify-between w-full text-xs md:text-sm lg:text-base">
-                <div class="text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
-                  {entry.data.company}
-                </div>
-                <div>
-                  {formatWorkDate(entry.data.dateStart)} -{" "}
-                  {formatWorkDate(entry.data.dateEnd)}
-                </div>
-              </div>
-              <div class="text-base md:text-md lg:text-lg font-semibold">
-                {entry.data.role}
-              </div>
-              <article class="text-sm md:text-base lg:text-lg prose dark:prose-invert ">
-                <entry.Content />
-              </article>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+  <h2
+    class="text-xl md:text-2xl lg:text-3xl font-bold mb-4 border-b border-black/80 dark:border-white/80 mb-8 text-black dark:text-white"
+  >
+    Education
+  </h2>
+  <ul>
+    {resume.map((entry) => (
+      <li class="animate mt-0 py-0 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
+        <div class="flex flex-col-reverse md:flex-row justify-between w-full text-xs md:text-sm lg:text-base">
+          <div class="text-base md:text-lg lg:text-xl text-black dark:text-white font-semibold">
+            {entry.data.company}
+          </div>
+          <div class="text-xs md:text-sm lg:text-base">
+            {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
+          </div>
+        </div>
+        <div class="text-base md:text-md lg:text-lg font-semibold">
+          {entry.data.role}
+        </div>
+        <article class="text-sm md:text-base lg:text-lg prose dark:prose-invert">
+          <entry.Content />
+        </article>
+      </li>
+    ))}
+  </ul>
+</div>
+
 
     <!-- Contact Section -->
     <section class="animate">
