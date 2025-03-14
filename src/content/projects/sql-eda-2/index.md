@@ -4,7 +4,7 @@ technology: "python | SQL | EDA"
 summary: "SQl End to End Project"
 date: "Jun 26 2024"
 tags:
-- Python
+- PowerBI
 - SQL
 card: "Dashboard"
 demoUrl: https://github.com/VedantAndhale

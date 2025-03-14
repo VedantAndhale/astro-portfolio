@@ -16,9 +16,22 @@ const projects = (await getCollection("projects"))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 3);
 const stack = [
+  
+  {
+    text: "SQL",
+    icon: "sql",
+  },
   {
     text: "Python",
     icon: "python",
+  },
+  {
+    text: "PowerBI",
+    icon: "powerbi",
+  },
+  {
+    text: "Excel",
+    icon: "excel",
   },
   {
     text: "Pandas",
@@ -36,14 +49,11 @@ const stack = [
     text: "Scikit Learn",
     icon: "sklearn",
   },
-  {
-    text: "Streamlit",
-    icon: "streamlit",
-  },
-  {
-    text: "SQL",
-    icon: "sql",
-  },
+  // {
+  //   text: "Streamlit",
+  //   icon: "streamlit",
+  // },
+
   {
     text: "Anaconda",
     icon: "anaconda",
