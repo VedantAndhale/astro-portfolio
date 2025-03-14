@@ -7,6 +7,6 @@ import critters from 'astro-critters'
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://Vedant.me",
-  integrations: [mdx(), sitemap(), solidJs(), tailwind({ applyBaseStyles: false }),critters()],
+  site: "https://vedant.me/", // Replace with your actual domain
+  integrations: [mdx(), sitemap(), solidJs(), tailwind({ applyBaseStyles: false }), critters()],
 })

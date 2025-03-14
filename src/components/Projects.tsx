@@ -13,9 +13,9 @@ export default function Projects({ data, tags }: Props) {
   const [projects, setProjects] = createSignal<CollectionEntry<"projects">[]>([])
 
   createEffect(() => {
-    setProjects(data.filter((entry) => 
-      Array.from(filter()).every((value) => 
-        entry.data.tags.some((tag:string) => 
+    setProjects(data.filter((entry) =>
+      Array.from(filter()).every((value) =>
+        entry.data.tags.some((tag: string) =>
           tag.toLowerCase() === String(value).toLowerCase()
         )
       )
@@ -23,17 +23,17 @@ export default function Projects({ data, tags }: Props) {
   })
 
   function toggleTag(tag: string) {
-    setFilter((prev) => 
-      new Set(prev.has(tag) 
-        ? [...prev].filter((t) => t !== tag) 
+    setFilter((prev) =>
+      new Set(prev.has(tag)
+        ? [...prev].filter((t) => t !== tag)
         : [...prev, tag]
       )
     )
   }
 
   return (
-    <div class="grid grid-cols-1 sm:grid-cols-4 gap-6">
-      <div class="order-2 sm:order-1 col-span-4 sm:col-span-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="order-2 sm:order-1 col-span-1 sm:col-span-2 lg:col-span-3">
         <div class="flex flex-col">
           <div class="text-sm uppercase mb-2">
             SHOWING {projects().length} OF {data.length} PROJECTS
@@ -47,7 +47,7 @@ export default function Projects({ data, tags }: Props) {
           </ul>
         </div>
       </div>
-      <div class="order-1 sm:order-2 col-span-4 sm:col-span-1">
+      <div class="order-1 sm:order-2 col-span-1 sm:col-span-1 lg:col-span-1">
         <div class="sticky top-24">
           <div class="text-sm font-semibold uppercase mb-2 text-black dark:text-white">
             Filter

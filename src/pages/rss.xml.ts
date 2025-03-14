@@ -6,11 +6,11 @@ import { SITE } from "@consts";
 
 const parser = new MarkdownIt();
 
-type Context = {
-  site: string;
-};
+function getItemLink(item: any) {
+  return item.slug.startsWith("blog") ? `/blog/${item.slug}/` : `/projects/${item.slug}/`;
+}
 
-export async function GET(context: Context) {
+export async function GET(context: { site: string }) {
   const posts = await getCollection("blog");
   const projects = await getCollection("projects");
 
@@ -26,13 +26,14 @@ export async function GET(context: Context) {
       title: item.data.title,
       description: item.data.summary,
       content: sanitizeHtml(parser.render(item.body), {
-        allowedTags: [], // No tags allowed
-        allowedAttributes: {}, // No attributes allowed
+        allowedTags: ["b", "i", "em", "strong", "a"],
+        allowedAttributes: { a: ["href"] },
       }),
       pubDate: item.data.date,
-      link: item.slug.startsWith("blog")
-        ? `/blog/${item.slug}/`
-        : `/projects/${item.slug}/`,
+      link: getItemLink(item),
+      author: ("author" in item.data ? item.data.author : SITE.AUTHOR) as string,
+      category: item.data.tags || [],
+      enclosure: "image" in item.data ? { url: item.data.image as string, length: 0, type: "image/jpeg" } : undefined,
     })),
   });
 }

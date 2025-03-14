@@ -1,0 +1,38 @@
+---
+interface Props {
+    title?: string;
+    description?: string;
+    image?: string;
+    canonicalURL?: string;
+}
+
+const {
+    title = "Your Name - Portfolio",
+    description = "Personal portfolio and blog showcasing my work and experiences in web development",
+    image = "/social-image.jpg",
+    canonicalURL = new URL(Astro.url.pathname, Astro.site),
+} = Astro.props;
+---
+
+<!-- SEO -->
+<link rel="canonical" href={canonicalURL} />
+<title>{title}</title>
+<meta name="description" content={description} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={image} />
+
+<!-- Other important meta tags -->
+<meta name="robots" content="index,follow" />
+<meta name="viewport" content="width=device-width" />
