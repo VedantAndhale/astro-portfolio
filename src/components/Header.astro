@@ -6,30 +6,65 @@ const subpath = pathname.match(/[^/]+/g);
 import Container from "@components/Container.astro";
 ---
 
-<header id="header" class="fixed top-0 w-full z-50 backdrop-blur-lg">
-  <div class="absolute inset-x-0 h-full bg-white/70 dark:bg-gray-950/70"></div>
-  
+<header id="header" class="fixed top-0 w-full z-50 backdrop-blur-xl">
+  <!-- Premium glass background with subtle gradient -->
+  <div
+    class="absolute inset-x-0 h-full bg-white/80 dark:bg-gray-950/80 border-b border-gray-200/50 dark:border-gray-800/50"
+  >
+  </div>
+  <div
+    class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-200 dark:via-blue-800/30 to-transparent"
+  >
+  </div>
+
   <Container size="md">
     <div class="relative h-20 w-full flex items-center justify-between">
-      
-      <!-- Open to work status -->
+      <!-- Enhanced open to work status with data-inspired design -->
       <div class="flex items-center">
         <a
           href="/"
-          class="group flex items-center gap-2 py-2 px-4 rounded-full border border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
+          class="group relative flex items-center gap-2 py-2 px-4 rounded-full border border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 overflow-hidden"
         >
+          <!-- Subtle tech pattern background -->
+          <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
+            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+              <pattern
+                id="dataPattern"
+                width="20"
+                height="20"
+                patternUnits="userSpaceOnUse"
+              >
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="1"
+                  fill="currentColor"
+                  class="text-blue-500"></circle>
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#dataPattern)"></rect>
+            </svg>
+          </div>
+
+          <!-- Animated status indicator -->
           <span class="relative flex h-3 w-3">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+            ></span>
+            <span
+              class="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-sm"
+            ></span>
           </span>
-          <span class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+
+          <span
+            class="relative text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-transparent bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 dark:group-hover:from-blue-400 dark:group-hover:to-indigo-400 transition-all duration-300"
+          >
             Open to work
           </span>
         </a>
       </div>
-      
-      <!-- Navigation Menu -->
-      <nav class="hidden md:flex items-center justify-center gap-1">
+
+      <!-- Premium Navigation Menu -->
+      <nav class="hidden md:flex items-center justify-center gap-1.5">
         {
           LINKS.map((LINK) => (
             <a
@@ -40,8 +75,8 @@ import Container from "@components/Container.astro";
                 "flex items-center justify-center",
                 "transition-all duration-300",
                 pathname === LINK.HREF || "/" + subpath?.[0] === LINK.HREF
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/50 hover:text-gray-900 dark:hover:text-white"
+                  ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white shadow-sm"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-800/30 dark:hover:to-gray-800/50 hover:text-gray-900 dark:hover:text-white hover:shadow-sm",
               )}
             >
               {LINK.TEXT}
@@ -49,58 +84,58 @@ import Container from "@components/Container.astro";
           ))
         }
       </nav>
-      
-      <!-- Action Buttons -->
+
+      <!-- Enhanced Action Buttons -->
       <div class="flex items-center gap-2">
         <a
           href="/search"
           aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
           class={cn(
             "hidden md:flex",
-            "w-9 h-9 rounded-full items-center justify-center",
-            "bg-white/80 dark:bg-gray-900/80",
+            "w-10 h-10 rounded-full items-center justify-center",
+            "bg-white/90 dark:bg-gray-900/90",
             "border border-gray-200 dark:border-gray-800",
             "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
-            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105",
+            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110",
             pathname === "/search" || "/" + subpath?.[0] === "/search"
-              ? "pointer-events-none bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0"
-              : ""
+              ? "pointer-events-none bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white border-0"
+              : "",
           )}
         >
           <svg class="w-5 h-5 stroke-current">
             <use href="/ui.svg#search"></use>
           </svg>
         </a>
-        
-        <a 
-          href="/rss.xml" 
-          target="_blank" 
-          aria-label={`RSS feed for ${SITE.TITLE}`} 
+
+        <a
+          href="/rss.xml"
+          target="_blank"
+          aria-label={`RSS feed for ${SITE.TITLE}`}
           class={cn(
             "hidden md:flex",
-            "w-9 h-9 rounded-full items-center justify-center",
-            "bg-white/80 dark:bg-gray-900/80",
+            "w-10 h-10 rounded-full items-center justify-center",
+            "bg-white/90 dark:bg-gray-900/90",
             "border border-gray-200 dark:border-gray-800",
             "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
-            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
+            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110",
           )}
         >
           <svg class="w-5 h-5 stroke-current">
             <use href="/ui.svg#rss"></use>
           </svg>
         </a>
-        
-        <!-- Theme Toggle Button -->
+
+        <!-- Enhanced Theme Toggle Button -->
         <button
           id="header-theme-button"
           aria-label="Toggle light and dark theme"
           class={cn(
             "hidden md:flex",
-            "w-9 h-9 rounded-full items-center justify-center",
-            "bg-white/80 dark:bg-gray-900/80",
+            "w-10 h-10 rounded-full items-center justify-center",
+            "bg-white/90 dark:bg-gray-900/90",
             "border border-gray-200 dark:border-gray-800",
             "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
-            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
+            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:rotate-12",
           )}
         >
           <svg class="w-5 h-5 stroke-current block dark:hidden">
@@ -110,18 +145,18 @@ import Container from "@components/Container.astro";
             <use href="/ui.svg#moon"></use>
           </svg>
         </button>
-        
-        <!-- Mobile Menu Button -->
+
+        <!-- Enhanced Mobile Menu Button with animation -->
         <button
           id="header-drawer-button"
           aria-label="Toggle menu"
           class={cn(
             "flex md:hidden",
-            "w-9 h-9 rounded-full items-center justify-center",
-            "bg-white/80 dark:bg-gray-900/80",
+            "w-10 h-10 rounded-full items-center justify-center",
+            "bg-white/90 dark:bg-gray-900/90",
             "border border-gray-200 dark:border-gray-800",
             "text-gray-700 dark:text-gray-300",
-            "shadow-sm hover:shadow-md transition-all duration-300"
+            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110",
           )}
         >
           <svg id="drawer-open" class="w-5 h-5 stroke-current">
@@ -132,23 +167,37 @@ import Container from "@components/Container.astro";
           </svg>
         </button>
       </div>
-      
     </div>
   </Container>
 </header>
 
 <style>
+  /* Modern button transitions */
   #header-drawer-button > #drawer-open {
-    @apply block;
+    @apply block transition-transform duration-300;
   }
   #header-drawer-button > #drawer-close {
-    @apply hidden;
+    @apply hidden transition-transform duration-300;
   }
   #header-drawer-button.open > #drawer-open {
     @apply hidden;
   }
   #header-drawer-button.open > #drawer-close {
     @apply block;
+  }
+
+  /* Enhanced scrolling header effect */
+  #header {
+    @apply transition-all duration-300;
+  }
+  #header.scrolled {
+    @apply shadow-md;
+  }
+  #header.scrolled .border-b {
+    @apply opacity-100;
+  }
+  #header:not(.scrolled) .border-b {
+    @apply opacity-0;
   }
 </style>
 
@@ -159,12 +208,27 @@ import Container from "@components/Container.astro";
     drawer?.classList.toggle("open");
     drawerButton?.classList.toggle("open");
   }
-  
+
   function initializeDrawerButton() {
     const drawerButton = document.getElementById("header-drawer-button");
     drawerButton?.addEventListener("click", toggleDrawer);
   }
-  
-  document.addEventListener("astro:after-swap", initializeDrawerButton);
+
+  function handleScroll() {
+    const header = document.getElementById("header");
+    if (window.scrollY > 50) {
+      header?.classList.add("scrolled");
+    } else {
+      header?.classList.remove("scrolled");
+    }
+  }
+
+  window.addEventListener("scroll", handleScroll);
+  document.addEventListener("astro:after-swap", () => {
+    initializeDrawerButton();
+    handleScroll();
+  });
+
   initializeDrawerButton();
+  handleScroll();
 </script>

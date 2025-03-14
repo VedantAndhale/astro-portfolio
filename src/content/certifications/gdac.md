@@ -1,10 +1,19 @@
 ---
+title: "Google Data Analytics Professional Certificate"
+summary: "Professional certification in data analytics from Google"
+date: 2024-01-06
 course: "Google Data Analytics Professional Certificate"
 platform: "Coursera and Google"
 credly: "https://links.vedant.me/credly-gdac"
 certificate: "https://links.vedant.me/cert-gdac"
-dateStart: "January 6, 2024"
-
+dateStart: "2024-01-06"
+technology: "Data Analytics"
+card: "Visual"
+pin: "2"
+tags:
+  - Data Analytics
+  - Google
+  - Coursera
 ---
 
 Course Certificates Completed:

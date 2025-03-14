@@ -4,15 +4,36 @@ import Container from "@components/Container.astro";
 ---
 
 <footer class="relative bg-white dark:bg-gray-950">
-  <div class="py-16">
+  <!-- Premium top border with gradient -->
+  <div
+    class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-200 dark:via-blue-800/30 to-transparent"
+  >
+  </div>
+
+  <!-- Subtle data pattern background -->
+  <div class="absolute inset-0 opacity-[0.02] dark:opacity-[0.01]">
+    <div
+      class="h-full w-full"
+      style="background-image: radial-gradient(rgba(59, 130, 246, 0.15) 1px, transparent 1px); background-size: 40px 40px;"
+    >
+    </div>
+  </div>
+
+  <div class="py-20 relative z-10">
     <Container size="md">
-      <!-- Back to top button -->
-      <div class="flex items-center justify-center sm:justify-end mb-12">
+      <!-- Enhanced Back to top button -->
+      <div class="flex items-center justify-center sm:justify-end mb-16">
         <button
           id="back-to-top"
           aria-label="Back to top of page"
-          class="group flex items-center gap-2 py-2 px-4 rounded-full bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
+          class="group relative flex items-center gap-2 py-2.5 px-5 rounded-full bg-white/90 dark:bg-gray-900/90 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 overflow-hidden"
         >
+          <!-- Button hover effect -->
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-blue-50/30 to-indigo-50/30 dark:from-blue-900/10 dark:to-indigo-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          >
+          </div>
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -22,7 +43,7 @@ import Container from "@components/Container.astro";
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="stroke-gray-700 dark:stroke-gray-300 group-hover:stroke-blue-600 dark:group-hover:stroke-blue-400 transition-colors"
+            class="relative stroke-gray-700 dark:stroke-gray-300 group-hover:stroke-blue-600 dark:group-hover:stroke-blue-400 transition-colors"
           >
             <line
               x1="12"
@@ -33,75 +54,98 @@ import Container from "@components/Container.astro";
             ></line>
             <polyline
               points="5 12 12 5 19 12"
-              class="group-hover:translate-y-0 transition-transform duration-300 ease-out"
+              class="group-hover:-translate-y-1 transition-transform duration-300 ease-out"
             ></polyline>
           </svg>
+
           <span
-            class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
+            class="relative text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-transparent bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 dark:group-hover:from-blue-400 dark:group-hover:to-indigo-400 transition-all duration-300"
           >
             Back to top
           </span>
         </button>
       </div>
 
-      <!-- Footer Content -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-x-8">
-        <!-- Brand & Copyright -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-y-12 md:gap-x-8">
+        <!-- Quick Links with premium styling -->
         <div class="flex flex-col items-center md:items-start">
-          <a
-            href="/"
-            class="flex items-center gap-2 mb-2 group hover:scale-105 transition-transform"
+          <h3
+            class="flex items-center text-base font-semibold text-gray-900 dark:text-white mb-6"
           >
-            <div
-              class="w-8 h-8 rounded-full overflow-hidden border border-gray-200 dark:border-gray-800"
-            >
-              <img
-                src="/brand.png"
-                alt="Vedant Andhale"
-                loading="lazy"
-                class="w-full h-full object-cover"
-              />
-            </div>
             <span
-              class="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400"
+              class="w-8 h-8 inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 mr-2"
             >
-              {SITE.TITLE}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 12a10 10 0 1 0 20 0a10 10 0 1 0-20 0"></path>
+                <path d="M2 12h20"></path>
+                <path d="M12 2a15.3 15.3 0 0 1 0 20a15.3 15.3 0 0 1 0-20"
+                ></path>
+              </svg>
             </span>
-          </a>
-          <p class="text-sm text-gray-600 dark:text-gray-400">
-            &copy; {new Date().getFullYear()} All rights reserved
-          </p>
-        </div>
-
-        <!-- Quick Links -->
-        <div class="flex flex-col items-center md:items-start">
-          <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">
             Quick Links
           </h3>
           <div
-            class="flex flex-wrap justify-center md:justify-start gap-3 md:flex-col md:gap-2"
+            class="flex flex-wrap justify-center md:justify-start gap-2 md:flex-col md:gap-3"
           >
             <a
               href="/blog"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50"
-              >Blog</a
+              class="group relative text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-4 py-2 rounded-full hover:bg-blue-50/50 dark:hover:bg-blue-900/20 flex items-center"
             >
+              <span
+                class="absolute h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-700 group-hover:bg-blue-500 dark:group-hover:bg-blue-500 transition-colors"
+              ></span>
+              <span class="ml-3">Blog</span>
+            </a>
             <a
               href="/projects"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50"
-              >Projects</a
+              class="group relative text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-4 py-2 rounded-full hover:bg-blue-50/50 dark:hover:bg-blue-900/20 flex items-center"
             >
+              <span
+                class="absolute h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-700 group-hover:bg-blue-500 dark:group-hover:bg-blue-500 transition-colors"
+              ></span>
+              <span class="ml-3">Projects</span>
+            </a>
             <a
               href="/resume"
-              class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50"
-              >Resume</a
+              class="group relative text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-4 py-2 rounded-full hover:bg-blue-50/50 dark:hover:bg-blue-900/20 flex items-center"
             >
+              <span
+                class="absolute h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-700 group-hover:bg-blue-500 dark:group-hover:bg-blue-500 transition-colors"
+              ></span>
+              <span class="ml-3">Resume</span>
+            </a>
           </div>
         </div>
-
-        <!-- Social Links -->
+        <!-- Social Links with premium styling -->
         <div class="flex flex-col items-center md:items-start">
-          <h3 class="text-sm font-semibold text-gray-900 dark:text-white mb-4">
+          <h3
+            class="flex items-center text-base font-semibold text-gray-900 dark:text-white mb-6"
+          >
+            <span
+              class="w-8 h-8 inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 mr-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 2v20M2 12h20"></path>
+              </svg>
+            </span>
             Connect With Me
           </h3>
           <div class="flex flex-wrap gap-3 justify-center md:justify-start">
@@ -112,9 +156,10 @@ import Container from "@components/Container.astro";
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${SITE.TITLE} on ${SOCIAL.NAME}`}
-                  class="group flex items-center justify-center w-10 h-10 rounded-full bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110"
+                  class="group relative flex items-center justify-center w-11 h-11 rounded-full bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 overflow-hidden"
                 >
-                  <svg class="w-5 h-5 fill-gray-700 dark:fill-gray-300 group-hover:fill-blue-600 dark:group-hover:fill-blue-400 transition-colors">
+                  <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <svg class="relative z-10 w-5 h-5 fill-gray-700 dark:fill-gray-300 group-hover:fill-blue-600 dark:group-hover:fill-blue-400 transition-colors">
                     <use href={`/social.svg#${SOCIAL.ICON}`} />
                   </svg>
                 </a>
@@ -122,15 +167,46 @@ import Container from "@components/Container.astro";
             }
           </div>
         </div>
-      </div>
-
-      <!-- Footer Note -->
-      <div
-        class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800 text-center"
-      >
-        <p class="text-xs text-gray-500 dark:text-gray-500">
-          Designed with passion and code by Vedant Andhale
-        </p>
+        <!-- Brand & Copyright with premium styling -->
+        <div class="flex flex-col items-center md:items-start">
+          <a
+            href="/"
+            class="flex items-center gap-3 mb-4 group hover:scale-105 transition-transform"
+          >
+            <div class="relative">
+              <div
+                class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 dark:from-blue-600 dark:via-indigo-700 dark:to-purple-700 blur-sm opacity-70 animate-pulse-slow"
+              >
+              </div>
+              <div
+                class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white dark:border-gray-800 shadow-md"
+              >
+                <img
+                  src="/brand.png"
+                  alt="Vedant Andhale"
+                  loading="lazy"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+            <span
+              class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400"
+            >
+              {SITE.TITLE}
+            </span>
+          </a>
+          <p
+            class="text-sm text-gray-600 dark:text-gray-400 text-center md:text-left"
+          >
+            &copy; {new Date().getFullYear()} All rights reserved
+          </p>
+          <p
+            class="mt-4 text-sm text-gray-600 dark:text-gray-400 max-w-md text-center md:text-left"
+          >
+            Data-driven solutions and insights from an enthusiastic analyst and
+            developer
+          </p>
+        </div>
       </div>
     </Container>
   </div>

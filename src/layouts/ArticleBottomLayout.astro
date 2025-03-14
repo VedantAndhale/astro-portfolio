@@ -10,138 +10,273 @@ const { entry } = Astro.props;
 const { collection } = entry;
 const { Content } = await entry.render();
 
-// Get the next and prev entries (modulo to wrap index)
+// Get the next and prev entries
 const items = (await getCollection(collection))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const index = items.findIndex((x) => x.slug === entry.slug);
-const prev = items[(index - 1 + items.length) % items.length];
-const next = items[(index + 1) % items.length];
+  .filter((post: CollectionEntry<typeof collection>) => !post.data.draft)
+  .sort(
+    (
+      a: CollectionEntry<typeof collection>,
+      b: CollectionEntry<typeof collection>,
+    ) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+const index = items.findIndex(
+  (x: CollectionEntry<typeof collection>) => x.slug === entry.slug,
+);
+
+// Set prev/next without wrapping around
+const prev = index > 0 ? items[index - 1] : null;
+const next = index < items.length - 1 ? items[index + 1] : null;
 ---
 
 <div class="relative">
-  <!-- Content area -->
-  <div class="bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-2xl p-8 mb-12 border border-gray-200 dark:border-gray-800 shadow-xl">
-    <article class="prose prose-slate max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-xl prose-img:shadow-lg">
+  <!-- Content area with enhanced styling -->
+  <div
+    class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-2xl p-8 md:p-10 mb-12 border border-gray-200 dark:border-gray-800 shadow-xl relative overflow-hidden"
+  >
+    <!-- Premium decorative elements -->
+    <div class="absolute -top-24 -right-24 w-48 h-48 bg-blue-100/50 dark:bg-blue-900/20 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-100/50 dark:bg-indigo-900/20 rounded-full blur-3xl"></div>
+    
+    <!-- Reading progress indicator -->
+    <div class="w-full h-1 bg-gray-200 dark:bg-gray-800 absolute top-0 left-0">
+      <div id="reading-progress" class="h-full bg-gradient-to-r from-blue-600 to-indigo-600 w-0"></div>
+    </div>
+    
+    <article
+      class="prose prose-slate max-w-none dark:prose-invert lg:prose-lg prose-headings:scroll-mt-24 
+        prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white 
+        prose-h1:text-3xl prose-h2:text-2xl prose-h2:border-b prose-h2:border-gray-200 dark:prose-h2:border-gray-800 prose-h2:pb-2
+        prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed
+        prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:font-medium prose-a:no-underline prose-a:border-b prose-a:border-blue-600/30 dark:prose-a:border-blue-400/30 hover:prose-a:border-blue-600 dark:hover:prose-a:border-blue-400
+        prose-img:rounded-xl prose-img:shadow-xl prose-img:mx-auto
+        prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-900/20 prose-blockquote:px-6 prose-blockquote:py-1 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 dark:prose-blockquote:border-blue-400 prose-blockquote:rounded-r-lg prose-blockquote:italic
+        prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
+        prose-pre:bg-gray-900 dark:prose-pre:bg-gray-800 prose-pre:shadow-lg prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-300 dark:prose-pre:border-gray-700
+        prose-li:marker:text-blue-600 dark:prose-li:marker:text-blue-400
+        prose-table:border-collapse prose-table:border prose-table:border-gray-300 dark:prose-table:border-gray-700
+        prose-th:bg-gray-100 dark:prose-th:bg-gray-800 prose-th:p-3
+        prose-td:p-3 prose-td:border prose-td:border-gray-300 dark:prose-td:border-gray-700
+        relative z-10"
+    >
       <Content />
     </article>
+    
+    <!-- Table of contents (automatically generated for h2 and h3) -->
+    <div id="toc-container" class="hidden lg:block absolute left-full ml-10 top-10 w-64">
+      <div class="sticky top-24 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-5 border border-gray-200 dark:border-gray-800 shadow-lg">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Table of Contents</h3>
+        <div id="toc" class="text-sm"></div>
+      </div>
+    </div>
   </div>
   
   <!-- Tags if available -->
-  {entry.data.tags && entry.data.tags.length > 0 && (
-    <div class="mb-12 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-md">
-      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Tags</h3>
-      <div class="flex flex-wrap gap-2">
-        {entry.data.tags.map((tag: string) => (
-          <a 
-            href={`/${collection}?tag=${tag}`} 
-            class="px-3 py-1 text-sm font-medium rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-800/30 transition-colors"
+  {
+    entry.data.tags && entry.data.tags.length > 0 && (
+      <div class="mb-12 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+          </svg>
+          Tags
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          {entry.data.tags.map((tag: string) => (
+            <a
+              href={`/${collection}?tag=${tag}`}
+              class="px-4 py-1.5 text-sm font-medium rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-800/40 transition-colors hover:shadow-sm hover:-translate-y-0.5 transform transition-transform duration-300"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      </div>
+    )
+  }
+  
+  <!-- Previous/Next navigation - enhanced styling -->
+  {
+    (prev || next) && (
+      <nav class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+        {prev ? (
+          <a
+            href={`/${prev.collection}/${prev.slug}`}
+            class="group relative overflow-hidden flex flex-col bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
           >
-            {tag}
+            <div class="absolute top-0 left-0 h-full w-1.5 bg-gradient-to-b from-blue-600 to-indigo-600 rounded-l-full" />
+            <div class="flex items-center text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wider pl-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform duration-300"
+              >
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Previous Article
+            </div>
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pl-2">
+              {prev.data.title}
+            </h4>
           </a>
-        ))}
-      </div>
-    </div>
-  )}
+        ) : (
+          <div class="hidden sm:block" /> <!-- Empty div to maintain grid spacing when no prev article -->
+        )}
+        {next && (
+          <a
+            href={`/${next.collection}/${next.slug}`}
+            class="group relative overflow-hidden flex flex-col justify-end text-right bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+          >
+            <div class="absolute top-0 right-0 h-full w-1.5 bg-gradient-to-b from-blue-600 to-indigo-600 rounded-r-full" />
+            <div class="flex items-center justify-end text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wider pr-2">
+              Next Article
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300"
+              >
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </div>
+            <h4 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pr-2">
+              {next.data.title}
+            </h4>
+          </a>
+        )}
+      </nav>
+    )
+  }
   
-  <!-- Previous/Next navigation -->
-  <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <a
-      href={`/${prev.collection}/${prev.slug}`}
-      class="group relative overflow-hidden flex flex-col bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-    >
-      <div class="absolute top-0 left-0 h-full w-1 bg-gradient-to-b from-blue-600 to-indigo-600"></div>
-      
-      <div class="flex items-center text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wider">
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          stroke-width="2" 
-          stroke-linecap="round" 
-          stroke-linejoin="round"
-          class="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform duration-300"
-        >
-          <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        Previous Article
-      </div>
-      
-      <h4 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-        {prev.data.title}
-      </h4>
-    </a>
+  <!-- Enhanced share section -->
+  <div
+    class="mt-12 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-2xl p-8 border border-gray-200 dark:border-gray-800 shadow-lg text-center relative overflow-hidden"
+  >
+    <!-- Subtle decorative element -->
+    <div class="absolute -top-12 -right-12 w-24 h-24 bg-blue-100/50 dark:bg-blue-900/20 rounded-full blur-2xl"></div>
     
-    <a
-      href={`/${next.collection}/${next.slug}`}
-      class="group relative overflow-hidden flex flex-col justify-end text-right bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-xl p-6 border border-gray-200 dark:border-gray-800 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-    >
-      <div class="absolute top-0 right-0 h-full w-1 bg-gradient-to-b from-blue-600 to-indigo-600"></div>
-      
-      <div class="flex items-center justify-end text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wider">
-        Next Article
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          stroke-width="2" 
-          stroke-linecap="round" 
-          stroke-linejoin="round"
-          class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-300"
-        >
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </div>
-      
-      <h4 class="text-base font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-        {next.data.title}
-      </h4>
-    </a>
-  </nav>
-  
-  <!-- Share section -->
-  <div class="mt-12 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md rounded-2xl p-6 border border-gray-200 dark:border-gray-800 shadow-md text-center">
-    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Enjoyed this article?</h3>
-    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Share it with your network</p>
-    
-    <div class="flex justify-center gap-3">
-      <a 
+    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 relative z-10">
+      Enjoyed this article?
+    </h3>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto relative z-10">
+      If you found this content valuable, consider sharing it with others who might benefit from it.
+    </p>
+    <div class="flex justify-center gap-4 relative z-10">
+      <a
         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(entry.data.title)}&url=${encodeURIComponent(`${Astro.url.origin}/${collection}/${entry.slug}`)}`}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center justify-center w-10 h-10 rounded-full bg-[#1DA1F2]/10 text-[#1DA1F2] hover:bg-[#1DA1F2]/20 transition-colors"
+        class="flex items-center justify-center w-12 h-12 rounded-full bg-[#1DA1F2]/10 text-[#1DA1F2] hover:bg-[#1DA1F2]/20 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md"
         aria-label="Share on Twitter"
       >
-        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+        <svg
+          class="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 512 512"
+          fill="currentColor"
+        >
+        <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
         </svg>
       </a>
-      
-      <a 
+      <a
         href={`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(`${Astro.url.origin}/${collection}/${entry.slug}`)}&title=${encodeURIComponent(entry.data.title)}`}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center justify-center w-10 h-10 rounded-full bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 transition-colors"
+        class="flex items-center justify-center w-12 h-12 rounded-full bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md"
         aria-label="Share on LinkedIn"
       >
-        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        <svg
+          class="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+          ></path>
         </svg>
       </a>
-      
-      <a 
+      <a
         href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${Astro.url.origin}/${collection}/${entry.slug}`)}`}
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center justify-center w-10 h-10 rounded-full bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 transition-colors"
+        class="flex items-center justify-center w-12 h-12 rounded-full bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-md"
         aria-label="Share on Facebook"
       >
-        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        <svg
+          class="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+          ></path>
         </svg>
       </a>
     </div>
   </div>
 </div>
+
+<!-- Add reading progress and TOC functionality -->
+<script>
+  // Reading Progress Indicator
+  const progressBar = document.getElementById('reading-progress');
+  const article = document.querySelector('article');
+  
+  if (progressBar && article) {
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const articleBox = article.getBoundingClientRect();
+      const articleStart = articleBox.top + winScroll - 100;
+      const articleHeight = articleBox.height;
+      const scrolled = ((winScroll - articleStart) / articleHeight) * 100;
+      
+      if (scrolled < 0) {
+        progressBar.style.width = '0%';
+      } else if (scrolled > 100) {
+        progressBar.style.width = '100%';
+      } else {
+        progressBar.style.width = scrolled + '%';
+      }
+    });
+  }
+  
+  // Table of Contents
+  const tocContainer = document.getElementById('toc');
+  const headings = article?.querySelectorAll('h2, h3');
+  
+  if (tocContainer && headings && headings.length > 0) {
+    const toc = document.createDocumentFragment();
+    
+    headings.forEach((heading, index) => {
+      // Add ID to each heading if it doesn't have one
+      if (!heading.id) {
+        heading.id = 'section-' + index;
+      }
+      
+      const isH3 = heading.tagName === 'H3';
+      const link = document.createElement('a');
+      link.href = '#' + heading.id;
+      link.textContent = heading.textContent;
+      link.className = isH3 
+        ? 'block text-gray-600 dark:text-gray-400 mb-2 ml-3 pl-2 border-l border-gray-300 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 transition-colors' 
+        : 'block text-gray-800 dark:text-gray-200 font-medium mb-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors';
+      
+      toc.appendChild(link);
+    });
+    
+    tocContainer.appendChild(toc);
+  } else if (tocContainer) {
+    // If no headings found, hide TOC
+    document.getElementById('toc-container')?.classList.add('hidden');
+  }
+</script>

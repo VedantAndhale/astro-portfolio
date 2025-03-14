@@ -40,6 +40,13 @@ export default {
       animation: {
         twinkle: "twinkle 2s ease-in-out forwards",
         meteor: "meteor 3s ease-in-out forwards",
+        "pulse-slow": "pulseGlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "spin-slow": "spinSlow 8s linear infinite",
+        "float": "float 3s ease-in-out infinite",
+        "bounce-slow": "bounce 3s infinite",
+        "shimmer": "shimmer 2s linear infinite",
+        float: 'float 3s ease-in-out infinite',
+        pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         twinkle: {
@@ -69,6 +76,65 @@ export default {
             transform: "translateY(0)",
           },
         },
+        pulseGlow: {
+          "0%, 100%": {
+            opacity: 0.6,
+            transform: "scale(1)",
+          },
+          "50%": {
+            opacity: 0.8,
+            transform: "scale(1.05)",
+          },
+        },
+        spinSlow: {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
+        float: {
+          "0%, 100%": {
+            transform: "translateY(0)",
+          },
+          "50%": {
+            transform: "translateY(-10px)",
+          },
+        },
+        shimmer: {
+          "0%": {
+            backgroundPosition: "-200% 0",
+          },
+          "100%": {
+            backgroundPosition: "200% 0",
+          },
+        },
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
+        'gradient-angular': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-diamond': 'conic-gradient(from 45deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      boxShadow: {
+        'glow-blue': '0 0 15px 2px rgba(59, 130, 246, 0.3)',
+        'glow-indigo': '0 0 15px 2px rgba(99, 102, 241, 0.3)',
+        'glow-violet': '0 0 15px 2px rgba(139, 92, 246, 0.3)',
+        'inner-glow': 'inset 0 0 10px 0 rgba(255, 255, 255, 0.2)',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      colors: {
+        primary: '#1DA1F2',
+        secondary: '#14171A',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+      },
+      screens: {
+        '2xl': '1536px',
       },
     },
   },
