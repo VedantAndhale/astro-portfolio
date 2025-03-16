@@ -1,0 +1,19 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PageLayout from "./PageLayout.astro";
+
+type Props = {
+    entry: CollectionEntry<"projects"> | CollectionEntry<"blog">;
+};
+
+const { entry } = Astro.props;
+const { data } = entry;
+const { title, summary, ogImage } = data;
+
+// For relative paths, use just the filename since Astro will handle asset imports correctly
+const resolvedOgImage = ogImage?.startsWith("./") ? ogImage.slice(2) : ogImage;
+---
+
+<PageLayout title={title} description={summary} image={resolvedOgImage}>
+    <slot />
+</PageLayout>

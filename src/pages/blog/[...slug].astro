@@ -1,10 +1,10 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
 import TopLayout from "@layouts/TopLayout.astro";
 import BottomLayout from "@layouts/BottomLayout.astro";
 import ArticleTopLayout from "@layouts/ArticleTopLayout.astro";
 import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro";
+import ContentLayout from "@layouts/ContentLayout.astro";
 
 // Create the static blog pages
 export async function getStaticPaths() {
@@ -21,7 +21,7 @@ const post = Astro.props;
 const { title, summary, ogImage } = post.data;
 ---
 
-<PageLayout title={title} description={summary} image={ogImage}>
+<ContentLayout entry={post}>
   <TopLayout>
     <div class="animate-fadeIn">
       <ArticleTopLayout entry={post} />
@@ -32,4 +32,4 @@ const { title, summary, ogImage } = post.data;
       <ArticleBottomLayout entry={post} />
     </div>
   </BottomLayout>
-</PageLayout>
+</ContentLayout>
