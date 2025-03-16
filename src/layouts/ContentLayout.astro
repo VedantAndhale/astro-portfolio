@@ -10,8 +10,14 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { title, summary, ogImage } = data;
 
-// For relative paths, use just the filename since Astro will handle asset imports correctly
-const resolvedOgImage = ogImage?.startsWith("./") ? ogImage.slice(2) : ogImage;
+// Properly resolve OG image path based on collection and entry
+const resolvedOgImage = ogImage
+    ? ogImage.startsWith("./")
+        ? `/src/content/${entry.collection}/${entry.slug}/${ogImage.slice(2)}`
+        : ogImage.startsWith("/")
+          ? ogImage
+          : `/src/content/${entry.collection}/${entry.slug}/${ogImage}`
+    : "/open-graph.png";
 ---
 
 <PageLayout title={title} description={summary} image={resolvedOgImage}>
