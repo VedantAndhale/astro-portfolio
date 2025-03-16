@@ -8,14 +8,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = "/open-graph.png" } = Astro.props;
 
 // Construct absolute URL for the image
-const imageUrl = new URL(
-  image.startsWith("http")
-    ? image
-    : image.startsWith("/")
-      ? image
-      : `/${image}`,
-  Astro.site,
-).toString();
+let imageUrl: string;
+if (image.startsWith("http")) {
+  // Absolute URL
+  imageUrl = image;
+} else if (image.startsWith("/")) {
+  // Site root-relative path
+  imageUrl = new URL(image, Astro.site).toString();
+} else if (image.startsWith("./")) {
+  // Relative path to the current content file
+  // Extract the directory from the current pathname
+  const currentDir = Astro.url.pathname.replace(/\/[^/]*$/, "/");
+  const relativePath = image.substring(2); // Remove './'
+  imageUrl = new URL(`${currentDir}${relativePath}`, Astro.site).toString();
+} else {
+  // Other paths - assume site-relative
+  imageUrl = new URL(`/${image}`, Astro.site).toString();
+}
 ---
 
 <!-- Global Metadata -->

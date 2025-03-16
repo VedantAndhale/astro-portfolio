@@ -61,7 +61,7 @@ export const SOCIALS: Socials = [
     HREF: "mailto:portfolio@vedant.me",
   },
   {
-    NAME: "Hire Me (Resume)",
+    NAME: "Resume (Hire Me)",
     ICON: "resume",
     TEXT: "Download Resume",
     HREF: "https://links.vedant.me/resume"
