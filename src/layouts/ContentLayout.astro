@@ -13,13 +13,13 @@ const { title, summary, ogImage } = data;
 // Enhanced OG image path resolution
 const resolvedOgImage = (() => {
     if (!ogImage) return "/open-graph.png";
-    
+
     // If it's an absolute URL, use it as is
     if (ogImage.startsWith("http")) return ogImage;
-    
+
     // If it's an absolute path from root, use it as is
     if (ogImage.startsWith("/")) return ogImage;
-    
+
     // For relative paths, construct the correct public path
     // Remove ./ if present at the start
     const cleanPath = ogImage.startsWith("./") ? ogImage.slice(2) : ogImage;
