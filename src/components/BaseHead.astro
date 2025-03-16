@@ -7,10 +7,13 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = "/open-graph.png" } = Astro.props;
 
-// Ensure image URL is absolute and points to the public directory
-const imageUrl = image.startsWith("/src/")
-  ? new URL(image.replace("/src/", "/"), Astro.site)
-  : new URL(image, Astro.site);
+// Handle content directory images by removing the content path prefix
+const publicImagePath = image.startsWith("/content/")
+  ? image.replace("/content/", "/")
+  : image;
+
+// Ensure image URL is absolute
+const imageUrl = new URL(publicImagePath, Astro.site);
 ---
 
 <!-- Global Metadata -->

@@ -10,16 +10,24 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { title, summary, ogImage } = data;
 
-// Properly resolve OG image path based on collection and entry
+// Get the base content directory path
+const contentBase = `/src/content/${entry.collection}/${entry.slug}`;
+
+// Resolve OG image path based on different path formats
 const resolvedOgImage = ogImage
     ? ogImage.startsWith("./")
-        ? `/src/content/${entry.collection}/${entry.slug}/${ogImage.slice(2)}`
+        ? `${contentBase}/${ogImage.slice(2)}`
         : ogImage.startsWith("/")
-          ? ogImage
-          : `/src/content/${entry.collection}/${entry.slug}/${ogImage}`
+            ? ogImage
+            : `${contentBase}/${ogImage}`
     : "/open-graph.png";
+
+// Remove /src/ prefix if present (since it will be in the public path)
+const publicOgImage = resolvedOgImage.startsWith("/src/") 
+    ? resolvedOgImage.replace("/src/", "/") 
+    : resolvedOgImage;
 ---
 
-<PageLayout title={title} description={summary} image={resolvedOgImage}>
+<PageLayout title={title} description={summary} image={publicOgImage}>
     <slot />
 </PageLayout>
