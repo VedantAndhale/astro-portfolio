@@ -54,7 +54,7 @@ export default function Blog({ data, tags }: Props) {
                   <div class="flex justify-between items-center">
                     <span>{filter().size} tag{filter().size > 1 ? 's' : ''} selected</span>
                     <button
-                      onClick={() => setFilter(new Set())}
+                      onClick={() => setFilter(() => new Set())}
                       class="text-xs text-blue-600 dark:text-blue-400 hover:underline"
                     >
                       Clear all
@@ -150,7 +150,7 @@ export default function Blog({ data, tags }: Props) {
               <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-1">No posts found</h3>
               <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Try adjusting your filter selection</p>
               <button
-                onClick={() => setFilter(new Set())}
+                onClick={() => setFilter(() => new Set())}
                 class="px-4 py-2 text-sm font-medium text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors"
               >
                 Clear filters

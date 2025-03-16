@@ -3,9 +3,10 @@ import type { CollectionEntry } from "astro:content";
 
 interface Props {
   entry: any;
+  pill?: boolean;
 }
 
-export default function ArrowCard({ entry }: Props) {
+export default function ArrowCard({ entry, pill = false }: Props) {
   const { collection } = entry;
   const { title, summary, date, tags } = entry.data;
   const href = `/${collection}/${entry.slug}`;
