@@ -9,17 +9,19 @@ import { SITE } from "@consts"
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
+  <body class="min-h-screen flex flex-col bg-white dark:bg-gray-950">
     <Header />
     <Drawer />
-    <main>
-      <slot />
+    <main class="flex-1 w-full mx-auto pt-16 sm:pt-20 pb-8 sm:pb-12">
+      <div class="w-full max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8">
+        <slot />
+      </div>
     </main>
     <Footer />
   </body>

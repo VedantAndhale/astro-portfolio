@@ -1,21 +1,30 @@
-import { createSignal } from "solid-js"
+import { createSignal } from 'solid-js';
+import type { Component } from 'solid-js';
 
-function CounterButton() {
-  const [count, setCount] = createSignal(0)
+const Counter: Component = () => {
+    const [count, setCount] = createSignal(0);
 
-  const increment = () => setCount(count() + 1)
+    return (
+        <div style={{
+            'padding': '1rem',
+            'border': '1px solid #ccc',
+            'border-radius': '0.5rem'
+        }}>
+            <p style={{ 'margin-bottom': '0.5rem' }}>Count: {count()}</p>
+            <button
+                onClick={() => setCount(c => c + 1)}
+                style={{
+                    'padding': '0.5rem 1rem',
+                    'background-color': '#3b82f6',
+                    'color': 'white',
+                    'border-radius': '0.25rem',
+                    'cursor': 'pointer'
+                }}
+            >
+                Increment
+            </button>
+        </div>
+    );
+};
 
-  return (
-    <div class="flex gap-4 items-center">
-      <button onClick={increment} class="px-3 py-1 border border-black/25 dark:border-white/25 hover:bg-black/5 dark:hover:bg-white/15 blend">
-        Increment
-      </button>
-      <div>
-       Clicked {count()} {count() === 1 ? "time" : "times"}
-      </div>
-    </div>
-
-  )
-}
-
-export default CounterButton
+export default Counter;

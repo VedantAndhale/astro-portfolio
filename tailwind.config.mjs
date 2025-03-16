@@ -10,16 +10,16 @@ export default {
         sans: ["Atkinson", ...defaultTheme.fontFamily.sans],
       },
       fontSize: {
-        xs: "0.875rem", // 14px
-        sm: "1rem", // 16px
-        base: "1.125rem", // 18px
-        lg: "1.25rem", // 20px
-        xl: "1.5rem", // 24px
-        "2xl": "1.875rem", // 30px
-        "3xl": "2.25rem", // 36px
-        "4xl": "3rem", // 48px
-        "5xl": "3.75rem", // 60px
-        "6xl": "4.5rem", // 72px
+        xs: "0.85rem",    // ~13.6px
+        sm: "0.95rem",    // ~15.2px
+        base: "1.0625rem", // ~17px
+        lg: "1.17rem",    // ~18.7px
+        xl: "1.275rem",   // ~20.4px
+        "2xl": "1.6rem",  // ~25.6px
+        "3xl": "1.9rem",  // ~30.4px
+        "4xl": "2.55rem", // ~40.8px
+        "5xl": "3.2rem",  // ~51.2px
+        "6xl": "3.825rem", // ~61.2px
       },
       typography: {
         DEFAULT: {
@@ -134,7 +134,22 @@ export default {
         '4xl': '2rem',
       },
       screens: {
+        'xs': '375px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
         '2xl': '1536px',
+      },
+      container: {
+        center: true,
+        padding: {
+          DEFAULT: '1rem',
+          sm: '2rem',
+          lg: '4rem',
+          xl: '5rem',
+          '2xl': '6rem',
+        },
       },
     },
   },

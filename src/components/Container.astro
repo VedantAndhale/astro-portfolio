@@ -2,19 +2,19 @@
 import { cn } from "@lib/utils"
 
 type Props = {
-  size: "sm" | "md" | "lg" | "xl" | "2xl"
-}
+  size?: "sm" | "md" | "lg" | "xl";
+};
 
-const { size } = Astro.props;
+const { size = "lg" } = Astro.props;
+
+const maxWidthClass = {
+  sm: "max-w-3xl",
+  md: "max-w-4xl",
+  lg: "max-w-5xl",
+  xl: "max-w-6xl",
+}[size];
 ---
 
-<div class={cn(
-  "w-full h-full mx-auto px-5",
-  size === "sm" && "max-w-screen-md",
-  size === "md" && "max-w-screen-lg",
-  size === "lg" && "max-w-screen-xl",
-  size === "xl" && "max-w-screen-2xl",
-  size === "2xl" && "max-w-screen-3xl",
-)}>
-  <slot/>
+<div class={`w-full mx-auto px-4 sm:px-6 lg:px-8 ${maxWidthClass}`}>
+  <slot />
 </div>
