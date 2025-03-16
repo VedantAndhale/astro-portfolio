@@ -4,13 +4,13 @@ import Fuse from "fuse.js"
 import ArrowCard from "@components/ArrowCard"
 
 type Props = {
-  data: CollectionEntry<"blog">[]
+  data: (CollectionEntry<"blog"> | CollectionEntry<"projects">)[]
 }
 
 export default function Search({ data }: Props) {
   const [isOpen, setIsOpen] = createSignal(false)
   const [query, setQuery] = createSignal("")
-  const [results, setResults] = createSignal<CollectionEntry<"blog">[]>([])
+  const [results, setResults] = createSignal<(CollectionEntry<"blog"> | CollectionEntry<"projects">)[]>([])
   const [selectedIndex, setSelectedIndex] = createSignal(-1)
   let inputRef: HTMLInputElement | undefined;
 
@@ -136,14 +136,14 @@ export default function Search({ data }: Props) {
                         {results().map((result, index) => (
                           <li
                             class={`overflow-hidden rounded-lg transition-colors duration-150 ${index === selectedIndex()
-                                ? 'bg-gray-100 dark:bg-gray-800/50'
-                                : 'hover:bg-gray-100 dark:hover:bg-gray-800/50'
+                              ? 'bg-gray-100 dark:bg-gray-800/50'
+                              : 'hover:bg-gray-100 dark:hover:bg-gray-800/50'
                               } active:bg-gray-200 dark:active:bg-gray-700/50`}
                             onClick={() => {
                               window.location.href = '/' + result.collection + '/' + result.slug;
                             }}
                           >
-                            <ArrowCard entry={result} pill={true} />
+                            <ArrowCard entry={result} />
                           </li>
                         ))}
                       </ul>

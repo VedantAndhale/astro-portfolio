@@ -23,7 +23,7 @@
   /* Improved mobile tap targets */
   a,
   button {
-    @apply min-h-[44px] min-w-[44px] sm:min-h-[40px] sm:min-w-[40px];
+    @apply min-h-[12px] min-w-[44px] sm:min-h-[8px] sm:min-w-[35px];
   }
 
   /* Better text sizing */

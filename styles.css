@@ -1,0 +1,20 @@
+/* Add consistent padding and margin */
+.recent-posts,
+.recent-projects {
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #1a1a2e;
+    /* Ensure the background color is the same */
+    border-radius: 10px;
+    /* Add rounded corners */
+}
+
+/* Ensure consistent card design */
+.card {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #2a2a3e;
+    /* Ensure the card background color is the same */
+    border-radius: 8px;
+    /* Add rounded corners */
+}

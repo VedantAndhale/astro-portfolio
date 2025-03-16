@@ -308,13 +308,16 @@ const next = index < items.length - 1 ? items[index + 1] : null;
   const giscusScript = document.querySelector('script[src="https://giscus.app/client.js"]');
   const setGiscusTheme = () => {
     const theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    giscusScript.setAttribute('data-theme', theme);
+    giscusScript?.setAttribute('data-theme', theme);
     // Reload the Giscus iframe to apply the new theme
-    const iframe = document.querySelector('iframe.giscus-frame');
-    if (iframe) {
+    const iframe = document.querySelector('iframe.giscus-frame') as HTMLIFrameElement;
+    if (iframe?.contentWindow) {
       iframe.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
     }
   };
-  setGiscusTheme();
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setGiscusTheme);
+
+  if (giscusScript) {
+    setGiscusTheme();
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setGiscusTheme);
+  }
 </script>
