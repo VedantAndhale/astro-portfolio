@@ -1,0 +1,33 @@
+/* ...existing code... */
+
+.comments-section {
+    background-color: #1e1e1e;
+    /* Dark background */
+    color: #ffffff;
+    /* Light text color */
+}
+
+.comments-section .comment-input {
+    background-color: #2e2e2e;
+    /* Slightly lighter dark background for input */
+    color: #ffffff;
+    /* Light text color */
+    border: 1px solid #444444;
+    /* Border color */
+}
+
+.comments-section .comment-input::placeholder {
+    color: #aaaaaa;
+    /* Placeholder text color */
+}
+
+.comments-section .sign-in-button {
+    background-color: #2e2e2e;
+    /* Button background */
+    color: #ffffff;
+    /* Button text color */
+    border: 1px solid #444444;
+    /* Button border color */
+}
+
+/* ...existing code... */
