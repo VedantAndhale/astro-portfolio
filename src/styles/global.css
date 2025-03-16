@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme transition */
-.theme-transition * {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-}
-
 /* Font definitions */
 @layer base {
   @font-face {
@@ -30,8 +23,7 @@
   /* Improved mobile tap targets */
   a,
   button {
-    @apply min-h-[44px] min-w-[44px] sm:min-h-[44px] sm:min-w-[44px];
-    @apply select-none touch-manipulation;
+    @apply min-h-[12px] min-w-[44px] sm:min-h-[8px] sm:min-w-[35px];
   }
 
   /* Better text sizing */
@@ -39,7 +31,6 @@
     @apply text-[14px] sm:text-[15px] md:text-[15px] lg:text-[16.5px];
     @apply text-gray-700 dark:text-gray-300;
     @apply antialiased;
-    @apply scroll-smooth;
   }
 
   /* Better default spacing */
