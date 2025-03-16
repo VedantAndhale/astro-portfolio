@@ -9,4 +9,19 @@ import critters from 'astro-critters'
 export default defineConfig({
   site: "https://vedant.me/", // Replace with your actual domain
   integrations: [mdx(), sitemap(), solidJs(), tailwind({ applyBaseStyles: false }), critters()],
+  
+  // Configure how assets are handled
+  assets: true,
+  build: {
+    assets: 'assets',
+    inlineStylesheets: 'auto'
+  },
+  
+  // Ensure markdown/MDX images are processed
+  markdown: {
+    drafts: false,
+    shikiConfig: {
+      theme: 'material-theme-palenight'
+    }
+  }
 })

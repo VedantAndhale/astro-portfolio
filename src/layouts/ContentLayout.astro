@@ -10,24 +10,23 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { title, summary, ogImage } = data;
 
-// Get the base content directory path
-const contentBase = `/src/content/${entry.collection}/${entry.slug}`;
-
-// Resolve OG image path based on different path formats
-const resolvedOgImage = ogImage
-    ? ogImage.startsWith("./")
-        ? `${contentBase}/${ogImage.slice(2)}`
-        : ogImage.startsWith("/")
-            ? ogImage
-            : `${contentBase}/${ogImage}`
-    : "/open-graph.png";
-
-// Remove /src/ prefix if present (since it will be in the public path)
-const publicOgImage = resolvedOgImage.startsWith("/src/") 
-    ? resolvedOgImage.replace("/src/", "/") 
-    : resolvedOgImage;
+// Enhanced OG image path resolution
+const resolvedOgImage = (() => {
+    if (!ogImage) return "/open-graph.png";
+    
+    // If it's an absolute URL, use it as is
+    if (ogImage.startsWith("http")) return ogImage;
+    
+    // If it's an absolute path from root, use it as is
+    if (ogImage.startsWith("/")) return ogImage;
+    
+    // For relative paths, construct the correct public path
+    // Remove ./ if present at the start
+    const cleanPath = ogImage.startsWith("./") ? ogImage.slice(2) : ogImage;
+    return `/${entry.collection}/${entry.slug}/${cleanPath}`;
+})();
 ---
 
-<PageLayout title={title} description={summary} image={publicOgImage}>
+<PageLayout title={title} description={summary} image={resolvedOgImage}>
     <slot />
 </PageLayout>
