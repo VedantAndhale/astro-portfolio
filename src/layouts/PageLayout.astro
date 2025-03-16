@@ -1,18 +1,25 @@
 ---
-import "@styles/global.css"
-import BaseHead from "@components/BaseHead.astro"
-import Header from "@components/Header.astro"
-import Footer from "@components/Footer.astro"
-import Drawer from "@components/Drawer.astro"
-const { title, description } = Astro.props
-import { SITE } from "@consts"
+import "@styles/global.css";
+import BaseHead from "@components/BaseHead.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import Drawer from "@components/Drawer.astro";
+const { title, description, image } = Astro.props;
+import { SITE } from "@consts";
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
-    <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <BaseHead
+      title={`${title} | ${SITE.TITLE}`}
+      description={description}
+      image={image}
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body class="min-h-screen flex flex-col bg-white dark:bg-gray-950">
