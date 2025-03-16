@@ -1,12 +1,9 @@
 ---
 const { link } = Astro.props;
 ---
+
 <div class="embed-container">
-  <iframe
-    src={link}
-    loading="lazy"
-    allowfullscreen
-  ></iframe>
+  <iframe src={link} loading="lazy" allowfullscreen></iframe>
 </div>
 
 <style>
@@ -18,7 +15,7 @@ const { link } = Astro.props;
     max-width: 100%;
     margin: 2rem auto;
   }
-  
+
   .embed-container iframe {
     position: absolute;
     top: 0;
