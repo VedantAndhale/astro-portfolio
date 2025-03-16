@@ -57,23 +57,20 @@ const subpath = pathname.match(/[^/]+/g);
     </nav>
 
     <div class="flex gap-4">
-      <a
-        href="/search"
+      <button
+        id="drawer-search-button"
         aria-label={`Search blog posts and projects on ${SITE.TITLE}`}
         class={cn(
           "flex items-center justify-center w-14 h-14 rounded-xl",
           "bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800",
           "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
           "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105",
-          pathname === "/search" || "/" + subpath?.[0] === "/search"
-            ? "pointer-events-none bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0"
-            : "",
         )}
       >
         <svg class="w-6 h-6 stroke-current">
           <use href="/ui.svg#search"></use>
         </svg>
-      </a>
+      </button>
 
       <a
         href="/rss.xml"
@@ -124,3 +121,27 @@ const subpath = pathname.match(/[^/]+/g);
     padding-bottom: env(safe-area-inset-bottom);
   }
 </style>
+
+<script is:inline>
+  function initializeDrawerSearchButton() {
+    const searchButton = document.getElementById("drawer-search-button");
+    const drawer = document.getElementById("drawer");
+
+    searchButton?.addEventListener("click", () => {
+      // Close the drawer first
+      drawer?.classList.remove("open");
+      // Then trigger the search
+      setTimeout(() => {
+        window.dispatchEvent(
+          new KeyboardEvent("keydown", {
+            key: "k",
+            metaKey: true,
+          }),
+        );
+      }, 300); // Wait for drawer close animation
+    });
+  }
+
+  document.addEventListener("astro:after-swap", initializeDrawerSearchButton);
+  initializeDrawerSearchButton();
+</script>
