@@ -19,6 +19,9 @@ const blog = defineCollection({
     card: z.coerce.string(),
     tags: z.array(z.string()),
     draft: z.boolean().optional(),
+    version: z.string().optional().default("1.0.0"),
+    lastUpdated: z.coerce.date().optional(),
+    ogImage: z.string().optional().default("/open-graph.png"),
   }),
 })
 
@@ -35,6 +38,9 @@ const projects = defineCollection({
     draft: z.boolean().optional(),
     demoUrl: z.string().optional(),
     repoUrl: z.string().optional(),
+    version: z.string().optional().default("1.0.0"),
+    lastUpdated: z.coerce.date().optional(),
+    ogImage: z.string().optional().default("/open-graph.png"),
   }),
 })
 
