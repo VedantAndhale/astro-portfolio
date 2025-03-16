@@ -2,6 +2,9 @@ function changeTheme() {
   const element = document.documentElement;
   const theme = element.classList.contains("dark") ? "light" : "dark";
 
+  // Add transition class before changing theme
+  element.classList.add('theme-transition');
+  
   if (theme === "dark") {
     element.classList.add("dark");
   } else {
@@ -9,20 +12,22 @@ function changeTheme() {
   }
 
   localStorage.theme = theme;
-
-  // Reload the page after theme change
-  window.location.reload();
+  
+  // Remove transition class after animation completes
+  setTimeout(() => {
+    element.classList.remove('theme-transition');
+  }, 300);
 }
 
 function preloadTheme() {
   const theme = (() => {
-    const userTheme = localStorage.theme;
-
-    if (userTheme === "light" || userTheme === "dark") {
-      return userTheme;
-    } else {
-      return "dark";
+    if (typeof localStorage !== 'undefined' && localStorage.theme) {
+      return localStorage.theme;
     }
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
   })();
 
   const element = document.documentElement;
@@ -36,20 +41,25 @@ function preloadTheme() {
   localStorage.theme = theme;
 }
 
-window.onload = () => {
-  preloadTheme(); // Ensure preloadTheme is called on window load
-
-  function initializeThemeButtons() {
-    const headerThemeButton = document.getElementById("header-theme-button");
-    const drawerThemeButton = document.getElementById("drawer-theme-button");
-    headerThemeButton?.addEventListener("click", changeTheme);
-    drawerThemeButton?.addEventListener("click", changeTheme);
-  }
-
-  document.addEventListener("astro:after-swap", initializeThemeButtons);
+// Initialize theme on page load
+window.addEventListener('DOMContentLoaded', () => {
+  preloadTheme();
   initializeThemeButtons();
-};
+});
 
-document.addEventListener("astro:after-swap", preloadTheme);
+function initializeThemeButtons() {
+  const headerThemeButton = document.getElementById("header-theme-button");
+  const drawerThemeButton = document.getElementById("drawer-theme-button");
+  
+  [headerThemeButton, drawerThemeButton].forEach(button => {
+    if (button) {
+      button.addEventListener("click", changeTheme);
+    }
+  });
+}
 
-preloadTheme(); // Ensure preloadTheme is called initially
+// Handle theme changes during navigation
+document.addEventListener("astro:after-swap", () => {
+  preloadTheme();
+  initializeThemeButtons();
+});

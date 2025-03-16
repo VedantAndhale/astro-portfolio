@@ -1,38 +1,88 @@
 ---
+import { SEO } from 'astro-seo';
+
 interface Props {
   title: string;
   description: string;
   image?: string;
+  article?: boolean;
 }
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const { title, description, image = "/open-graph.png" } = Astro.props;
+const { title, description, image = "/open-graph.png", article = false } = Astro.props;
 
 // Construct absolute URL for the image
 let imageUrl: string;
 if (image.startsWith("http")) {
-  // Absolute URL
   imageUrl = image;
 } else if (image.startsWith("/")) {
-  // Site root-relative path
   imageUrl = new URL(image, Astro.site).toString();
 } else if (image.startsWith("./")) {
-  // Relative path to the current content file
-  // Extract the directory from the current pathname
   const currentDir = Astro.url.pathname.replace(/\/[^/]*$/, "/");
-  const relativePath = image.substring(2); // Remove './'
+  const relativePath = image.substring(2);
   imageUrl = new URL(`${currentDir}${relativePath}`, Astro.site).toString();
 } else {
-  // Other paths - assume site-relative
   imageUrl = new URL(`/${image}`, Astro.site).toString();
 }
 ---
 
-<!-- Global Metadata -->
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<meta name="generator" content={Astro.generator} />
+<!-- Enhanced SEO -->
+<SEO
+  title={title}
+  description={description}
+  openGraph={{
+    basic: {
+      title,
+      type: article ? "article" : "website",
+      image: imageUrl,
+      url: canonicalURL.toString(),
+    },
+    optional: {
+      description,
+      locale: "en_US",
+      siteName: "Vedant's Portfolio",
+    },
+    image: {
+      alt: title,
+    },
+  }}
+  twitter={{
+    card: "summary_large_image",
+    site: "@yourtwitterhandle",
+    creator: "@yourtwitterhandle",
+    title,
+    description,
+    image: imageUrl,
+    imageAlt: title,
+  }}
+  extend={{
+    meta: [
+      { name: "theme-color", content: "#ffffff", media: "(prefers-color-scheme: light)" },
+      { name: "theme-color", content: "#0f172a", media: "(prefers-color-scheme: dark)" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+    ],
+    link: [
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "mask-icon", href: "/favicon.svg" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/manifest.json" },
+      { rel: "sitemap", href: "/sitemap-index.xml" },
+      { 
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: title,
+        href: `${Astro.site}rss.xml`
+      },
+    ],
+  }}
+/>
 
+<!-- Resource Hints -->
+<link rel="preconnect" href={Astro.site} crossorigin />
+<link rel="dns-prefetch" href={Astro.site} />
+
+<!-- Preloaded Assets -->
 <link
   rel="preload"
   href="/fonts/atkinson-regular.woff"
@@ -48,45 +98,12 @@ if (image.startsWith("http")) {
   crossorigin
 />
 
-<!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
-
-<!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
-
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
-<meta property="og:url" content={canonicalURL} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={imageUrl} />
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={imageUrl} />
-
-<!-- Sitemap -->
-<link rel="sitemap" href="/sitemap-index.xml" />
-
-<!-- RSS Feed -->
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  title={title}
-  href={`${Astro.site}rss.xml`}
-/>
-
-<!-- Global Scripts -->
+<!-- Optimized Scripts -->
+<script is:inline type="text/partytown" src="/js/analytics.js"></script>
 <script is:inline src="/js/theme.js"></script>
 <script is:inline src="/js/scroll.js"></script>
 
-<!-- <ViewTransitions  /> -->
-
+<!-- View Transitions Handler -->
 <script>
   import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
   document.addEventListener("astro:before-swap", (e) =>
@@ -96,4 +113,13 @@ if (image.startsWith("http")) {
       ),
     ].forEach((link) => link.remove()),
   );
+</script>
+
+<!-- PWA Scripts -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js');
+    });
+  }
 </script>
