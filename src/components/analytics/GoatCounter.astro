@@ -1,0 +1,21 @@
+---
+// GoatCounter Analytics for Astro
+// For more info: https://www.goatcounter.com/
+
+import { ANALYTICS } from "@consts";
+
+// Use the GoatCounter code from constants or environment variable as fallback
+const goatCounterCode =
+    import.meta.env.GOAT_COUNTER_CODE || ANALYTICS.GOAT_COUNTER;
+---
+
+{/* Only include the script in production mode */}
+{
+    import.meta.env.PROD && (
+        <script
+            data-goatcounter={`https://${goatCounterCode}.goatcounter.com/count`}
+            async
+            src="//gc.zgo.at/count.js"
+        />
+    )
+}

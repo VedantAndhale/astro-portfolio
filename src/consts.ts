@@ -7,6 +7,11 @@ export const SITE: Site = {
   AUTHOR: "Vedant Andhale",
 };
 
+// Analytics 
+export const ANALYTICS = {
+  GOAT_COUNTER: "vedant", // Replace with your GoatCounter code
+};
+
 // Resume Page
 export const RESUME: Page = {
   TITLE: "Resume",
