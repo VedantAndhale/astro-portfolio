@@ -36,21 +36,10 @@ const effectiveLoading = critical ? "eager" : loading;
 const effectiveFetchPriority = critical ? "high" : fetchpriority;
 const effectiveDecoding = critical ? "sync" : decoding;
 
-// Add preload for critical images
+// Prepare preload link for critical images
+let imgSrc = "";
 if (critical && !isRemoteImage) {
-    // Add preload link for critical images
-    const imgSrc = src.startsWith("/") ? src : `/${src}`;
-    const preloadLink = `<link rel="preload" as="image" href="${imgSrc}" fetchpriority="high">`;
-    Astro.slots.render("head").then((head) => {
-        if (!head) {
-            // If no head slot is defined, add to the document head
-            const fragment = document.createDocumentFragment();
-            const temp = document.createElement("div");
-            temp.innerHTML = preloadLink;
-            fragment.appendChild(temp.firstChild);
-            document.head.appendChild(fragment);
-        }
-    });
+    imgSrc = src.startsWith("/") ? src : `/${src}`;
 }
 ---
 
