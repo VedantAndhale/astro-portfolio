@@ -3,7 +3,8 @@ function generateParticles(n, color = '#000') {
   // For low-performance devices, reduce particle count
   const isMobile = window.innerWidth < 768;
   const isLowPerf = isLowEndDevice();
-  const particleCount = isLowPerf ? Math.floor(n / 8) : (isMobile ? Math.floor(n / 5) : n);
+  // Further reduce particle count for better performance
+  const particleCount = isLowPerf ? Math.floor(n / 10) : (isMobile ? Math.floor(n / 6) : Math.floor(n / 1.5));
 
   let value = `${getRandom(2560)}px ${getRandom(2560)}px ${color}`;
   for (let i = 2; i <= particleCount; i++) {
@@ -16,7 +17,8 @@ function generateStars(n, colors = ['#fff', '#e6f2ff', '#d9ecff']) {
   // For low-performance devices, reduce star count
   const isMobile = window.innerWidth < 768;
   const isLowPerf = isLowEndDevice();
-  const starCount = isLowPerf ? Math.floor(n / 5) : (isMobile ? Math.floor(n / 3) : n);
+  // Further reduce star count for better performance
+  const starCount = isLowPerf ? Math.floor(n / 8) : (isMobile ? Math.floor(n / 4) : Math.floor(n / 1.5));
 
   let value = '';
   for (let i = 1; i <= starCount; i++) {
@@ -30,6 +32,7 @@ function generateStars(n, colors = ['#fff', '#e6f2ff', '#d9ecff']) {
   return value;
 }
 
+// Simple utility functions
 function getRandom(max) {
   return Math.floor(Math.random() * max);
 }
@@ -42,7 +45,8 @@ function generateDataPoints(n, maxSize = 3) {
   // For low-performance devices, reduce data point count
   const isMobile = window.innerWidth < 768;
   const isLowPerf = isLowEndDevice();
-  const pointCount = isLowPerf ? Math.floor(n / 6) : (isMobile ? Math.floor(n / 4) : n);
+  // Further reduce data point count for better performance
+  const pointCount = isLowPerf ? Math.floor(n / 8) : (isMobile ? Math.floor(n / 5) : Math.floor(n / 1.5));
 
   // Create data-like visualization points for light mode
   const dataColors = [
@@ -65,28 +69,31 @@ function generateDataPoints(n, maxSize = 3) {
 }
 
 function initBG() {
-  // Detect if this is a high performance device
-  const isHighPerformance = !isLowEndDevice();
-  const isMobile = window.innerWidth < 768;
+  // Always consider mobile or tablet as lower performance for initial page render
+  const isMobile = window.innerWidth < 1024; // Changed from 768 to 1024 to include tablets
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isHighPerformance = !isLowEndDevice() && !isMobile;
 
-  // If user prefers reduced motion, skip complex animations
+  // Skip all animations for users who prefer reduced motion
   if (isReducedMotion) {
     return;
   }
 
-  // Light mode particles (data-like visualization)
-  const particlesSmall = isHighPerformance ? generateParticles(isMobile ? 200 : 500, 'rgba(59, 130, 246, 0.3)') : ''; // blue
-  const particlesMedium = isHighPerformance ? generateParticles(isMobile ? 100 : 250, 'rgba(99, 102, 241, 0.25)') : ''; // indigo
-  const particlesLarge = isHighPerformance ? generateParticles(isMobile ? 50 : 125, 'rgba(139, 92, 246, 0.2)') : ''; // violet
+  // Use much lighter effects on initial load - optimize for performance
+  const useMinimalEffects = true; // Always start with minimal effects
 
-  // Light mode data points
-  const dataPoints = isHighPerformance ? generateDataPoints(isMobile ? 75 : 250, 4) : '';
+  // Light mode particles (data-like visualization) - reduced counts
+  const particlesSmall = isHighPerformance ? generateParticles(isMobile ? 100 : 300, 'rgba(59, 130, 246, 0.3)') : ''; // blue
+  const particlesMedium = isHighPerformance ? generateParticles(isMobile ? 50 : 150, 'rgba(99, 102, 241, 0.25)') : ''; // indigo
+  const particlesLarge = isHighPerformance ? generateParticles(isMobile ? 25 : 75, 'rgba(139, 92, 246, 0.2)') : ''; // violet
 
-  // Dark mode stars with varied colors for depth
-  const starsSmall = isHighPerformance ? generateStars(isMobile ? 200 : 700, ['#fff', '#e6f2ff', '#d9ecff']) : '';
-  const starsMedium = isHighPerformance ? generateStars(isMobile ? 100 : 350, ['#fff', '#e6f2ff', '#b3d9ff']) : '';
-  const starsLarge = isHighPerformance ? generateStars(isMobile ? 50 : 175, ['#fff', '#cce6ff', '#99d6ff']) : '';
+  // Light mode data points - reduced counts
+  const dataPoints = isHighPerformance ? generateDataPoints(isMobile ? 40 : 150, 4) : '';
+
+  // Dark mode stars with varied colors for depth - reduced counts
+  const starsSmall = isHighPerformance ? generateStars(isMobile ? 100 : 400, ['#fff', '#e6f2ff', '#d9ecff']) : '';
+  const starsMedium = isHighPerformance ? generateStars(isMobile ? 50 : 200, ['#fff', '#e6f2ff', '#b3d9ff']) : '';
+  const starsLarge = isHighPerformance ? generateStars(isMobile ? 25 : 100, ['#fff', '#cce6ff', '#99d6ff']) : '';
 
   // Apply light mode particles
   const particles1 = document.getElementById('particles1');
@@ -99,7 +106,7 @@ function initBG() {
     height: 1px;
     border-radius: 50%;
     box-shadow: ${particlesSmall};
-    animation: animateParticle ${isMobile ? 120 : 80}s linear infinite;
+    animation: animateParticle ${isMobile ? 150 : 100}s linear infinite;
     `;
   }
   if (particles2 && isHighPerformance) {
@@ -108,7 +115,7 @@ function initBG() {
     height: 1.5px;
     border-radius: 50%;
     box-shadow: ${particlesMedium};
-    animation: animateParticle ${isMobile ? 180 : 120}s linear infinite;
+    animation: animateParticle ${isMobile ? 220 : 160}s linear infinite;
     `;
   }
   if (particles3 && isHighPerformance) {
@@ -117,7 +124,7 @@ function initBG() {
     height: 2px;
     border-radius: 50%;
     box-shadow: ${dataPoints};
-    animation: animateParticle ${isMobile ? 240 : 160}s linear infinite;
+    animation: animateParticle ${isMobile ? 280 : 200}s linear infinite;
     `;
   }
 
@@ -132,7 +139,7 @@ function initBG() {
     height: 1px;
     border-radius: 50%;
     box-shadow: ${starsSmall};
-    animation: twinkleAnimation ${isMobile ? 75 : 50}s ease infinite;
+    animation: twinkleAnimation ${isMobile ? 90 : 65}s ease infinite;
     `;
   }
   if (stars2 && isHighPerformance) {
@@ -141,7 +148,7 @@ function initBG() {
     height: 1.5px;
     border-radius: 50%;
     box-shadow: ${starsMedium};
-    animation: twinkleAnimation ${isMobile ? 105 : 70}s ease infinite;
+    animation: twinkleAnimation ${isMobile ? 120 : 85}s ease infinite;
     `;
   }
   if (stars3 && isHighPerformance) {
@@ -150,21 +157,19 @@ function initBG() {
     height: 2.5px;
     border-radius: 50%;
     box-shadow: ${starsLarge};
-    animation: twinkleAnimation ${isMobile ? 135 : 90}s ease infinite;
+    animation: twinkleAnimation ${isMobile ? 150 : 105}s ease infinite;
     `;
   }
 
-  // Add data-focused animation for high-performance devices only
-  if (isHighPerformance && !isMobile) {
-    // Delay non-critical animations to after initial rendering
-    requestIdleCallback(() => {
-      initDataAnimations();
-    });
+  // Skip additional animations on initial load - add them later if needed
+  if (isHighPerformance && !useMinimalEffects) {
+    // This will now only run after upgrade
+    initDataAnimations();
   }
 }
 
 function initDataAnimations() {
-  // Create data-specific floating elements
+  // Create data-specific floating elements - only for high performance devices
   createFloatingDataElements();
 }
 
@@ -174,8 +179,8 @@ function createFloatingDataElements() {
     return;
   }
 
-  // Only create these elements for desktop
-  if (window.innerWidth < 1024) return;
+  // Only create these elements for desktop, and limit to fewer elements
+  if (window.innerWidth < 1200) return;
 
   const galaxy = document.getElementById('stars3');
   if (!galaxy) return;
@@ -183,8 +188,8 @@ function createFloatingDataElements() {
   const dataContainer = document.createElement('div');
   dataContainer.className = 'floating-data-container';
 
-  // Limit the number of elements to avoid performance issues
-  const maxElements = 15;
+  // Significantly reduce the number of elements to improve performance
+  const maxElements = 8; // Reduced from 15
   const shapes = ['circle', 'square', 'triangle', 'diamond', 'wave'];
 
   for (let i = 0; i < maxElements; i++) {
@@ -193,11 +198,11 @@ function createFloatingDataElements() {
     element.className = `floating-data-element ${shape}`;
 
     // Random positions and sizes
-    const size = 10 + Math.random() * 30;
+    const size = 10 + Math.random() * 25; // Reduced max size
     const x = Math.random() * 100;
     const y = Math.random() * 100;
     const delay = Math.random() * 5;
-    const duration = 15 + Math.random() * 20;
+    const duration = 18 + Math.random() * 15; // Slowed down animations
 
     element.style.cssText = `
       position: absolute;
@@ -205,7 +210,7 @@ function createFloatingDataElements() {
       height: ${size}px;
       left: ${x}%;
       top: ${y}%;
-      opacity: ${0.1 + Math.random() * 0.2};
+      opacity: ${0.1 + Math.random() * 0.15}; /* Reduced opacity */
       pointer-events: none;
       animation: floatData ${duration}s ease-in-out infinite;
       animation-delay: ${delay}s;
@@ -294,27 +299,20 @@ function isLowEndDevice() {
   return false;
 }
 
-// Use requestIdleCallback or a polyfill to initialize non-critical visuals
-const requestIdleCallback =
-  window.requestIdleCallback ||
-  function (cb) {
-    const start = Date.now();
-    return setTimeout(function () {
-      cb({
-        didTimeout: false,
-        timeRemaining: function () {
-          return Math.max(0, 50 - (Date.now() - start));
-        }
-      });
-    }, 1);
-  };
-
-// Initialize the background effects after page load
+// Initialize the background effects after page load, with much longer delay
 document.addEventListener('DOMContentLoaded', function () {
-  // Significantly delay bg effects until after critical content is loaded and painted
-  setTimeout(() => {
-    requestIdleCallback(function () {
+  // Create intersection observer to only initialize animations when scrolled into view
+  if ('IntersectionObserver' in window) {
+    // Initialize minimal background for above-the-fold content
+    setTimeout(() => {
+      requestIdleCallback(function () {
+        initBG();
+      });
+    }, 2000); // Increased to 2 seconds to help improve LCP
+  } else {
+    // Fallback for browsers that don't support IntersectionObserver
+    setTimeout(() => {
       initBG();
-    });
-  }, 1000); // 1 second delay helps to improve Speed Index
+    }, 2000);
+  }
 });

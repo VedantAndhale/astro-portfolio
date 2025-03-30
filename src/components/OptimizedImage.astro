@@ -10,7 +10,7 @@ interface Props {
     decoding?: "async" | "sync" | "auto";
     sizes?: string;
     fetchpriority?: "high" | "low" | "auto";
-    critical?: boolean; // New prop to indicate if this is a critical above-the-fold image
+    critical?: boolean; // Prop to indicate if this is a critical above-the-fold image
 }
 
 const {
@@ -36,9 +36,36 @@ const effectiveLoading = critical ? "eager" : loading;
 const effectiveFetchPriority = critical ? "high" : fetchpriority;
 const effectiveDecoding = critical ? "sync" : decoding;
 
-// Apply LQIP (Low Quality Image Placeholder) technique for non-critical images
-// and use native lazy loading for better performance
+// Add preload for critical images
+if (critical && !isRemoteImage) {
+    // Add preload link for critical images
+    const imgSrc = src.startsWith("/") ? src : `/${src}`;
+    const preloadLink = `<link rel="preload" as="image" href="${imgSrc}" fetchpriority="high">`;
+    Astro.slots.render("head").then((head) => {
+        if (!head) {
+            // If no head slot is defined, add to the document head
+            const fragment = document.createDocumentFragment();
+            const temp = document.createElement("div");
+            temp.innerHTML = preloadLink;
+            fragment.appendChild(temp.firstChild);
+            document.head.appendChild(fragment);
+        }
+    });
+}
 ---
+
+<!-- Advanced image preloading for critical images -->{
+    critical && !isRemoteImage && (
+        <link
+            rel="preload"
+            href={src}
+            as="image"
+            type="image/webp"
+            fetchpriority="high"
+            slot="head"
+        />
+    )
+}
 
 {
     isRemoteImage ? (
