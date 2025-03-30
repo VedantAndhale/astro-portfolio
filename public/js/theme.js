@@ -27,8 +27,8 @@
     // Store the theme
     localStorage.setItem('theme', newTheme);
 
-    // Dispatch event for components that need to react to theme change
-    window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }));
+    // Dispatch a 'themeToggle' event for compatibility with Giscus
+    window.dispatchEvent(new CustomEvent('themeToggle', { detail: { theme: newTheme } }));
   }
 
   // Initialize theme buttons when they exist - with performance optimizations

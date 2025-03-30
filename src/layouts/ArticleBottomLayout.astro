@@ -322,4 +322,33 @@ const next = index < items.length - 1 ? items[index + 1] : null;
     setGiscusTheme();
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setGiscusTheme);
   }
+
+  // Add an event listener for theme toggle
+  const themeToggleHandler = (newTheme) => {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe) {
+      iframe.contentWindow.postMessage({ giscus: { setConfig: { theme: newTheme } } }, 'https://giscus.app');
+    }
+  };
+
+  // Assuming there's a global event or function to detect theme toggle
+  window.addEventListener('themeToggle', (event) => {
+    const newTheme = event.detail.theme; // Assuming the new theme is passed in the event detail
+    themeToggleHandler(newTheme);
+  });
+
+  // Ensure Giscus theme is set on page load
+  const applyGiscusThemeOnLoad = () => {
+    const storedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = storedTheme || (systemPrefersDark ? 'dark' : 'light');
+
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe) {
+      iframe.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
+    }
+  };
+
+  // Apply theme on page load
+  applyGiscusThemeOnLoad();
 </script>
