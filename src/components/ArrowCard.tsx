@@ -52,6 +52,7 @@ export default function ArrowCard({ entry, pill = false }: Props) {
               stroke-linecap="round"
               stroke-linejoin="round"
             >
+              <title>View {title}</title>
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </div>

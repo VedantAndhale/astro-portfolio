@@ -30,6 +30,7 @@ const repoUrl = collection === "projects" ? data.repoUrl : null;
     <a
       href={`/${collection}`}
       class="inline-flex items-center gap-2 py-2 px-4 rounded-full bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 group"
+      aria-label={`Back to ${collection === "blog" ? "Blog" : "Projects"}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +43,7 @@ const repoUrl = collection === "projects" ? data.repoUrl : null;
         stroke-linejoin="round"
         class="stroke-current group-hover:-translate-x-1 transition-transform duration-300"
       >
+        <title>Back arrow</title>
         <polyline points="15 18 9 12 15 6"></polyline>
       </svg>
       <span>

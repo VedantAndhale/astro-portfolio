@@ -114,6 +114,7 @@ export default function Search({ data }: Props) {
                   class="w-full px-4 py-3 pl-10 rounded-lg outline-none text-base bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400"
                 />
                 <svg class="absolute size-5 left-3 top-1/2 -translate-y-1/2 stroke-current opacity-50">
+                  <title>Search</title>
                   <use href="/ui.svg#search" />
                 </svg>
                 <kbd class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-1 rounded border bg-gray-100 dark:bg-gray-800 px-2 py-0.5 text-xs text-gray-600 dark:text-gray-400">

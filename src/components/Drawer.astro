@@ -1,6 +1,7 @@
 ---
 import { SITE, LINKS } from "@consts";
 import { cn } from "@lib/utils";
+import { Image } from "astro:assets";
 const { pathname } = Astro.url;
 const subpath = pathname.match(/[^/]+/g);
 ---
@@ -20,14 +21,17 @@ const subpath = pathname.match(/[^/]+/g);
     <a
       href="/"
       class="flex items-center gap-3 group hover:scale-105 transition-transform"
+      aria-label="Home page"
     >
       <div
         class="w-14 h-14 rounded-full overflow-hidden border border-gray-200 dark:border-gray-800"
       >
-        <img
+        <Image
           src="/brand.png"
           alt={SITE.TITLE}
-          loading="lazy"
+          width={56}
+          height={56}
+          loading="eager"
           class="w-full h-full object-cover"
         />
       </div>
@@ -38,7 +42,10 @@ const subpath = pathname.match(/[^/]+/g);
       </span>
     </a>
 
-    <nav class="flex flex-col items-center gap-4 w-full">
+    <nav
+      class="flex flex-col items-center gap-4 w-full"
+      aria-label="Mobile navigation"
+    >
       {
         LINKS.map((LINK) => (
           <a
@@ -68,6 +75,7 @@ const subpath = pathname.match(/[^/]+/g);
         )}
       >
         <svg class="w-6 h-6 stroke-current">
+          <title>Search</title>
           <use href="/ui.svg#search"></use>
         </svg>
       </button>
@@ -79,6 +87,7 @@ const subpath = pathname.match(/[^/]+/g);
         class="flex items-center justify-center w-14 h-14 rounded-xl bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
       >
         <svg class="w-6 h-6 stroke-current">
+          <title>RSS Feed</title>
           <use href="/ui.svg#rss"></use>
         </svg>
       </a>
@@ -88,10 +97,12 @@ const subpath = pathname.match(/[^/]+/g);
         aria-label="Toggle light and dark theme"
         class="flex items-center justify-center w-14 h-14 rounded-xl bg-white/80 dark:bg-gray-900/80 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
       >
-        <svg class="block dark:hidden w-6 h-6 stroke-current">
+        <svg class="w-6 h-6 stroke-current dark:hidden">
+          <title>Light mode</title>
           <use href="/ui.svg#sun"></use>
         </svg>
-        <svg class="hidden dark:block w-6 h-6 stroke-current">
+        <svg class="w-6 h-6 stroke-current hidden dark:block">
+          <title>Dark mode</title>
           <use href="/ui.svg#moon"></use>
         </svg>
       </button>

@@ -64,8 +64,10 @@ const next = index < items.length - 1 ? items[index + 1] : null;
     <!-- Table of contents (automatically generated for h2 and h3) -->
     <div id="toc-container" class="hidden lg:block absolute left-full ml-10 top-10 w-64">
       <div class="sticky top-24 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-5 border border-gray-200 dark:border-gray-800 shadow-lg">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">Table of Contents</h3>
-        <div id="toc" class="text-sm"></div>
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" id="toc-heading">Table of Contents</h3>
+        <nav aria-labelledby="toc-heading">
+          <div id="toc" class="text-sm"></div>
+        </nav>
       </div>
     </div>
   </div>
@@ -164,7 +166,7 @@ const next = index < items.length - 1 ? items[index + 1] : null;
     <!-- Subtle decorative element -->
     <div class="absolute -top-12 -right-12 w-24 h-24 bg-blue-100/50 dark:bg-blue-900/20 rounded-full blur-2xl"></div>
     
-    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 relative z-10">
+    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 relative z-10" id="share-heading">
       Enjoyed this article?
     </h3>
     <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto relative z-10">
@@ -229,8 +231,8 @@ const next = index < items.length - 1 ? items[index + 1] : null;
   <!-- Giscus comment section -->
   <div class="mt-12 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-2xl p-8 border border-gray-200 dark:border-gray-800 shadow-lg text-center relative overflow-hidden">
     <div class="absolute -top-12 -right-12 w-24 h-24 bg-blue-100/50 dark:bg-blue-900/20 rounded-full blur-2xl"></div>
-    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 relative z-10">Comments</h3>
-    <div class="relative z-10">
+    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 relative z-10" id="comments-heading">Comments</h3>
+    <div class="relative z-10" aria-labelledby="comments-heading">
       <script is:inline src="https://giscus.app/client.js"
               data-repo="vedantandhale/VedantAndhale"
               data-repo-id="R_kgDOIjd3zw"
