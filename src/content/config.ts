@@ -19,6 +19,7 @@ const blog = defineCollection({
     card: z.coerce.string(),
     tags: z.array(z.string()),
     draft: z.boolean().optional(),
+    popular: z.boolean().optional().default(false),
     version: z.string().optional().default("1.0.0"),
     lastUpdated: z.coerce.date().optional(),
     ogImage: z.string().optional().default("/open-graph.png"),
