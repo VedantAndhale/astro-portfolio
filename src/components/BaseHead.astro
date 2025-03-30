@@ -33,20 +33,27 @@ if (image.startsWith("http")) {
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Preload fonts with display swap for better performance -->
 <link
   rel="preload"
   href="/fonts/atkinson-regular.woff"
   as="font"
   type="font/woff"
-  crossorigin
+  crossorigin="anonymous"
+  fetchpriority="high"
 />
 <link
   rel="preload"
   href="/fonts/atkinson-bold.woff"
   as="font"
   type="font/woff"
-  crossorigin
+  crossorigin="anonymous"
+  fetchpriority="high"
 />
+
+<!-- Preload critical assets -->
+<link rel="preload" href="/ui.svg" as="image" fetchpriority="high" />
+<link rel="preload" href="/js/theme.js" as="script" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -81,11 +88,9 @@ if (image.startsWith("http")) {
   href={`${Astro.site}rss.xml`}
 />
 
-<!-- Global Scripts -->
+<!-- Global Scripts - inline for performance and defer non-critical -->
 <script is:inline src="/js/theme.js"></script>
-<script is:inline src="/js/scroll.js"></script>
-
-<!-- <ViewTransitions  /> -->
+<script defer src="/js/scroll.js"></script>
 
 <script>
   import type { TransitionBeforeSwapEvent } from "astro:transitions/client";

@@ -28,7 +28,8 @@
     "@types/react-dom": "^19.0.4",
     "@vercel/speed-insights": "^1.2.0",
     "astro": "^4.16.18",
-    "astro-compress": "^2.3.6",
+    "astro-compress": "^2.3.7",
+    "astro-critters": "^2.1.10",
     "astro-seo": "^0.8.4",
     "autoprefixer": "^10.4.21",
     "clsx": "^2.1.0",
@@ -57,7 +58,6 @@
   },
   "devDependencies": {
     "@types/markdown-it": "^14.1.1",
-    "@types/sanitize-html": "^2.11.0",
-    "astro-critters": "^2.1.10"
+    "@types/sanitize-html": "^2.11.0"
   }
 }

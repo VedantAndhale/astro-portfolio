@@ -5,6 +5,7 @@ import ArrowCard from "@components/ArrowCard";
 import StackCard from "@components/StackCard.astro";
 import { SITE, SOCIALS } from "@consts";
 import { Image } from "astro:assets";
+import OptimizedImage from "@components/OptimizedImage.astro";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
@@ -156,13 +157,14 @@ const stack = [
           >
           </div>
           <div class="absolute inset-0 rounded-full blur-md bg-gradient-conic from-blue-500 via-indigo-500 to-blue-500 animate-spin-slow opacity-70"></div>
-          <Image
+          <OptimizedImage
             src="/image/profile.webp"
             alt="Vedant Andhale"
             width={160}
             height={160}
             loading="eager"
             class="relative w-28 h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-full border-2 border-white dark:border-gray-800 object-cover shadow-xl"
+            sizes="(max-width: 768px) 112px, (max-width: 1024px) 144px, 160px"
           />
         </div>
         <!-- Modern introduction with animated text -->

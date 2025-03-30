@@ -1,55 +1,65 @@
-function changeTheme() {
-  const element = document.documentElement;
-  const theme = element.classList.contains("dark") ? "light" : "dark";
+// Optimized theme switching script with improved performance
+(function () {
+  // Immediately apply the theme to prevent flash of wrong theme
+  function preloadTheme() {
+    // Try to get theme from localStorage, otherwise use device preference
+    const userTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = userTheme === 'light' || userTheme === 'dark'
+      ? userTheme
+      : prefersDark ? 'dark' : 'light';
 
-  if (theme === "dark") {
-    element.classList.add("dark");
-  } else {
-    element.classList.remove("dark");
+    // Apply theme to documentElement
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+
+    // Store the theme
+    localStorage.setItem('theme', theme);
   }
 
-  localStorage.theme = theme;
+  // Change theme without full page reload for better performance
+  function changeTheme() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const newTheme = isDark ? 'light' : 'dark';
 
-  // Reload the page after theme change
-  window.location.reload();
-}
+    // Toggle the class
+    document.documentElement.classList.toggle('dark');
 
-function preloadTheme() {
-  const theme = (() => {
-    const userTheme = localStorage.theme;
+    // Store the theme
+    localStorage.setItem('theme', newTheme);
 
-    if (userTheme === "light" || userTheme === "dark") {
-      return userTheme;
-    } else {
-      return "dark";
-    }
-  })();
-
-  const element = document.documentElement;
-
-  if (theme === "dark") {
-    element.classList.add("dark");
-  } else {
-    element.classList.remove("dark");
+    // Dispatch event for components that need to react to theme change
+    window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }));
   }
 
-  localStorage.theme = theme;
-}
-
-window.onload = () => {
-  preloadTheme(); // Ensure preloadTheme is called on window load
-
+  // Initialize theme buttons when they exist
   function initializeThemeButtons() {
-    const headerThemeButton = document.getElementById("header-theme-button");
-    const drawerThemeButton = document.getElementById("drawer-theme-button");
-    headerThemeButton?.addEventListener("click", changeTheme);
-    drawerThemeButton?.addEventListener("click", changeTheme);
+    const headerThemeButton = document.getElementById('header-theme-button');
+    const drawerThemeButton = document.getElementById('drawer-theme-button');
+
+    if (headerThemeButton) {
+      headerThemeButton.removeEventListener('click', changeTheme); // Remove any existing listeners
+      headerThemeButton.addEventListener('click', changeTheme);
+    }
+
+    if (drawerThemeButton) {
+      drawerThemeButton.removeEventListener('click', changeTheme); // Remove any existing listeners
+      drawerThemeButton.addEventListener('click', changeTheme);
+    }
   }
 
-  document.addEventListener("astro:after-swap", initializeThemeButtons);
-  initializeThemeButtons();
-};
+  // Run preloadTheme immediately to prevent flash of wrong theme
+  preloadTheme();
 
-document.addEventListener("astro:after-swap", preloadTheme);
+  // Initialize event listeners after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeThemeButtons);
+  } else {
+    initializeThemeButtons();
+  }
 
-preloadTheme(); // Ensure preloadTheme is called initially
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:after-swap', function () {
+    preloadTheme();
+    initializeThemeButtons();
+  });
+})();

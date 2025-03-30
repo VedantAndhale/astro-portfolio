@@ -2,24 +2,51 @@ import defaultTheme from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ["class"],
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        blue: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+          800: '#1e40af',
+          900: '#1e3a8a',
+        },
+        indigo: {
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          200: '#c7d2fe',
+          300: '#a5b4fc',
+          400: '#818cf8',
+          500: '#6366f1',
+          600: '#4f46e5',
+          700: '#4338ca',
+          800: '#3730a3',
+          900: '#312e81',
+        },
+      },
       fontFamily: {
-        sans: ["Atkinson", ...defaultTheme.fontFamily.sans],
+        sans: ['Atkinson', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        xs: "0.85rem",    // ~13.6px
-        sm: "0.95rem",    // ~15.2px
-        base: "1.0625rem", // ~17px
-        lg: "1.17rem",    // ~18.7px
-        xl: "1.275rem",   // ~20.4px
-        "2xl": "1.6rem",  // ~25.6px
-        "3xl": "1.9rem",  // ~30.4px
-        "4xl": "2.55rem", // ~40.8px
-        "5xl": "3.2rem",  // ~51.2px
-        "6xl": "3.825rem", // ~61.2px
+        '2xs': '0.625rem', // 10px
+        xs: '0.75rem', // 12px
+        sm: '0.875rem', // 14px
+        base: '1rem', // 16px
+        lg: '1.125rem', // 18px
+        xl: '1.25rem', // 20px
+        '2xl': '1.5rem', // 24px
+        '3xl': '1.875rem', // 30px
+        '4xl': '2.25rem', // 36px
+        '5xl': '3.2rem',  // ~51.2px
+        '6xl': '3.825rem', // ~61.2px
       },
       typography: {
         DEFAULT: {
@@ -43,37 +70,37 @@ export default {
         "pulse-slow": "pulseGlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "spin-slow": "spinSlow 8s linear infinite",
         "float": "float 3s ease-in-out infinite",
-        "bounce-slow": "bounce 3s infinite",
-        "shimmer": "shimmer 2s linear infinite",
-        float: 'float 3s ease-in-out infinite',
-        pulse: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        shimmer: "shimmer 2s linear infinite",
+        wave: "wave 2s infinite",
+        fadeIn: "fadeIn 1s ease-out both",
+        slideUpFade: "slideUpFade 1s ease-out both",
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
+        'gradient-conic-to-br': 'conic-gradient(at bottom right, var(--tw-gradient-stops))',
+        'gradient-hero': 'radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%)',
       },
       keyframes: {
         twinkle: {
-          "0%": {
-            opacity: 0,
-            transform: "rotate(0deg)",
+          "0%, 100%": {
+            opacity: 0.2,
           },
           "50%": {
             opacity: 1,
-            transform: "rotate(180deg)",
-          },
-          "100%": {
-            opacity: 0,
-            transform: "rotate(360deg)",
           },
         },
         meteor: {
           "0%": {
-            opacity: 0,
-            transform: "translateY(200%)",
+            transform: "rotate(215deg) translateX(0)",
+            opacity: 1,
           },
-          "50%": {
+          "70%": {
             opacity: 1,
           },
           "100%": {
+            transform: "rotate(215deg) translateX(-500px)",
             opacity: 0,
-            transform: "translateY(0)",
           },
         },
         pulseGlow: {
@@ -110,25 +137,40 @@ export default {
             backgroundPosition: "200% 0",
           },
         },
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
-        'gradient-angular': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-diamond': 'conic-gradient(from 45deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      boxShadow: {
-        'glow-blue': '0 0 15px 2px rgba(59, 130, 246, 0.3)',
-        'glow-indigo': '0 0 15px 2px rgba(99, 102, 241, 0.3)',
-        'glow-violet': '0 0 15px 2px rgba(139, 92, 246, 0.3)',
-        'inner-glow': 'inset 0 0 10px 0 rgba(255, 255, 255, 0.2)',
-      },
-      backdropBlur: {
-        xs: '2px',
-      },
-      colors: {
-        primary: '#1DA1F2',
-        secondary: '#14171A',
+        wave: {
+          "0%, 100%": {
+            transform: "rotate(0deg)",
+          },
+          "25%": {
+            transform: "rotate(20deg)",
+          },
+          "50%": {
+            transform: "rotate(0deg)",
+          },
+          "75%": {
+            transform: "rotate(15deg)",
+          },
+        },
+        fadeIn: {
+          "from": {
+            opacity: 0,
+            transform: "translateY(20px)",
+          },
+          "to": {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        },
+        slideUpFade: {
+          "from": {
+            opacity: 0,
+            transform: "translateY(40px)",
+          },
+          "to": {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        },
       },
       borderRadius: {
         '4xl': '2rem',
@@ -154,5 +196,4 @@ export default {
     },
   },
   plugins: [require("@tailwindcss/typography")],
-  purge: ['./src/**/*.{astro,html,js,jsx,ts,tsx}'],
 };
