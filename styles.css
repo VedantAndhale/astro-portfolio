@@ -1,20 +1,41 @@
 /* Add consistent padding and margin */
 .recent-posts,
 .recent-projects {
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 16px;
+    margin-bottom: 16px;
     background-color: #1a1a2e;
-    /* Ensure the background color is the same */
-    border-radius: 10px;
-    /* Add rounded corners */
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 640px) {
+
+    .recent-posts,
+    .recent-projects {
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
 }
 
 /* Ensure consistent card design */
 .card {
-    padding: 15px;
-    margin-bottom: 15px;
+    padding: 12px;
+    margin-bottom: 12px;
     background-color: #2a2a3e;
-    /* Ensure the card background color is the same */
-    border-radius: 8px;
-    /* Add rounded corners */
+    border-radius: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 640px) {
+    .card {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

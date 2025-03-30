@@ -27,12 +27,12 @@ const searchData = [...posts, ...projects];
 
   <Container size="md">
     <div
-      class="relative h-[60px] sm:h-20 w-full flex items-center justify-between"
+      class="relative h-[54px] sm:h-16 md:h-18 w-full flex items-center justify-between"
     >
       <div class="flex items-center">
         <a
           href="/"
-          class="group relative flex items-center gap-2 py-2 px-3 sm:px-4 rounded-full border border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 overflow-hidden"
+          class="group relative flex items-center gap-1.5 py-1.5 px-2.5 sm:gap-2 sm:py-2 sm:px-3 rounded-full border border-gray-200 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 overflow-hidden"
         >
           <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
             <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +63,7 @@ const searchData = [...posts, ...projects];
           </span>
 
           <span
-            class="relative text-sm sm:text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-transparent bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 dark:group-hover:from-blue-400 dark:group-hover:to-indigo-400 transition-all duration-300"
+            class="relative text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-transparent bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 dark:group-hover:from-blue-400 dark:group-hover:to-indigo-400 transition-all duration-300"
           >
             Open to work
           </span>
@@ -77,7 +77,7 @@ const searchData = [...posts, ...projects];
               href={LINK.HREF}
               class={cn(
                 "text-sm font-medium",
-                "h-9 rounded-full px-3", // Reduced horizontal padding from px-4 to px-3
+                "h-8 rounded-full px-2.5 sm:px-3",
                 "flex items-center justify-center",
                 "transition-all duration-300",
                 pathname === LINK.HREF || "/" + subpath?.[0] === LINK.HREF
@@ -91,20 +91,20 @@ const searchData = [...posts, ...projects];
         }
       </nav>
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5 sm:gap-2">
         <button
           id="header-search-button"
           aria-label="Search (⌘K)"
           class={cn(
             "hidden md:flex",
-            "w-8 sm:w-10 h-8 sm:h-10 rounded-full items-center justify-center",
+            "w-8 h-8 rounded-full items-center justify-center",
             "bg-white/90 dark:bg-gray-900/90",
             "border border-gray-200 dark:border-gray-800",
             "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
             "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110",
           )}
         >
-          <svg class="w-5 sm:w-5 h-5 sm:h-5 stroke-current">
+          <svg class="w-4 h-4 stroke-current">
             <use href="/ui.svg#search"></use>
           </svg>
         </button>
@@ -114,17 +114,17 @@ const searchData = [...posts, ...projects];
           aria-label="Toggle light and dark theme"
           class={cn(
             "hidden md:flex",
-            "w-8 sm:w-10 h-8 sm:h-10 rounded-full items-center justify-center",
+            "w-8 h-8 rounded-full items-center justify-center",
             "bg-white/90 dark:bg-gray-900/90",
             "border border-gray-200 dark:border-gray-800",
             "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
             "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:rotate-12",
           )}
         >
-          <svg class="w-5 sm:w-5 h-5 sm:h-5 stroke-current block dark:hidden">
+          <svg class="w-4 h-4 stroke-current block dark:hidden">
             <use href="/ui.svg#sun"></use>
           </svg>
-          <svg class="w-5 sm:w-5 h-5 sm:h-5 stroke-current hidden dark:block">
+          <svg class="w-4 h-4 stroke-current hidden dark:block">
             <use href="/ui.svg#moon"></use>
           </svg>
         </button>
@@ -134,17 +134,17 @@ const searchData = [...posts, ...projects];
           aria-label="Toggle menu"
           class={cn(
             "flex md:hidden",
-            "w-11 h-11 rounded-full items-center justify-center", // Increased size for mobile
+            "w-9 h-9 rounded-full items-center justify-center",
             "bg-white/90 dark:bg-gray-900/90",
             "border border-gray-200 dark:border-gray-800",
             "text-gray-700 dark:text-gray-300",
             "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110",
           )}
         >
-          <svg id="drawer-open" class="w-6 h-6 stroke-current">
+          <svg id="drawer-open" class="w-5 h-5 stroke-current">
             <use href="/ui.svg#menu"></use>
           </svg>
-          <svg id="drawer-close" class="w-6 h-6 stroke-current">
+          <svg id="drawer-close" class="w-5 h-5 stroke-current">
             <use href="/ui.svg#x"></use>
           </svg>
         </button>

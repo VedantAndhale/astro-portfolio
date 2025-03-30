@@ -20,40 +20,40 @@
     font-display: swap;
   }
 
-  /* Improved mobile tap targets */
+  /* Improved mobile tap targets with consistent sizing */
   a,
   button {
-    @apply min-h-[12px] min-w-[44px] sm:min-h-[8px] sm:min-w-[35px];
+    @apply min-h-[44px] min-w-[44px] sm:min-h-[36px] sm:min-w-[36px];
   }
 
-  /* Better text sizing */
+  /* Consistent text sizing across devices */
   html {
-    @apply text-[14px] sm:text-[15px] md:text-[15px] lg:text-[16.5px];
+    @apply text-[14px] sm:text-[15px] md:text-[16px] lg:text-[16px];
     @apply text-gray-700 dark:text-gray-300;
     @apply antialiased;
   }
 
-  /* Better default spacing */
+  /* Consistent section spacing */
   section {
-    @apply py-8 sm:py-12 md:py-16;
+    @apply py-6 sm:py-8 md:py-10 lg:py-12;
   }
 
-  /* Responsive headings */
+  /* Responsive headings with better proportions */
   h1 {
-    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold;
+    @apply text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold;
   }
 
   h2 {
-    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold;
+    @apply text-xl sm:text-xl md:text-2xl lg:text-3xl font-bold;
   }
 
   h3 {
-    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold;
+    @apply text-lg sm:text-lg md:text-xl lg:text-2xl font-semibold;
   }
 
   /* Improved paragraph spacing */
   p {
-    @apply mb-4 last:mb-0;
+    @apply mb-3 last:mb-0;
   }
 }
 
@@ -109,12 +109,12 @@ header.scrolled {
 
 /* Article styling */
 article {
-  @apply prose dark:prose-invert max-w-full pb-12;
+  @apply prose dark:prose-invert max-w-full pb-8;
 }
 
 @layer components {
   .prose {
-    @apply text-base md:text-lg lg:text-xl;
+    @apply text-base md:text-base lg:text-lg;
   }
 
   .prose h1,
@@ -317,7 +317,7 @@ article img {
 
 /* Enhanced scrollbar for premium feel */
 ::-webkit-scrollbar {
-  @apply w-2;
+  @apply w-1.5;
 }
 
 ::-webkit-scrollbar-track {
@@ -416,8 +416,8 @@ article img {
 /* Responsive container utilities */
 @layer utilities {
   .container-custom {
-    @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
-    max-width: min(100% - 2rem, 1400px);
+    @apply w-full mx-auto px-3 sm:px-4 md:px-5 lg:px-6;
+    max-width: min(100% - 1.5rem, 1200px);
   }
 
   .mobile-safe-area {
@@ -453,8 +453,8 @@ article img {
 
   /* Responsive card grids */
   .card-grid {
-    @apply grid gap-4 sm:gap-6;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    @apply grid gap-3 sm:gap-4 md:gap-5 lg:gap-6;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
   }
 
   /* Glass morphism effects */
