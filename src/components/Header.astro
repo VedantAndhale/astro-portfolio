@@ -110,7 +110,7 @@ const searchData = [...posts, ...projects];
         >
           <svg class="w-4 h-4 stroke-current">
             <title>Search</title>
-            <use href="/ui.svg#search"></use>
+            <use href={import.meta.env.BASE_URL + "ui.svg#search"}></use>
           </svg>
         </button>
 
@@ -128,11 +128,11 @@ const searchData = [...posts, ...projects];
         >
           <svg class="w-4 h-4 stroke-current block dark:hidden">
             <title>Light mode</title>
-            <use href="/ui.svg#sun"></use>
+            <use href={import.meta.env.BASE_URL + "ui.svg#sun"}></use>
           </svg>
           <svg class="w-4 h-4 stroke-current hidden dark:block">
             <title>Dark mode</title>
-            <use href="/ui.svg#moon"></use>
+            <use href={import.meta.env.BASE_URL + "ui.svg#moon"}></use>
           </svg>
         </button>
 
@@ -152,11 +152,11 @@ const searchData = [...posts, ...projects];
         >
           <svg id="drawer-open" class="w-5 h-5 stroke-current">
             <title>Open menu</title>
-            <use href="/ui.svg#menu"></use>
+            <use href={import.meta.env.BASE_URL + "ui.svg#menu"}></use>
           </svg>
           <svg id="drawer-close" class="w-5 h-5 stroke-current">
             <title>Close menu</title>
-            <use href="/ui.svg#x"></use>
+            <use href={import.meta.env.BASE_URL + "ui.svg#x"}></use>
           </svg>
         </button>
       </div>

@@ -26,7 +26,7 @@ export default defineConfig({
       html: true,
       img: true,
       js: true,
-      svg: true,
+      svg: false, // Disable SVG compression to preserve SVG sprites
     }),
     partytown({
       // Adds dataLayer.push as a forwarding-event.

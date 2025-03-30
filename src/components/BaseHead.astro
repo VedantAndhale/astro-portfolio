@@ -30,7 +30,11 @@ if (image.startsWith("http")) {
 <!-- Common head tags -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link
+  rel="icon"
+  type="image/svg+xml"
+  href={import.meta.env.BASE_URL + "favicon.svg"}
+/>
 <meta name="generator" content={Astro.generator} />
 
 <!-- Preconnect to any external domains -->
@@ -90,7 +94,7 @@ if (image.startsWith("http")) {
 <noscript><link rel="stylesheet" href="/styles.css" /></noscript>
 
 <!-- Preload critical assets but with lower priority than fonts -->
-<link rel="preload" href="/ui.svg" as="image" />
+<link rel="preload" href={import.meta.env.BASE_URL + "ui.svg"} as="image" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
