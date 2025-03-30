@@ -33,7 +33,7 @@ export default function Blog({ data, tags }: Props) {
   }
 
   function clearAllTags() {
-    setFilter(new Set())
+    setFilter(new Set<string>())
   }
 
   return (
