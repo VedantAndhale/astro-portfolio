@@ -41,6 +41,11 @@ let imgSrc = "";
 if (critical && !isRemoteImage) {
     imgSrc = src.startsWith("/") ? src : `/${src}`;
 }
+
+// Generate srcset for responsive images
+const srcset = !isRemoteImage
+    ? `${src}?w=320 320w, ${src}?w=640 640w, ${src}?w=1024 1024w`
+    : undefined;
 ---
 
 <!-- Advanced image preloading for critical images -->{
@@ -60,6 +65,7 @@ if (critical && !isRemoteImage) {
     isRemoteImage ? (
         <img
             src={src}
+            srcset={srcset}
             alt={alt}
             width={width}
             height={height}
@@ -73,6 +79,7 @@ if (critical && !isRemoteImage) {
     ) : (
         <Image
             src={src}
+            srcset={srcset}
             alt={alt}
             width={width}
             height={height}

@@ -1,55 +1,15 @@
-import { defineConfig } from "astro/config"
-import mdx from "@astrojs/mdx"
-import sitemap from "@astrojs/sitemap"
-import tailwind from "@astrojs/tailwind"
-import solidJs from "@astrojs/solid-js"
-import critters from 'astro-critters'
-import compress from 'astro-compress'
-import prefetch from '@astrojs/prefetch'
-import partytown from '@astrojs/partytown'
+import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
 export default defineConfig({
-  site: "https://vedant.me/", // Replace with your actual domain
-  integrations: [
-    mdx(),
-    sitemap(),
-    solidJs(),
-    tailwind({ applyBaseStyles: false }),
-    critters({
-      fonts: true,
-      preload: 'swap'
-    }),
-    prefetch(),
-    compress({
-      css: true,
-      html: true,
-      img: true,
-      js: true,
-      svg: true,
-    }),
-    partytown({
-      // Adds dataLayer.push as a forwarding-event.
-      config: {
-        forward: ["dataLayer.push"],
+  integrations: [],
+  vite: {
+    server: {
+      headers: {
+        'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; font-src 'self';",
+        'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'X-Frame-Options': 'DENY',
       },
-    }),
-  ],
-
-  // Configure how assets are handled
-  assets: true,
-  build: {
-    assets: 'assets',
-    inlineStylesheets: 'auto'
+    },
   },
-
-  // Ensure markdown/MDX images are processed
-  markdown: {
-    drafts: false,
-    shikiConfig: {
-      theme: 'material-theme-palenight'
-    }
-  },
-
-  compressHTML: true
-})
+});
