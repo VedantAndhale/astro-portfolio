@@ -22,7 +22,6 @@ import { SITE } from "@consts";
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body class="min-h-screen flex flex-col bg-white dark:bg-gray-950">
     <Header />
@@ -35,5 +34,37 @@ import { SITE } from "@consts";
     <Footer />
     <SpeedInsights />
     <GoatCounter />
+
+    <!-- Background particles containers with reduced animation impact -->
+    <div
+      id="bg-container"
+      class="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
+      aria-hidden="true"
+    >
+      <!-- Light mode particles - will be styled by JS -->
+      <div id="particles1" class="opacity-0 transition-opacity duration-1000">
+      </div>
+      <div id="particles2" class="opacity-0 transition-opacity duration-1000">
+      </div>
+      <div id="particles3" class="opacity-0 transition-opacity duration-1000">
+      </div>
+
+      <!-- Dark mode stars - will be styled by JS -->
+      <div id="stars1" class="opacity-0 transition-opacity duration-1000"></div>
+      <div id="stars2" class="opacity-0 transition-opacity duration-1000"></div>
+      <div id="stars3" class="opacity-0 transition-opacity duration-1000"></div>
+    </div>
+
+    <script>
+      // Fade in background elements after main content is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          const particles = document.querySelectorAll(
+            "#particles1, #particles2, #particles3, #stars1, #stars2, #stars3",
+          );
+          particles.forEach((el) => el.classList.remove("opacity-0"));
+        }, 2000); // Delay for improved Speed Index
+      });
+    </script>
   </body>
 </html>

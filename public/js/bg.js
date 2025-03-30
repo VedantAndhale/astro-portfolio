@@ -2,7 +2,8 @@
 function generateParticles(n, color = '#000') {
   // For low-performance devices, reduce particle count
   const isMobile = window.innerWidth < 768;
-  const particleCount = isMobile ? Math.floor(n / 3) : n;
+  const isLowPerf = isLowEndDevice();
+  const particleCount = isLowPerf ? Math.floor(n / 8) : (isMobile ? Math.floor(n / 5) : n);
 
   let value = `${getRandom(2560)}px ${getRandom(2560)}px ${color}`;
   for (let i = 2; i <= particleCount; i++) {
@@ -14,11 +15,17 @@ function generateParticles(n, color = '#000') {
 function generateStars(n, colors = ['#fff', '#e6f2ff', '#d9ecff']) {
   // For low-performance devices, reduce star count
   const isMobile = window.innerWidth < 768;
-  const starCount = isMobile ? Math.floor(n / 3) : n;
+  const isLowPerf = isLowEndDevice();
+  const starCount = isLowPerf ? Math.floor(n / 5) : (isMobile ? Math.floor(n / 3) : n);
 
-  let value = `${getRandom(2560)}px ${getRandom(2560)}px ${getRandomFromArray(colors)}`;
-  for (let i = 2; i <= starCount; i++) {
-    value += `, ${getRandom(2560)}px ${getRandom(2560)}px ${getRandomFromArray(colors)}`;
+  let value = '';
+  for (let i = 1; i <= starCount; i++) {
+    const x = getRandom(2560);
+    const y = getRandom(2560);
+    const color = getRandomFromArray(colors);
+
+    if (i > 1) value += ', ';
+    value += `${x}px ${y}px ${color}`;
   }
   return value;
 }
@@ -34,7 +41,8 @@ function getRandomFromArray(arr) {
 function generateDataPoints(n, maxSize = 3) {
   // For low-performance devices, reduce data point count
   const isMobile = window.innerWidth < 768;
-  const pointCount = isMobile ? Math.floor(n / 4) : n;
+  const isLowPerf = isLowEndDevice();
+  const pointCount = isLowPerf ? Math.floor(n / 6) : (isMobile ? Math.floor(n / 4) : n);
 
   // Create data-like visualization points for light mode
   const dataColors = [
@@ -60,19 +68,25 @@ function initBG() {
   // Detect if this is a high performance device
   const isHighPerformance = !isLowEndDevice();
   const isMobile = window.innerWidth < 768;
+  const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // If user prefers reduced motion, skip complex animations
+  if (isReducedMotion) {
+    return;
+  }
 
   // Light mode particles (data-like visualization)
-  const particlesSmall = isHighPerformance ? generateParticles(isMobile ? 300 : 800, 'rgba(59, 130, 246, 0.3)') : ''; // blue
-  const particlesMedium = isHighPerformance ? generateParticles(isMobile ? 150 : 400, 'rgba(99, 102, 241, 0.25)') : ''; // indigo
-  const particlesLarge = isHighPerformance ? generateParticles(isMobile ? 75 : 200, 'rgba(139, 92, 246, 0.2)') : ''; // violet
+  const particlesSmall = isHighPerformance ? generateParticles(isMobile ? 200 : 500, 'rgba(59, 130, 246, 0.3)') : ''; // blue
+  const particlesMedium = isHighPerformance ? generateParticles(isMobile ? 100 : 250, 'rgba(99, 102, 241, 0.25)') : ''; // indigo
+  const particlesLarge = isHighPerformance ? generateParticles(isMobile ? 50 : 125, 'rgba(139, 92, 246, 0.2)') : ''; // violet
 
   // Light mode data points
-  const dataPoints = isHighPerformance ? generateDataPoints(isMobile ? 100 : 350, 4) : '';
+  const dataPoints = isHighPerformance ? generateDataPoints(isMobile ? 75 : 250, 4) : '';
 
   // Dark mode stars with varied colors for depth
-  const starsSmall = isHighPerformance ? generateStars(isMobile ? 300 : 1000, ['#fff', '#e6f2ff', '#d9ecff']) : '';
-  const starsMedium = isHighPerformance ? generateStars(isMobile ? 150 : 500, ['#fff', '#e6f2ff', '#b3d9ff']) : '';
-  const starsLarge = isHighPerformance ? generateStars(isMobile ? 75 : 250, ['#fff', '#cce6ff', '#99d6ff']) : '';
+  const starsSmall = isHighPerformance ? generateStars(isMobile ? 200 : 700, ['#fff', '#e6f2ff', '#d9ecff']) : '';
+  const starsMedium = isHighPerformance ? generateStars(isMobile ? 100 : 350, ['#fff', '#e6f2ff', '#b3d9ff']) : '';
+  const starsLarge = isHighPerformance ? generateStars(isMobile ? 50 : 175, ['#fff', '#cce6ff', '#99d6ff']) : '';
 
   // Apply light mode particles
   const particles1 = document.getElementById('particles1');
@@ -140,82 +154,50 @@ function initBG() {
     `;
   }
 
-  // Add data-focused animation
+  // Add data-focused animation for high-performance devices only
   if (isHighPerformance && !isMobile) {
-    initDataAnimations();
+    // Delay non-critical animations to after initial rendering
+    requestIdleCallback(() => {
+      initDataAnimations();
+    });
   }
 }
 
 function initDataAnimations() {
-  // Create floating data elements in the background for light mode
-  const darkMode = document.documentElement.classList.contains('dark');
-  const isMobile = window.innerWidth < 768;
-
-  // Skip this heavy animation on mobile
-  if (isMobile) return;
-
-  if (!darkMode) {
-    createFloatingDataElements();
-  }
-
-  // Listen for theme changes
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'class') {
-        const darkMode = document.documentElement.classList.contains('dark');
-        const dataElements = document.querySelectorAll('.floating-data-element');
-
-        if (!darkMode) {
-          if (dataElements.length === 0) {
-            createFloatingDataElements();
-          } else {
-            dataElements.forEach(el => el.style.display = 'block');
-          }
-        } else {
-          dataElements.forEach(el => el.style.display = 'none');
-        }
-      }
-    });
-  });
-
-  observer.observe(document.documentElement, { attributes: true });
+  // Create data-specific floating elements
+  createFloatingDataElements();
 }
 
 function createFloatingDataElements() {
-  // Only create if they don't already exist
-  if (document.querySelectorAll('.floating-data-element').length > 0) return;
+  // If reduced motion is preferred, skip this animation
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
 
-  const galaxy = document.getElementById('galaxy');
+  // Only create these elements for desktop
+  if (window.innerWidth < 1024) return;
+
+  const galaxy = document.getElementById('stars3');
   if (!galaxy) return;
 
-  // Data-focused shapes for light mode - reduced for performance
-  const shapes = ['circle', 'square', 'triangle', 'diamond', 'wave'];
   const dataContainer = document.createElement('div');
   dataContainer.className = 'floating-data-container';
-  dataContainer.style.cssText = `
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    opacity: 0.3;
-  `;
 
-  // Create fewer elements on mobile
-  const isMobile = window.innerWidth < 768;
-  const elementCount = isMobile ? 4 : 12;
+  // Limit the number of elements to avoid performance issues
+  const maxElements = 15;
+  const shapes = ['circle', 'square', 'triangle', 'diamond', 'wave'];
 
-  // Create floating data elements
-  for (let i = 0; i < elementCount; i++) {
-    const shape = getRandomFromArray(shapes);
+  for (let i = 0; i < maxElements; i++) {
     const element = document.createElement('div');
+    const shape = getRandomFromArray(shapes);
     element.className = `floating-data-element ${shape}`;
 
     // Random positions and sizes
-    const size = 10 + Math.random() * 40;
+    const size = 10 + Math.random() * 30;
     const x = Math.random() * 100;
     const y = Math.random() * 100;
     const delay = Math.random() * 5;
-    const duration = 15 + Math.random() * 30;
+    const duration = 15 + Math.random() * 20;
 
     element.style.cssText = `
       position: absolute;
@@ -223,7 +205,7 @@ function createFloatingDataElements() {
       height: ${size}px;
       left: ${x}%;
       top: ${y}%;
-      opacity: ${0.1 + Math.random() * 0.3};
+      opacity: ${0.1 + Math.random() * 0.2};
       pointer-events: none;
       animation: floatData ${duration}s ease-in-out infinite;
       animation-delay: ${delay}s;
@@ -246,7 +228,7 @@ function createFloatingDataElements() {
       element.style.border = '1px solid rgba(79, 70, 229, 0.3)';
     } else if (shape === 'wave') {
       element.style.height = `${size / 4}px`;
-      element.style.width = `${size * 2}px`;
+      element.style.width = `${size * 1.5}px`;
       element.style.borderRadius = `${size}px`;
       element.style.border = '1px solid rgba(59, 130, 246, 0.2)';
     }
@@ -269,10 +251,10 @@ function createFloatingDataElements() {
           transform: translateY(-20px) rotate(5deg);
         }
         50% {
-          transform: translateY(-40px) rotate(-5deg);
+          transform: translateY(-30px) rotate(-5deg);
         }
         75% {
-          transform: translateY(-20px) rotate(3deg);
+          transform: translateY(-15px) rotate(3deg);
         }
       }
       
@@ -291,26 +273,25 @@ function createFloatingDataElements() {
 
 // Detect low-end devices to reduce animations
 function isLowEndDevice() {
-  // Check if it's a mobile device
+  // Check if this is a mobile device
   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-  // If we have hardwareConcurrency and deviceMemory properties, use them
-  const lowCPU = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
-  const lowMemory = navigator.deviceMemory && navigator.deviceMemory <= 4;
-
-  // Check for reduced motion preference
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Check for battery status if available
-  let lowBattery = false;
-  if ('getBattery' in navigator) {
-    navigator.getBattery().then(function (battery) {
-      lowBattery = battery.level <= 0.15 && !battery.charging;
-    });
+  // If it's a mobile device or has a small screen, consider it low-end
+  if (isMobile || window.innerWidth < 768) {
+    return true;
   }
 
-  // Consider it a low-end device if any of these are true
-  return (isMobile && (lowCPU || lowMemory)) || reducedMotion || lowBattery;
+  // Check for hardware concurrency (CPU cores)
+  if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
+    return true;
+  }
+
+  // Check for device memory
+  if (navigator.deviceMemory && navigator.deviceMemory <= 4) {
+    return true;
+  }
+
+  return false;
 }
 
 // Use requestIdleCallback or a polyfill to initialize non-critical visuals
@@ -328,12 +309,12 @@ const requestIdleCallback =
     }, 1);
   };
 
-// Initialize on page load and after navigation, but during idle time
-function initInIdle() {
-  requestIdleCallback(() => {
-    initBG();
-  });
-}
-
-document.addEventListener('astro:after-swap', initInIdle);
-window.addEventListener('DOMContentLoaded', initInIdle);
+// Initialize the background effects after page load
+document.addEventListener('DOMContentLoaded', function () {
+  // Significantly delay bg effects until after critical content is loaded and painted
+  setTimeout(() => {
+    requestIdleCallback(function () {
+      initBG();
+    });
+  }, 1000); // 1 second delay helps to improve Speed Index
+});

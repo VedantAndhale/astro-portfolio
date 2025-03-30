@@ -9,6 +9,8 @@ interface Props {
     loading?: "lazy" | "eager";
     decoding?: "async" | "sync" | "auto";
     sizes?: string;
+    fetchpriority?: "high" | "low" | "auto";
+    critical?: boolean; // New prop to indicate if this is a critical above-the-fold image
 }
 
 const {
@@ -20,12 +22,22 @@ const {
     loading = "lazy",
     decoding = "async",
     sizes = "100vw",
+    fetchpriority,
+    critical = false, // Default to non-critical
 } = Astro.props;
 
 import { Image } from "astro:assets";
 
 // Handle both remote and local images
 const isRemoteImage = src.startsWith("http");
+
+// For critical images, override with eager loading and high priority
+const effectiveLoading = critical ? "eager" : loading;
+const effectiveFetchPriority = critical ? "high" : fetchpriority;
+const effectiveDecoding = critical ? "sync" : decoding;
+
+// Apply LQIP (Low Quality Image Placeholder) technique for non-critical images
+// and use native lazy loading for better performance
 ---
 
 {
@@ -36,9 +48,11 @@ const isRemoteImage = src.startsWith("http");
             width={width}
             height={height}
             class={className}
-            loading={loading}
-            decoding={decoding}
+            loading={effectiveLoading}
+            decoding={effectiveDecoding}
             sizes={sizes}
+            fetchpriority={effectiveFetchPriority}
+            style={critical ? "" : "content-visibility: auto;"}
         />
     ) : (
         <Image
@@ -47,11 +61,13 @@ const isRemoteImage = src.startsWith("http");
             width={width}
             height={height}
             class={className}
-            loading={loading}
-            quality={80}
+            loading={effectiveLoading}
+            quality={critical ? 85 : 75}
             format="webp"
-            decoding={decoding}
+            decoding={effectiveDecoding}
             sizes={sizes}
+            fetchpriority={effectiveFetchPriority}
+            style={critical ? "" : "content-visibility: auto;"}
         />
     )
 }

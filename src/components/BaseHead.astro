@@ -27,11 +27,42 @@ if (image.startsWith("http")) {
 }
 ---
 
-<!-- Global Metadata -->
-<meta charset="utf-8" />
+<!-- Common head tags -->
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="generator" content={Astro.generator} />
+
+<!-- Preconnect to any external domains -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<!-- Critical CSS for above-the-fold content -->
+<style is:inline>
+  /* Core critical styles to prevent layout shift and flash of unstyled content */
+  @font-face {
+    font-family: "Atkinson";
+    src: url("/fonts/atkinson-regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Atkinson", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html {
+    color-scheme: light;
+    background-color: white;
+  }
+
+  html.dark {
+    color-scheme: dark;
+    background-color: #0f172a;
+  }
+</style>
 
 <!-- Preload fonts with display swap for better performance -->
 <link
@@ -40,7 +71,6 @@ if (image.startsWith("http")) {
   as="font"
   type="font/woff"
   crossorigin="anonymous"
-  fetchpriority="high"
 />
 <link
   rel="preload"
@@ -48,12 +78,19 @@ if (image.startsWith("http")) {
   as="font"
   type="font/woff"
   crossorigin="anonymous"
-  fetchpriority="high"
 />
 
-<!-- Preload critical assets -->
-<link rel="preload" href="/ui.svg" as="image" fetchpriority="high" />
-<link rel="preload" href="/js/theme.js" as="script" />
+<!-- Delay non-critical CSS -->
+<link
+  rel="stylesheet"
+  href="/styles.css"
+  media="print"
+  onload="this.media='all'"
+/>
+<noscript><link rel="stylesheet" href="/styles.css" /></noscript>
+
+<!-- Preload critical assets but with lower priority than fonts -->
+<link rel="preload" href="/ui.svg" as="image" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -65,40 +102,20 @@ if (image.startsWith("http")) {
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content={canonicalURL} />
+<meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={imageUrl} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={imageUrl} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-<!-- Sitemap -->
-<link rel="sitemap" href="/sitemap-index.xml" />
+<!-- Theme handling with type="module" and defer to not block rendering -->
+<script type="module" src="/js/theme.js"></script>
 
-<!-- RSS Feed -->
-<link
-  rel="alternate"
-  type="application/rss+xml"
-  title={title}
-  href={`${Astro.site}rss.xml`}
-/>
-
-<!-- Global Scripts - inline for performance and defer non-critical -->
-<script is:inline src="/js/theme.js"></script>
-<script defer src="/js/scroll.js"></script>
-
-<script>
-  import type { TransitionBeforeSwapEvent } from "astro:transitions/client";
-  document.addEventListener("astro:before-swap", (e) =>
-    [
-      ...(e as TransitionBeforeSwapEvent).newDocument.head.querySelectorAll(
-        'link[as="font"]',
-      ),
-    ].forEach((link) => link.remove()),
-  );
-</script>
+<!-- Background animation script with async and type="module" -->
+<script type="module" src="/js/bg.js" async></script>

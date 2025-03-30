@@ -31,20 +31,18 @@
     window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: newTheme } }));
   }
 
-  // Initialize theme buttons when they exist
+  // Initialize theme buttons when they exist - with performance optimizations
   function initializeThemeButtons() {
     const headerThemeButton = document.getElementById('header-theme-button');
     const drawerThemeButton = document.getElementById('drawer-theme-button');
 
-    if (headerThemeButton) {
-      headerThemeButton.removeEventListener('click', changeTheme); // Remove any existing listeners
-      headerThemeButton.addEventListener('click', changeTheme);
-    }
-
-    if (drawerThemeButton) {
-      drawerThemeButton.removeEventListener('click', changeTheme); // Remove any existing listeners
-      drawerThemeButton.addEventListener('click', changeTheme);
-    }
+    // Use event delegation instead of multiple listeners
+    document.addEventListener('click', (e) => {
+      // Check if clicked element is a theme button
+      if (e.target.closest('#header-theme-button, #drawer-theme-button')) {
+        changeTheme();
+      }
+    }, { passive: true });
   }
 
   // Run preloadTheme immediately to prevent flash of wrong theme
@@ -54,12 +52,16 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeThemeButtons);
   } else {
-    initializeThemeButtons();
+    // Use requestIdleCallback to defer non-critical initialization
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(initializeThemeButtons);
+    } else {
+      setTimeout(initializeThemeButtons, 1);
+    }
   }
 
   // Re-initialize on Astro page transitions
   document.addEventListener('astro:after-swap', function () {
     preloadTheme();
-    initializeThemeButtons();
   });
 })();

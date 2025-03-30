@@ -6,6 +6,7 @@ import solidJs from "@astrojs/solid-js"
 import critters from 'astro-critters'
 import compress from 'astro-compress'
 import prefetch from '@astrojs/prefetch'
+import partytown from '@astrojs/partytown'
 
 // https://astro.build/config
 export default defineConfig({
@@ -26,7 +27,13 @@ export default defineConfig({
       img: true,
       js: true,
       svg: true,
-    })
+    }),
+    partytown({
+      // Adds dataLayer.push as a forwarding-event.
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
   ],
 
   // Configure how assets are handled
