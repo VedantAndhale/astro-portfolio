@@ -4,9 +4,11 @@ import sitemap from "@astrojs/sitemap"
 import tailwind from "@astrojs/tailwind"
 import solidJs from "@astrojs/solid-js"
 import critters from 'astro-critters'
-import compress from 'astro-compress'
 import prefetch from '@astrojs/prefetch'
 import partytown from '@astrojs/partytown'
+
+// Skip importing compress from astro-compress here
+// We'll handle compression differently
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,13 +23,8 @@ export default defineConfig({
       preload: 'swap'
     }),
     prefetch(),
-    compress({
-      css: true,
-      html: true,
-      img: true,
-      js: true,
-      svg: false, // Disable SVG compression to preserve SVG sprites
-    }),
+    // Completely removing astro-compress integration
+    // We will handle compression separately, after the build
     partytown({
       // Adds dataLayer.push as a forwarding-event.
       config: {
@@ -51,5 +48,25 @@ export default defineConfig({
     }
   },
 
-  compressHTML: true
+  vite: {
+    build: {
+      assetsInlineLimit: 0, // Don't inline any assets (including SVGs)
+    },
+    plugins: [
+      {
+        name: 'no-svg-optimization',
+        enforce: 'pre',
+        transform(code, id) {
+          if (id.endsWith('.svg')) {
+            return {
+              code,
+              map: null
+            };
+          }
+        }
+      }
+    ]
+  },
+
+  compressHTML: false // Disable HTML compression which might affect inline SVGs
 })
