@@ -111,11 +111,13 @@ export default function Search({ data }: Props) {
                   autocomplete="off"
                   spellcheck={false}
                   placeholder="Search anything..."
-                  class="w-full px-4 py-3 pl-10 rounded-lg outline-none text-base bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400"
+                  class="w-full px-4 py-3 pl-10 pr-16 rounded-lg outline-none text-base bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 focus:border-blue-500 dark:focus:border-blue-400"
                 />
-                <svg class="w-5 h-5 stroke-current">
-                  <use href={import.meta.env.BASE_URL + "ui.svg#search"} />
-                </svg>
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400">
+                  <svg class="w-5 h-5 stroke-current">
+                    <use href={import.meta.env.BASE_URL + "ui.svg#search"} />
+                  </svg>
+                </div>
                 <kbd class="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:inline-flex items-center gap-1 rounded border bg-gray-100 dark:bg-gray-800 px-2 py-0.5 text-xs text-gray-600 dark:text-gray-400">
                   <span class="text-xs">⌘</span><span class="text-xs">K</span>
                 </kbd>
