@@ -7,9 +7,6 @@ import critters from 'astro-critters'
 import prefetch from '@astrojs/prefetch'
 import partytown from '@astrojs/partytown'
 
-// Skip importing compress from astro-compress here
-// We'll handle compression differently
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://vedant.me/", // Replace with your actual domain
@@ -17,18 +14,30 @@ export default defineConfig({
     mdx(),
     sitemap(),
     solidJs(),
-    tailwind({ applyBaseStyles: false }),
+    tailwind({
+      applyBaseStyles: false,
+      // Optimize Tailwind for production
+      config: { applyBaseStyles: false }
+    }),
     critters({
       fonts: true,
-      preload: 'swap'
+      preload: 'swap',
+      // Enhanced critters settings for better performance
+      pruneSource: true,
+      inlineFonts: true,
+      minimize: true
     }),
-    prefetch(),
-    // Completely removing astro-compress integration
-    // We will handle compression separately, after the build
+    prefetch({
+      // Prefetch internal links for faster navigation
+      selector: "a[href^='/']"
+    }),
     partytown({
       // Adds dataLayer.push as a forwarding-event.
       config: {
         forward: ["dataLayer.push"],
+        // Improve third-party script loading
+        debug: false,
+        lib: "./public/~partytown/"
       },
     }),
   ],
@@ -37,20 +46,46 @@ export default defineConfig({
   assets: true,
   build: {
     assets: 'assets',
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'always', // Change to always to inline critical CSS
+    // Add automatic compression for static assets
+    format: 'file',
+    // Optimize CSS
+    cssMinify: true,
   },
 
   // Ensure markdown/MDX images are processed
   markdown: {
     drafts: false,
     shikiConfig: {
-      theme: 'material-theme-palenight'
+      theme: 'material-theme-palenight',
+      // Optimize code blocks
+      wrap: true,
     }
   },
 
   vite: {
     build: {
-      assetsInlineLimit: 0, // Don't inline any assets (including SVGs)
+      // Optimize chunks for better loading
+      cssCodeSplit: true,
+      // Increase asset inlining limit for fewer requests
+      assetsInlineLimit: 4096, // 4kb
+      // Split chunks for better caching
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'solid': ['solid-js'],
+            'markdown': ['remark-gfm', 'rehype-slug', 'rehype-autolink-headings'],
+          }
+        }
+      },
+      minify: 'terser',
+      // Terser optimization options
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          dead_code: true
+        }
+      }
     },
     plugins: [
       {
@@ -65,8 +100,15 @@ export default defineConfig({
           }
         }
       }
-    ]
+    ],
+    // Add optimizations for CSS and JS
+    css: {
+      devSourcemap: false,
+    },
+    optimizeDeps: {
+      exclude: ['@vercel/speed-insights']
+    }
   },
 
-  compressHTML: false // Disable HTML compression which might affect inline SVGs
+  compressHTML: true // Enable HTML compression for faster delivery
 })
