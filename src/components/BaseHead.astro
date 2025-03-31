@@ -25,22 +25,6 @@ if (image.startsWith("http")) {
   // Other paths - assume site-relative
   imageUrl = new URL(`/${image}`, Astro.site).toString();
 }
-
-// Determine if we're on the homepage to prioritize differently
-const isHomepage = Astro.url.pathname === "/" || Astro.url.pathname === "";
-
-// Load the resource loader script
-import { readFileSync } from "fs";
-import path from "path";
-let resourceLoaderScript = "";
-try {
-  resourceLoaderScript = readFileSync(
-    path.join(process.cwd(), "public/js/resource-loader.js"),
-    "utf-8",
-  );
-} catch (error) {
-  console.error("Could not load resource-loader.js:", error);
-}
 ---
 
 <!-- Common head tags -->
@@ -53,14 +37,10 @@ try {
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- Resource hints for performance -->
+<!-- Preconnect to any external domains -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-{isHomepage && <link rel="dns-prefetch" href={Astro.site} />}
 
-<!-- Inline resource loader script for optimal loading -->
-{resourceLoaderScript && <script is:inline set:html={resourceLoaderScript} />}
-
-<!-- Critical CSS for above-the-fold content - immediately in document head -->
+<!-- Critical CSS for above-the-fold content -->
 <style is:inline>
   /* Core critical styles to prevent layout shift and flash of unstyled content */
   @font-face {
@@ -71,24 +51,10 @@ try {
     font-display: swap;
   }
 
-  @font-face {
-    font-family: "Atkinson";
-    src: url("/fonts/atkinson-bold.woff") format("woff");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-
   body {
     margin: 0;
-    font-family:
-      "Atkinson",
-      system-ui,
-      -apple-system,
-      BlinkMacSystemFont,
-      sans-serif;
+    font-family: "Atkinson", sans-serif;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeSpeed;
   }
 
   html {
@@ -100,33 +66,15 @@ try {
     color-scheme: dark;
     background-color: #0f172a;
   }
-
-  /* Add layout stability hints */
-  img,
-  picture,
-  video,
-  canvas,
-  svg {
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
-
-  /* Reduce layout shifts */
-  main {
-    content-visibility: auto;
-    contain-intrinsic-size: 1000px;
-  }
 </style>
 
-<!-- High-priority font preloading with optimized fetch -->
+<!-- Preload fonts with display swap for better performance -->
 <link
   rel="preload"
   href="/fonts/atkinson-regular.woff"
   as="font"
   type="font/woff"
   crossorigin="anonymous"
-  fetchpriority="high"
 />
 <link
   rel="preload"
@@ -134,30 +82,19 @@ try {
   as="font"
   type="font/woff"
   crossorigin="anonymous"
-  fetchpriority="high"
 />
 
-<!-- Delay non-critical CSS with immediate fallback for no-JS -->
+<!-- Delay non-critical CSS -->
 <link
   rel="stylesheet"
   href="/styles.css"
   media="print"
-  onload="this.media='all';this.onload=null;"
-  data-priority="low"
+  onload="this.media='all'"
 />
 <noscript><link rel="stylesheet" href="/styles.css" /></noscript>
 
 <!-- Preload critical assets but with lower priority than fonts -->
-{
-  isHomepage && (
-    <link
-      rel="preload"
-      href={import.meta.env.BASE_URL + "ui.svg"}
-      as="image"
-      fetchpriority="low"
-    />
-  )
-}
+<link rel="preload" href={import.meta.env.BASE_URL + "ui.svg"} as="image" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -181,20 +118,8 @@ try {
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-<!-- Theme handling optimization - use module for modern browsers -->
+<!-- Theme handling with type="module" and defer to not block rendering -->
 <script type="module" src="/js/theme.js"></script>
 
-<!-- Background animation script loaded via resource loader instead -->
-<!-- script type="module" src="/js/bg.js" async defer fetchpriority="low"></script -->
-
-<!-- Add priority hints for render-blocking resources -->
-<meta
-  name="themecolor"
-  content="#ffffff"
-  media="(prefers-color-scheme: light)"
-/>
-<meta
-  name="themecolor"
-  content="#0f172a"
-  media="(prefers-color-scheme: dark)"
-/>
+<!-- Background animation script with async and type="module" -->
+<script type="module" src="/js/bg.js" async></script>
