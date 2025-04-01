@@ -43,18 +43,18 @@ if (image.startsWith("http")) {
 <!-- Critical CSS for above-the-fold content -->
 <style is:inline>
   /* Core critical styles to prevent layout shift and flash of unstyled content */
-  @font-face {
-    font-family: "Atkinson";
-    src: url("/fonts/atkinson-regular.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
+  :root {
+    --font-sans: "Inter var", "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-display: "Plus Jakarta Sans", "Inter var", system-ui, sans-serif;
+    --font-mono: "Fira Code VF", monospace;
   }
 
   body {
     margin: 0;
-    font-family: "Atkinson", sans-serif;
+    font-family: var(--font-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   html {
@@ -68,21 +68,48 @@ if (image.startsWith("http")) {
   }
 </style>
 
-<!-- Preload fonts with display swap for better performance -->
+<!-- Optimized font preloading -->
+<!-- Variable fonts -->
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/inter-var.woff2"
+  type="font/woff2"
+  crossorigin
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/plus-jakarta-sans-var.woff2"
+  type="font/woff2"
+  crossorigin
+/>
+<link
+  rel="preload"
+  as="font"
+  href="/fonts/fira-code-var.woff2"
+  type="font/woff2"
+  crossorigin
+/>
+
+<!-- Legacy font preloading -->
 <link
   rel="preload"
   href="/fonts/atkinson-regular.woff"
   as="font"
   type="font/woff"
-  crossorigin="anonymous"
+  crossorigin
 />
 <link
   rel="preload"
   href="/fonts/atkinson-bold.woff"
   as="font"
   type="font/woff"
-  crossorigin="anonymous"
+  crossorigin
 />
+
+<!-- Modern typography styles with priority loading -->
+<link rel="stylesheet" href="/styles/modern.css" />
 
 <!-- Delay non-critical CSS -->
 <link
