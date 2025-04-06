@@ -7,9 +7,6 @@ import critters from 'astro-critters'
 import prefetch from '@astrojs/prefetch'
 import partytown from '@astrojs/partytown'
 
-// Skip importing compress from astro-compress here
-// We'll handle compression differently
-
 // https://astro.build/config
 export default defineConfig({
   site: "https://vedant.me/", // Replace with your actual domain
@@ -20,15 +17,22 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     critters({
       fonts: true,
-      preload: 'swap'
+      preload: 'swap',
+      // Add these options to improve font loading
+      inlineFonts: true,
+      pruneSource: true
     }),
-    prefetch(),
-    // Completely removing astro-compress integration
-    // We will handle compression separately, after the build
+    prefetch({
+      // Only prefetch links that are highly likely to be clicked
+      selector: "a[href^='/']:not([href*=\\#]):not([href$=\\.jpg]):not([href$=\\.png])"
+    }),
     partytown({
       // Adds dataLayer.push as a forwarding-event.
       config: {
         forward: ["dataLayer.push"],
+        // Improve load time by deferring script execution
+        debug: false,
+        logScriptExecution: false
       },
     }),
   ],
@@ -37,7 +41,10 @@ export default defineConfig({
   assets: true,
   build: {
     assets: 'assets',
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'always', // Always inline critical CSS
+    // Build optimizations
+    format: 'file', // Better code splitting
+    splitting: true,
   },
 
   // Ensure markdown/MDX images are processed
@@ -50,7 +57,19 @@ export default defineConfig({
 
   vite: {
     build: {
-      assetsInlineLimit: 0, // Don't inline any assets (including SVGs)
+      // Optimize chunks for better caching
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 1024,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Separate vendor chunks for better caching
+            vendor: [/node_modules\/(react|solid-js)/],
+          }
+        }
+      },
+      // Enable minification
+      minify: true,
     },
     plugins: [
       {
@@ -65,8 +84,18 @@ export default defineConfig({
           }
         }
       }
-    ]
+    ],
+    // Cache build assets for faster builds
+    optimizeDeps: {
+      include: ['astro-critters', '@fontsource/*']
+    },
+    // Optimize JS output
+    esbuild: {
+      legalComments: 'none',
+      target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14']
+    }
   },
 
-  compressHTML: false // Disable HTML compression which might affect inline SVGs
+  // Optimize HTML output
+  compressHTML: true // Enable HTML compression for better performance
 })

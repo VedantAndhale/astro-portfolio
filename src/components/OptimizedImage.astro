@@ -11,6 +11,7 @@ interface Props {
     sizes?: string;
     fetchpriority?: "high" | "low" | "auto";
     critical?: boolean; // Prop to indicate if this is a critical above-the-fold image
+    mobileSrc?: string; // Optional lower-res image for mobile
 }
 
 const {
@@ -21,9 +22,10 @@ const {
     class: className = "",
     loading = "lazy",
     decoding = "async",
-    sizes = "100vw",
+    sizes = "(max-width: 768px) 100vw, 50vw", // Improved responsive sizes
     fetchpriority,
     critical = false, // Default to non-critical
+    mobileSrc, // Optional source for mobile
 } = Astro.props;
 
 import { Image } from "astro:assets";
@@ -36,54 +38,138 @@ const effectiveLoading = critical ? "eager" : loading;
 const effectiveFetchPriority = critical ? "high" : fetchpriority;
 const effectiveDecoding = critical ? "sync" : decoding;
 
+// Mobile-specific settings for better LCP
+const isCriticalImage = critical;
+const effectiveQuality = critical ? 80 : 70; // Slightly lower quality for better loading
+
 // Prepare preload link for critical images
 let imgSrc = "";
 if (critical && !isRemoteImage) {
     imgSrc = src.startsWith("/") ? src : `/${src}`;
 }
+
+// Get adaptive image quality based on screen size
+const getResponsiveImageProps = () => {
+  return {
+    quality: effectiveQuality,
+    format: "webp",
+    loading: effectiveLoading,
+    decoding: effectiveDecoding,
+    fetchpriority: effectiveFetchPriority,
+    sizes
+  };
+};
 ---
 
-<!-- Advanced image preloading for critical images -->{
-    critical && !isRemoteImage && (
-        <link
-            rel="preload"
-            href={src}
-            as="image"
-            type="image/webp"
-            fetchpriority="high"
-            slot="head"
-        />
-    )
-}
+<!-- Preload critical images but limit to only the absolute necessary ones -->
+{isCriticalImage && !isRemoteImage && (
+  <link
+    rel="preload"
+    href={imgSrc}
+    as="image"
+    type="image/webp"
+    fetchpriority="high"
+  />
+)}
 
-{
-    isRemoteImage ? (
-        <img
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            class={className}
-            loading={effectiveLoading}
-            decoding={effectiveDecoding}
-            sizes={sizes}
-            fetchpriority={effectiveFetchPriority}
-            style={critical ? "" : "content-visibility: auto;"}
-        />
-    ) : (
-        <Image
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            class={className}
-            loading={effectiveLoading}
-            quality={critical ? 85 : 75}
-            format="webp"
-            decoding={effectiveDecoding}
-            sizes={sizes}
-            fetchpriority={effectiveFetchPriority}
-            style={critical ? "" : "content-visibility: auto;"}
-        />
-    )
-}
+<!-- Client script for adaptive image loading based on network conditions -->
+{isCriticalImage && (
+  <script is:inline>
+    // Detect slow connections with the Network Information API
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const isSlowConnection = connection ? 
+      (connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g' || connection.saveData) : 
+      false;
+      
+    // Mark this in the HTML to be picked up by style rules
+    if (isSlowConnection || window.innerWidth < 768) {
+      document.documentElement.setAttribute('data-connection', 'slow');
+    }
+  </script>
+)}
+
+<!-- Use picture element for art direction on mobile vs desktop -->
+{isRemoteImage ? (
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    class={className}
+    loading={effectiveLoading}
+    decoding={effectiveDecoding}
+    sizes={sizes}
+    fetchpriority={effectiveFetchPriority}
+    style={critical ? "" : "content-visibility: auto;"}
+  />
+) : (
+  mobileSrc ? (
+    <picture>
+      <source
+        media="(max-width: 768px)"
+        srcset={mobileSrc}
+        width={Math.floor(width * 0.7)}
+        height={Math.floor(height * 0.7)}
+      />
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        class={className}
+        {...getResponsiveImageProps()}
+        style={critical ? "" : "content-visibility: auto;"}
+      />
+    </picture>
+  ) : (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      class={className}
+      {...getResponsiveImageProps()}
+      style={critical ? "" : "content-visibility: auto;"}
+    />
+  )
+)}
+
+<!-- Add mobile optimization styles -->
+<style is:global>
+  /* Apply more image optimization for slow connections */
+  html[data-connection="slow"] img:not([loading="eager"]),
+  html[data-connection="slow"] picture:not([loading="eager"]) {
+    content-visibility: auto;
+    contain: layout size;
+  }
+  
+  /* Blur-up technique for image loading on mobile */
+  @media (max-width: 768px) {
+    img.blur-load {
+      filter: blur(10px);
+      transition: filter 0.3s ease-in-out;
+    }
+    
+    img.blur-load.loaded {
+      filter: blur(0);
+    }
+  }
+</style>
+
+<!-- Optional blur-up effect script -->
+{isCriticalImage && (
+  <script is:inline>
+    // This script only runs for critical images
+    document.addEventListener('DOMContentLoaded', () => {
+      const img = document.currentScript.previousElementSibling;
+      if (img && img.tagName === 'IMG' && window.innerWidth <= 768) {
+        img.classList.add('blur-load');
+        img.onload = () => {
+          setTimeout(() => {
+            img.classList.add('loaded');
+          }, 10);
+        };
+      }
+    });
+  </script>
+)}
