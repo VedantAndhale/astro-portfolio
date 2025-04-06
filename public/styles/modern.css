@@ -1,0 +1,325 @@
+/* Modern typography system for professional portfolio */
+/* Replace CSS imports with font-face declarations for better control and performance */
+
+/* Inter variable font */
+@font-face {
+  font-family: 'Inter var';
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+  src: url('/fonts/inter-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Plus Jakarta Sans variable font */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-weight: 200 800;
+  font-display: swap;
+  font-style: normal;
+  src: url('/fonts/plus-jakarta-sans-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Fira Code variable font */
+@font-face {
+  font-family: 'Fira Code VF';
+  font-weight: 300 700;
+  font-display: swap;
+  font-style: normal;
+  src: url('/fonts/fira-code-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Legacy font declarations */
+@font-face {
+  font-family: 'Atkinson';
+  src: url('/fonts/atkinson-regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Atkinson';
+  src: url('/fonts/atkinson-bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* CSS Variables for theming and typography */
+:root {
+  /* Premium Light theme variables with sophisticated grays */
+  --background: 0 0% 100%;
+  --foreground: 220 13% 18%;
+  --card: 0 0% 100%;
+  --card-foreground: 220 13% 18%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 13% 18%;
+  --primary: 220 11% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 220 13% 18%;
+  --accent: 220 14% 96%;
+  --accent-foreground: 220 13% 18%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 220 11% 45%;
+
+  /* Modern typography scale variables with better responsive handling */
+  --font-sans: 'Inter var', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter var', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Fira Code VF', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* Font weights using variable font technology */
+  --font-weight-thin: 100;
+  --font-weight-extralight: 200;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Enhanced line height and letter spacing for better readability across devices */
+  --line-height-tight: 1.15;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  --letter-spacing-tightest: -0.04em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+
+  /* Font feature settings for professional display */
+  --font-features-sans: 'cv02', 'cv03', 'cv04', 'ss01', 'ss03';
+  --font-features-mono: 'cv01', 'cv02', 'ss01', 'ss02';
+}
+
+/* Premium Dark theme - more sophisticated with deep grays and refined purples */
+.dark {
+  --background: 220 18% 4%;
+  /* #060809 - Deeper, richer black */
+  --foreground: 213 14% 85%;
+  /* #d3d8de - Subtle light gray */
+  --card: 220 14% 10%;
+  /* #161a21 - Rich dark card background */
+  --card-foreground: 213 14% 85%;
+  /* #d3d8de - Matching text */
+  --popover: 220 18% 4%;
+  /* #060809 - Deep popover background */
+  --popover-foreground: 213 14% 85%;
+  /* #d3d8de - Matching text */
+  --primary: 250 73% 73%;
+  /* #a371f7 - Refined purple accent */
+  --primary-foreground: 220 18% 4%;
+  /* #060809 */
+  --secondary: 215 14% 15%;
+  /* #1c2128 - Refined secondary */
+  --secondary-foreground: 213 14% 85%;
+  /* #d3d8de - Matching text */
+  --accent: 215 14% 15%;
+  /* #1c2128 - Subtle accent */
+  --accent-foreground: 213 14% 85%;
+  /* #d3d8de - Matching text */
+  --success: 142 69% 58%;
+  /* #56d364 - Softer success green */
+  --destructive: 0 72% 65%;
+  /* #f85149 - Refined destructive */
+  --warning: 38 92% 64%;
+  /* #f0b72f - Refined warning */
+  --muted: 215 14% 15%;
+  /* #1c2128 - Muted background */
+  --muted-foreground: 215 10% 60%;
+  /* #8b949e - Subtle muted text */
+  --border: 215 14% 16%;
+  /* #21262d - Subtle borders */
+  --input: 220 18% 4%;
+  /* #060809 - Input background */
+  --ring: 250 73% 73%;
+  /* #a371f7 - Subtle purple ring */
+
+  /* Code syntax highlighting colors - more refined palette */
+  --syntax-string: 185 74% 70%;
+  /* #70d7e2 - Aqua for strings */
+  --syntax-comment: 215 10% 60%;
+  /* #8b949e - Subtle comments */
+  --syntax-keyword: 326 100% 74%;
+  /* #ff9cce - Softer pink for keywords */
+  --syntax-function: 250 73% 73%;
+  /* #a371f7 - Purple for functions */
+  --syntax-variable: 35 92% 65%;
+  /* #e3b341 - Softer gold for variables */
+  --syntax-number: 210 100% 75%;
+  /* #79c0ff - Softer blue for numbers */
+  --syntax-tag: 168 100% 60%;
+  /* #00e3b2 - Teal for tags */
+  --syntax-property: 210 100% 75%;
+  /* #79c0ff - Softer blue for properties */
+  --syntax-punctuation: 215 10% 60%;
+  /* #8b949e - Subtle punctuation */
+}
+
+/* Base styles with improved viewport handling */
+body {
+  font-feature-settings: var(--font-features-sans);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-size: clamp(14px, calc(0.875rem + 0.25vw), 16px);
+  line-height: var(--line-height-normal);
+}
+
+/* Modern heading hierarchy with variable fonts and better viewport scaling */
+h1 {
+  font-family: var(--font-display);
+  font-variation-settings: 'wght' 800;
+  letter-spacing: var(--letter-spacing-tightest);
+  line-height: var(--line-height-tight);
+  font-size: clamp(1.875rem, calc(1.5rem + 1.875vw), 3.25rem);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-variation-settings: 'wght' 700;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+  font-size: clamp(1.5rem, calc(1.25rem + 1.25vw), 2.5rem);
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-variation-settings: 'wght' 600;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+  font-size: clamp(1.25rem, calc(1.125rem + 0.625vw), 1.875rem);
+}
+
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-variation-settings: 'wght' 600;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+}
+
+/* Monospace elements with variable font */
+code,
+pre,
+kbd {
+  font-family: var(--font-mono);
+  font-variation-settings: 'wght' 450;
+  font-feature-settings: var(--font-features-mono);
+}
+
+/* Link styling with proper hover states */
+a {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Premium section headings with refined gradient */
+.section-heading {
+  font-variation-settings: 'wght' 750;
+  background: linear-gradient(to right, hsl(var(--primary)), hsl(260, 60%, 70%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* Premium UI element styling with modern typography */
+.premium-element {
+  border-radius: 0.75rem;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Modern callout with professional typography */
+.professional-callout {
+  font-family: var(--font-display);
+  font-variation-settings: 'wght' 600;
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  padding: clamp(1rem, calc(0.75rem + 1.25vw), 1.5rem);
+  border-radius: 0.75rem;
+  border-left: 4px solid hsl(var(--primary));
+  background-color: hsl(var(--muted));
+  color: hsl(var(--foreground));
+}
+
+/* Modern button typography */
+.modern-button {
+  font-family: var(--font-sans);
+  font-variation-settings: 'wght' 600;
+  letter-spacing: -0.01em;
+  border-radius: 9999px;
+  padding: 0.75rem clamp(1rem, calc(0.75rem + 0.5vw), 1.5rem);
+  transition: all 0.2s ease;
+}
+
+/* Stats and metrics with modern numerals */
+.stats-display {
+  font-feature-settings: 'tnum', 'ss01';
+  font-variation-settings: 'wght' 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/* Responsive text classes for different viewports */
+.text-responsive-xs {
+  font-size: clamp(0.625rem, calc(0.6rem + 0.125vw), 0.75rem);
+}
+
+.text-responsive-sm {
+  font-size: clamp(0.75rem, calc(0.725rem + 0.125vw), 0.875rem);
+}
+
+.text-responsive-base {
+  font-size: clamp(0.875rem, calc(0.85rem + 0.125vw), 1rem);
+}
+
+.text-responsive-lg {
+  font-size: clamp(1rem, calc(0.95rem + 0.25vw), 1.125rem);
+}
+
+.text-responsive-xl {
+  font-size: clamp(1.125rem, calc(1.05rem + 0.375vw), 1.25rem);
+}
+
+.text-responsive-2xl {
+  font-size: clamp(1.25rem, calc(1.15rem + 0.5vw), 1.5rem);
+}
+
+/* Fluid font weight classes for variable fonts */
+.font-weight-light {
+  font-variation-settings: 'wght' 300;
+}
+
+.font-weight-regular {
+  font-variation-settings: 'wght' 400;
+}
+
+.font-weight-medium {
+  font-variation-settings: 'wght' 500;
+}
+
+.font-weight-semibold {
+  font-variation-settings: 'wght' 600;
+}
+
+.font-weight-bold {
+  font-variation-settings: 'wght' 700;
+}
+
+.font-weight-extrabold {
+  font-variation-settings: 'wght' 800;
+}

@@ -71,7 +71,7 @@ export default function Blog({ data, tags }: Props) {
                   </svg>
                 </div>
                 <div>
-                  <h2 class="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">Blog Posts</h2>
+                  <h2 class="text-base sm:text-lg font-semibold font-display tracking-tight text-gray-900 dark:text-white">Blog Posts</h2>
                   <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     Showing <span class="font-medium text-blue-600 dark:text-blue-400">{posts().length}</span> of <span class="font-medium">{data.length}</span>
                   </p>
@@ -83,14 +83,14 @@ export default function Blog({ data, tags }: Props) {
                 <Show when={filter().size > 0}>
                   <button
                     onClick={clearAllTags}
-                    class="text-xs px-2 py-1 sm:px-3 sm:py-1.5 rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-800/30 transition-colors"
+                    class="text-xs px-2 py-1 sm:px-3 sm:py-1.5 rounded-md font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-800/50 hover:bg-blue-100 dark:hover:bg-blue-800/30 transition-colors"
                   >
                     Clear filters
                   </button>
                 </Show>
                 <button
                   onClick={() => setFilterExpanded(!filterExpanded())}
-                  class="ml-auto sm:ml-0 flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 shadow-sm hover:shadow-md transition-all"
+                  class="ml-auto sm:ml-0 flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 shadow-sm hover:shadow-md transition-all font-display font-medium tracking-tight"
                 >
                   <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
@@ -112,12 +112,12 @@ export default function Blog({ data, tags }: Props) {
             <Show when={filter().size > 0}>
               <div class="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-200/50 dark:border-gray-700/30">
                 <div class="flex flex-wrap gap-1.5 sm:gap-2 items-center">
-                  <span class="text-xs text-gray-500 dark:text-gray-400">Active filters:</span>
+                  <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Active filters:</span>
                   <For each={[...filter()]}>
                     {(tag) => (
                       <button
                         onClick={() => toggleTag(tag)}
-                        class="inline-flex items-center gap-1 text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 border border-blue-200/50 dark:border-blue-800/30 shadow-sm hover:shadow-md transition-all"
+                        class="inline-flex items-center gap-1 text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 border border-blue-200/50 dark:border-blue-800/30 shadow-sm hover:shadow-md transition-all font-medium"
                       >
                         {tag}
                         <svg class="w-2.5 h-2.5 sm:w-3 sm:h-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,7 +155,7 @@ export default function Blog({ data, tags }: Props) {
                           ? "bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500"
                           : "border-gray-300 dark:border-gray-600"
                       )} />
-                      <span class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 truncate">{tag}</span>
+                      <span class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 truncate font-medium">{tag}</span>
                     </button>
                   )}
                 </For>
@@ -181,11 +181,11 @@ export default function Blog({ data, tags }: Props) {
               <circle cx="12" cy="12" r="10"></circle>
               <path d="M8 15h8M9.5 9h.01M14.5 9h.01"></path>
             </svg>
-            <h3 class="text-base sm:text-lg font-medium text-gray-900 dark:text-white mb-1">No posts found</h3>
+            <h3 class="text-base sm:text-lg font-medium font-display tracking-tight text-gray-900 dark:text-white mb-1">No posts found</h3>
             <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">Try adjusting your filter selection</p>
             <button
               onClick={clearAllTags}
-              class="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 dark:from-blue-500 dark:to-indigo-500 dark:hover:from-blue-600 dark:hover:to-indigo-600 rounded-lg shadow-sm hover:shadow-md transition-all"
+              class="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium font-display tracking-tight text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 dark:from-blue-500 dark:to-indigo-500 dark:hover:from-blue-600 dark:hover:to-indigo-600 rounded-lg shadow-sm hover:shadow-md transition-all"
             >
               Clear filters
             </button>

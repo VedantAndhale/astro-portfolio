@@ -3,9 +3,10 @@
 .recent-projects {
     padding: 16px;
     margin-bottom: 16px;
-    background-color: #1a1a2e;
+    background-color: #000000;
+    /* editor.background */
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 @media (min-width: 640px) {
@@ -22,8 +23,11 @@
 .card {
     padding: 12px;
     margin-bottom: 12px;
-    background-color: #2a2a3e;
+    background-color: #060606;
+    /* list.hoverBackground */
     border-radius: 6px;
+    border: 1px solid #242429;
+    /* dropdown.border */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -37,5 +41,7 @@
 
 .card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+    background-color: #0a0a0a;
+    /* badge.background */
 }

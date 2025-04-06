@@ -33,7 +33,10 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Atkinson', 'system-ui', 'sans-serif'],
+        sans: ['Inter var', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'Inter var', 'system-ui', 'sans-serif'],
+        mono: ['Fira Code VF', 'monospace'],
+        serif: ['Georgia', 'serif'],
       },
       fontSize: {
         '2xs': '0.625rem', // 10px
@@ -47,11 +50,39 @@ export default {
         '4xl': '2.25rem', // 36px
         '5xl': '3.2rem',  // ~51.2px
         '6xl': '3.825rem', // ~61.2px
+
+        // Responsive font sizes using clamp
+        'fluid-xs': 'clamp(0.75rem, calc(0.7rem + 0.15vw), 0.875rem)',
+        'fluid-sm': 'clamp(0.875rem, calc(0.8rem + 0.2vw), 1rem)',
+        'fluid-base': 'clamp(1rem, calc(0.95rem + 0.25vw), 1.125rem)',
+        'fluid-lg': 'clamp(1.125rem, calc(1rem + 0.5vw), 1.25rem)',
+        'fluid-xl': 'clamp(1.25rem, calc(1.1rem + 0.75vw), 1.5rem)',
+        'fluid-2xl': 'clamp(1.5rem, calc(1.3rem + 1vw), 1.875rem)',
+        'fluid-3xl': 'clamp(1.875rem, calc(1.5rem + 1.5vw), 2.25rem)',
+        'fluid-4xl': 'clamp(2.25rem, calc(1.8rem + 2.25vw), 3rem)',
+        'fluid-5xl': 'clamp(3rem, calc(2.3rem + 3.5vw), 4rem)',
       },
       typography: {
         DEFAULT: {
           css: {
             maxWidth: "full",
+            color: 'inherit',
+            a: {
+              'text-decoration': 'none',
+              'font-weight': '500',
+            },
+            'h1, h2, h3, h4, h5, h6': {
+              'font-weight': '700',
+              'font-family': 'var(--font-display)',
+              'line-height': '1.2',
+            },
+            code: {
+              'font-weight': '500',
+              'font-family': 'var(--font-mono)',
+              'background-color': 'var(--tw-prose-pre-bg)',
+              'border-radius': '0.25rem',
+              'padding': '0.125rem 0.25rem',
+            },
           },
         },
       },

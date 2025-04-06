@@ -45,7 +45,7 @@ const { text, icon } = Astro.props;
       class="sm:h-5 sm:w-5 transition-transform group-hover:scale-110 text-blue-600 dark:text-blue-400"
     >
       <title>{text}</title>
-      <use href={`/stack.svg#${icon}`}></use>
+      <use href={`${import.meta.env.BASE_URL}stack.svg#${icon}`}></use>
     </svg>
   </div>
 

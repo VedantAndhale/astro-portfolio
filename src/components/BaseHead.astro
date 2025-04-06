@@ -30,8 +30,27 @@ if (image.startsWith("http")) {
 <!-- Common head tags -->
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link
+  rel="icon"
+  type="image/svg+xml"
+  href={import.meta.env.BASE_URL + "favicon.svg"}
+/>
 <meta name="generator" content={Astro.generator} />
+
+<!-- LCP detection script - load as early as possible for better mobile performance -->
+<script is:inline src="/js/lcp-detection.js"></script>
+
+<!-- Scroll optimization for below-the-fold content -->
+<script is:inline>
+  // Only load the scroll optimization script on mobile devices
+  if (window.innerWidth <= 768) {
+    // Add script with defer to not block rendering
+    const scrollScript = document.createElement("script");
+    scrollScript.src = "/js/scroll.js";
+    scrollScript.defer = true;
+    document.head.appendChild(scrollScript);
+  }
+</script>
 
 <!-- Preconnect to any external domains -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -39,18 +58,18 @@ if (image.startsWith("http")) {
 <!-- Critical CSS for above-the-fold content -->
 <style is:inline>
   /* Core critical styles to prevent layout shift and flash of unstyled content */
-  @font-face {
-    font-family: "Atkinson";
-    src: url("/fonts/atkinson-regular.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
+  :root {
+    --font-sans: "Inter var", "Plus Jakarta Sans", system-ui, sans-serif;
+    --font-display: "Plus Jakarta Sans", "Inter var", system-ui, sans-serif;
+    --font-mono: "Fira Code VF", monospace;
   }
 
   body {
     margin: 0;
-    font-family: "Atkinson", sans-serif;
+    font-family: var(--font-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   html {
@@ -62,23 +81,108 @@ if (image.startsWith("http")) {
     color-scheme: dark;
     background-color: #0f172a;
   }
+
+  /* First contentful paint optimization */
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Basic layout container styles to avoid layout shift */
+  main,
+  header,
+  footer,
+  section,
+  article {
+    width: 100%;
+  }
 </style>
 
-<!-- Preload fonts with display swap for better performance -->
+<!-- Mobile-critical styles only on mobile devices -->
+<script is:inline>
+  // Add mobile-critical stylesheet only for mobile devices
+  if (window.innerWidth <= 768) {
+    const mobileCriticalCSS = document.createElement("link");
+    mobileCriticalCSS.rel = "stylesheet";
+    mobileCriticalCSS.href = "/styles/mobile-critical.css";
+    document.head.appendChild(mobileCriticalCSS);
+
+    // Mark document for CSS targeting
+    document.documentElement.setAttribute("data-mobile", "true");
+  }
+</script>
+
+<!-- Critical resources script for optimizing LCP and Speed Index on mobile -->
+<script is:inline src="/js/critical-resources.js"></script>
+
+<!-- Font display optimization -->
 <link
   rel="preload"
-  href="/fonts/atkinson-regular.woff"
   as="font"
-  type="font/woff"
-  crossorigin="anonymous"
+  href="/fonts/inter-var.woff2"
+  type="font/woff2"
+  crossorigin
+  fetchpriority="high"
 />
-<link
-  rel="preload"
-  href="/fonts/atkinson-bold.woff"
-  as="font"
-  type="font/woff"
-  crossorigin="anonymous"
-/>
+
+<!-- Only preload one critical font on mobile to improve LCP -->
+<script>
+  // Only load additional fonts on desktop or after main content
+  document.addEventListener("DOMContentLoaded", () => {
+    if (window.innerWidth > 768) {
+      loadAllFonts();
+    } else {
+      // On mobile, delay loading additional fonts
+      setTimeout(loadAllFonts, 3000);
+    }
+  });
+
+  function loadAllFonts() {
+    const additionalFonts = [
+      "/fonts/plus-jakarta-sans-var.woff2",
+      "/fonts/fira-code-var.woff2",
+      "/fonts/atkinson-regular.woff",
+      "/fonts/atkinson-bold.woff",
+    ];
+
+    additionalFonts.forEach((font) => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "font";
+      link.href = font;
+      link.type = font.endsWith(".woff2") ? "font/woff2" : "font/woff";
+      link.crossOrigin = "anonymous";
+      document.head.appendChild(link);
+    });
+  }
+</script>
+
+<!-- Modern typography styles with priority loading only for desktop -->
+<script is:inline>
+  // Only load non-critical CSS for desktop immediately
+  if (window.innerWidth > 768) {
+    const modernCSS = document.createElement("link");
+    modernCSS.rel = "stylesheet";
+    modernCSS.href = "/styles/modern.css";
+    document.head.appendChild(modernCSS);
+  } else {
+    // For mobile, load with delay and low priority
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        const modernCSS = document.createElement("link");
+        modernCSS.rel = "stylesheet";
+        modernCSS.href = "/styles/modern.css";
+        document.head.appendChild(modernCSS);
+      }, 2000);
+    });
+  }
+</script>
+<noscript><link rel="stylesheet" href="/styles/modern.css" /></noscript>
 
 <!-- Delay non-critical CSS -->
 <link
@@ -88,9 +192,6 @@ if (image.startsWith("http")) {
   onload="this.media='all'"
 />
 <noscript><link rel="stylesheet" href="/styles.css" /></noscript>
-
-<!-- Preload critical assets but with lower priority than fonts -->
-<link rel="preload" href="/ui.svg" as="image" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -114,8 +215,19 @@ if (image.startsWith("http")) {
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
-<!-- Theme handling with type="module" and defer to not block rendering -->
-<script type="module" src="/js/theme.js"></script>
+<!-- Theme handling with type="module" to prevent render blocking -->
+<script type="module" src="/js/theme.js" async></script>
 
-<!-- Background animation script with async and type="module" -->
-<script type="module" src="/js/bg.js" async></script>
+<!-- Load background animation only after page is loaded and idle -->
+<script>
+  // Add bg script after page loads
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      const bgScript = document.createElement("script");
+      bgScript.src = "/js/bg.js";
+      bgScript.async = true;
+      bgScript.type = "module";
+      document.body.appendChild(bgScript);
+    }, 1000);
+  });
+</script>
