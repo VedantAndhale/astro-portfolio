@@ -26,6 +26,7 @@ export default defineConfig({
     }),
     prefetch({
       throttle: 3, // Limit concurrent prefetch requests
+      selector: "a[href^='/']:not([href*='.']):not([data-no-prefetch])" // Only prefetch internal pages
     }),
     // Import and use astro-compress for production builds
     {
@@ -37,10 +38,21 @@ export default defineConfig({
             import('astro-compress').then(({ default: compress }) => {
               compress({
                 css: true,
-                html: true,
+                html: {
+                  removeAttributeQuotes: false,
+                  removeComments: true,
+                  removeRedundantAttributes: true,
+                  removeScriptTypeAttributes: true,
+                  removeStyleLinkTypeAttributes: true,
+                  removeEmptyAttributes: true,
+                  minifyJS: true,
+                  minifyCSS: true,
+                  useShortDoctype: true,
+                  collapseWhitespace: true,
+                },
                 img: true,
                 js: true,
-                svg: true,
+                svg: false, // Don't touch SVG assets as requested
                 logger: 1, // Show only errors
               });
             });
@@ -52,6 +64,15 @@ export default defineConfig({
       // Adds dataLayer.push as a forwarding-event.
       config: {
         forward: ["dataLayer.push"],
+        debug: false, // Disable in production
+        resolveUrl: (url) => {
+          // Help Partytown load resources from the right location
+          const browserURL = new URL(url);
+          if (browserURL.hostname === 'cdn.example.com') {
+            return new URL('https://cdn.example.com' + browserURL.pathname);
+          }
+          return url;
+        }
       },
     }),
   ],
@@ -60,7 +81,9 @@ export default defineConfig({
   assets: true,
   build: {
     assets: 'assets',
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'auto',
+    split: true, // Enable code splitting
+    format: 'file', // Optimize for long-term caching
   },
 
   // Ensure markdown/MDX images are processed
@@ -74,6 +97,22 @@ export default defineConfig({
   vite: {
     build: {
       assetsInlineLimit: 0, // Don't inline any assets (including SVGs)
+      chunkSizeWarningLimit: 1000, // Increase size warning limit for chunks
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Group vendor dependencies into separate chunks
+            'vendor': ['react', 'react-dom', 'solid-js'],
+            'ui-components': [
+              // Add common UI component paths here if you have many
+            ]
+          },
+        },
+      },
+    },
+    optimizeDeps: {
+      exclude: ['@vercel/speed-insights'], // Don't pre-bundle analytics
+      include: [], // You can add specific dependencies to pre-bundle here
     },
     plugins: [
       {
@@ -88,7 +127,13 @@ export default defineConfig({
           }
         }
       }
-    ]
+    ],
+    // Add caching for improved build performance
+    server: {
+      fs: {
+        strict: true,
+      },
+    },
   },
 
   compressHTML: false // Disable HTML compression which might affect inline SVGs

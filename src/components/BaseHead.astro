@@ -7,6 +7,9 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, image = "/open-graph.png" } = Astro.props;
 
+// Import FontOptimizer component
+import FontOptimizer from "./FontOptimizer.astro";
+
 // Construct absolute URL for the image
 let imageUrl: string;
 if (image.startsWith("http")) {
@@ -39,6 +42,13 @@ if (image.startsWith("http")) {
 
 <!-- Preconnect to any external domains -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+<!-- Add DNS prefetch for any analytics or third-party services you use -->
+<link rel="dns-prefetch" href="https://analytics.example.com" />
+
+<!-- Import the FontOptimizer component -->
+<FontOptimizer />
 
 <!-- Preload and execute theme script before page renders to prevent flash -->
 <script is:inline src="/js/fixed-theme.js"></script>

@@ -13,6 +13,8 @@ interface Props {
     critical?: boolean; // Prop to indicate if this is a critical above-the-fold image
     darkModeFilter?: boolean; // Whether to apply a subtle filter in dark mode
     blurHash?: string; // For progressive loading with blurHash placeholder
+    breakpoints?: number[]; // Responsive breakpoints for srcset generation
+    format?: "webp" | "avif" | "jpeg" | "png"; // Preferred image format
 }
 
 const {
@@ -23,14 +25,17 @@ const {
     class: className = "",
     loading = "lazy",
     decoding = "async",
-    sizes = "100vw",
+    sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw", // More specific default sizes
     fetchpriority = "auto",
     critical = false,
     darkModeFilter = false,
     blurHash,
+    breakpoints = [320, 640, 768, 1024, 1280, 1536], // Default responsive breakpoints
+    format = "webp", // Default to webp for best compression/quality ratio
 } = Astro.props;
 
 import { Image } from "astro:assets";
+import { getImage } from "astro:assets";
 
 // Create dark mode class based on props
 const darkModeClass = darkModeFilter ? "dark-mode-image" : "";
@@ -51,6 +56,30 @@ let imgSrc = "";
 if (critical && !isRemoteImage) {
     imgSrc = src.startsWith("/") ? src : `/${src}`;
 }
+
+// Generate responsive image variants when not using remote images
+let generatedImages = [];
+let srcsetAttribute = "";
+
+if (!isRemoteImage) {
+    try {
+        // Filter breakpoints to only include those that make sense for this image
+        const filteredBreakpoints = breakpoints.filter((bp) => bp <= width * 2);
+
+        // For srcset, we'll use the built-in Astro image handling instead of manual processing
+        srcsetAttribute = filteredBreakpoints
+            .map((bp) => {
+                const targetWidth = Math.min(bp, width * 2);
+                return `${targetWidth}w`;
+            })
+            .join(", ");
+    } catch (error) {
+        console.error(
+            `Failed to prepare responsive image data for ${src}:`,
+            error,
+        );
+    }
+}
 ---
 
 <!-- Advanced image preloading for critical images -->{
@@ -59,7 +88,9 @@ if (critical && !isRemoteImage) {
             rel="preload"
             href={src}
             as="image"
-            type="image/webp"
+            type={`image/${format}`}
+            imagesrcset={srcsetAttribute}
+            imagesizes={sizes}
             fetchpriority="high"
             slot="head"
         />
@@ -79,16 +110,6 @@ if (critical && !isRemoteImage) {
             sizes={sizes}
             class={`optimized-image ${className} ${darkModeClass}`}
             style={blurHash ? `background-image: url(${blurHash});` : ""}
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            class={className}
-            loading={effectiveLoading}
-            decoding={effectiveDecoding}
-            sizes={sizes}
-            fetchpriority={effectiveFetchPriority}
-            style={critical ? "" : "content-visibility: auto;"}
         />
     ) : (
         <Image
@@ -96,14 +117,21 @@ if (critical && !isRemoteImage) {
             alt={alt}
             width={width}
             height={height}
-            class={className}
+            class={`optimized-image ${className} ${darkModeClass}`}
             loading={effectiveLoading}
-            quality={critical ? 85 : 75}
-            format="webp"
             decoding={effectiveDecoding}
-            sizes={sizes}
             fetchpriority={effectiveFetchPriority}
-            style={critical ? "" : "content-visibility: auto;"}
+            quality={critical ? 85 : 75}
+            format={format}
+            densities={[1, 2]}
+            sizes={sizes}
+            style={
+                blurHash
+                    ? `background-image: url(${blurHash});`
+                    : critical
+                      ? ""
+                      : "content-visibility: auto;"
+            }
         />
     )
 }
