@@ -19,15 +19,88 @@
 
   /* Base sizing scale for better consistency */
   --size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
+
+  /* Light theme colors - improved contrast */
+  --color-bg: #ffffff;
+  --color-text: #0f172a;
+  /* Darker for better contrast */
+  --color-surface: #f8fafc;
+  --color-border: #e2e8f0;
+  --color-primary: #2563eb;
+  /* WCAG AA compliant */
+  --color-secondary: #4338ca;
+  /* WCAG AA compliant */
+  --color-accent: #0284c7;
+  /* WCAG AA compliant */
+  --color-muted: #64748b;
+  /* Improved contrast */
+
+  /* Animation speed variables for consistent motion */
+  --transition-fast: 150ms;
+  --transition-normal: 250ms;
+  --transition-slow: 350ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark theme colors - applied when .dark class is present on html element */
+.dark {
+  --color-bg: var(--tw-color-dark-bg);
+  --color-text: var(--tw-color-dark-on-bg);
+  --color-surface: var(--tw-color-dark-surface);
+  --color-border: var(--tw-color-dark-surface-variant);
+  --color-primary: var(--tw-color-dark-primary);
+  --color-secondary: var(--tw-color-dark-secondary);
+  --color-accent: #38bdf8;
+  /* Brighter for better visibility in dark mode */
+  --color-muted: #a1a1aa;
+
+  color-scheme: dark;
+}
+
+/* Custom scrollbar for enhanced visual appeal */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted);
+  border-radius: 5px;
+  border: 2px solid var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-muted) var(--color-surface);
 }
 
 /* Base typography utilities */
 @layer base {
 
-  /* Improved tap targets */
+  /* Improved tap targets and focus states */
   a,
   button {
     @apply min-h-[44px] min-w-[44px] sm:min-h-[36px] sm:min-w-[36px];
+    transition: all var(--transition-fast) var(--easing-standard);
+  }
+
+  /* Enhanced focus states for accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    @apply outline-none ring-2 ring-offset-2;
+    @apply ring-blue-600 ring-offset-white dark:ring-blue-400 dark:ring-offset-black;
   }
 
   /* Modern, responsive typography with better viewport scaling */
@@ -99,6 +172,10 @@
   p {
     @apply text-base leading-relaxed;
     font-variation-settings: 'wght' 400;
+    line-height: 1.7;
+    /* Increased for better readability */
+    letter-spacing: 0.01em;
+    /* Slight increase for readability */
   }
 
   /* Code blocks with monospace font */
@@ -106,6 +183,23 @@
   pre {
     @apply font-mono;
   }
+}
+
+/* Accessibility - Skip to content link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: var(--color-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  z-index: 100;
+  transition: top 0.2s ease;
+  border-radius: 0 0 4px 4px;
+}
+
+.skip-to-content:focus {
+  top: 0;
 }
 
 /* Core styling */
@@ -117,6 +211,24 @@ html {
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
   text-size-adjust: 100%;
+}
+
+/* Respect user's reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+
+  html,
+  html.reduce-motion {
+    scroll-behavior: auto;
+  }
+
+  .reduce-motion *,
+  .reduce-motion *::before,
+  .reduce-motion *::after {
+    animation-duration: 0.001s !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 html.dark {
@@ -158,9 +270,19 @@ header.scrolled {
   @apply shadow-sm;
 }
 
-/* Article styling */
+/* Article styling with improved spacing */
 article {
-  @apply prose dark:prose-invert max-w-full pb-8;
+  @apply prose dark:prose-invert max-w-full pb-12;
+}
+
+/* Enhanced section spacing for better visual hierarchy */
+section {
+  @apply py-12 md:py-16;
+}
+
+/* Increased spacing between content blocks */
+.content-block+.content-block {
+  @apply mt-12 md:mt-16;
 }
 
 @layer components {
@@ -173,6 +295,15 @@ article {
   .prose h3,
   .prose h4 {
     @apply text-gray-900 dark:text-[#e1e4e8] font-semibold;
+  }
+
+  /* Underlined H1 and H2 headers */
+  .prose h1 {
+    @apply border-b-2 border-gray-300 dark:border-gray-700 pb-2 mb-6;
+  }
+
+  .prose h2 {
+    @apply border-b border-gray-200 dark:border-gray-800 pb-1 mb-4;
   }
 
   .prose a {

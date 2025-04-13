@@ -7,6 +7,22 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Minimalist black and white color scheme
+        dark: {
+          bg: '#0F0F0F',         // Nearly black background
+          paper: '#161616',       // Slightly lighter than bg for cards
+          surface: '#1C1C1C',     // Subtle distinction for surfaces
+          'surface-variant': '#242424', // Hover states and variants
+          primary: '#FFFFFF',     // Pure white for primary elements
+          secondary: '#A0A0A0',   // Light gray for secondary elements
+          accent: '#FFFFFF',      // White for accent (focused minimalism)
+          error: '#CF6679',       // Keeping error color for required notifications
+          'on-bg': '#FFFFFF',     // White text on dark backgrounds
+          'on-surface': '#FFFFFF',// White text on surfaces
+          'on-primary': '#000000',// Black text on white elements
+          'on-secondary': '#000000', // Black text on secondary elements
+          'on-error': '#000000',  // Black text on error elements
+        },
         blue: {
           50: '#eff6ff',
           100: '#dbeafe',

@@ -20,11 +20,34 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     critters({
       fonts: true,
-      preload: 'swap'
+      preload: 'swap',
+      inlineThreshold: 0, // Inline all CSS below 0kb
+      pruneSource: true, // Remove unused styles
     }),
-    prefetch(),
-    // Completely removing astro-compress integration
-    // We will handle compression separately, after the build
+    prefetch({
+      throttle: 3, // Limit concurrent prefetch requests
+    }),
+    // Import and use astro-compress for production builds
+    {
+      name: 'astro-compress',
+      hooks: {
+        'astro:config:setup': ({ command }) => {
+          // Only use compress in production builds
+          if (command === 'build') {
+            import('astro-compress').then(({ default: compress }) => {
+              compress({
+                css: true,
+                html: true,
+                img: true,
+                js: true,
+                svg: true,
+                logger: 1, // Show only errors
+              });
+            });
+          }
+        }
+      }
+    },
     partytown({
       // Adds dataLayer.push as a forwarding-event.
       config: {

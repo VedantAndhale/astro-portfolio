@@ -1,5 +1,5 @@
 ---
-// OptimizedImage.astro - Optimizes images for better performance
+// OptimizedImage.astro - Enhanced image component for dark theme and performance
 interface Props {
     src: string;
     alt: string;
@@ -11,6 +11,8 @@ interface Props {
     sizes?: string;
     fetchpriority?: "high" | "low" | "auto";
     critical?: boolean; // Prop to indicate if this is a critical above-the-fold image
+    darkModeFilter?: boolean; // Whether to apply a subtle filter in dark mode
+    blurHash?: string; // For progressive loading with blurHash placeholder
 }
 
 const {
@@ -22,11 +24,19 @@ const {
     loading = "lazy",
     decoding = "async",
     sizes = "100vw",
-    fetchpriority,
-    critical = false, // Default to non-critical
+    fetchpriority = "auto",
+    critical = false,
+    darkModeFilter = false,
+    blurHash,
 } = Astro.props;
 
 import { Image } from "astro:assets";
+
+// Create dark mode class based on props
+const darkModeClass = darkModeFilter ? "dark-mode-image" : "";
+
+// Preload critical images
+const preload = critical ? true : false;
 
 // Handle both remote and local images
 const isRemoteImage = src.startsWith("http");
@@ -59,6 +69,16 @@ if (critical && !isRemoteImage) {
 {
     isRemoteImage ? (
         <img
+            src={src}
+            alt={alt}
+            width={width}
+            height={height}
+            loading={effectiveLoading}
+            decoding={effectiveDecoding}
+            fetchpriority={effectiveFetchPriority}
+            sizes={sizes}
+            class={`optimized-image ${className} ${darkModeClass}`}
+            style={blurHash ? `background-image: url(${blurHash});` : ""}
             src={src}
             alt={alt}
             width={width}

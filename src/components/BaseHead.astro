@@ -40,6 +40,9 @@ if (image.startsWith("http")) {
 <!-- Preconnect to any external domains -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+<!-- Preload and execute theme script before page renders to prevent flash -->
+<script is:inline src="/js/theme.js"></script>
+
 <!-- Critical CSS for above-the-fold content -->
 <style is:inline>
   /* Core critical styles to prevent layout shift and flash of unstyled content */
@@ -64,11 +67,19 @@ if (image.startsWith("http")) {
 
   html.dark {
     color-scheme: dark;
-    background-color: #0f172a;
+    background-color: #121212; /* Updated to match our dark theme bg color */
+  }
+
+  /* Prevent layout shift during page load */
+  html.dark body {
+    background-color: #121212;
   }
 </style>
 
 <!-- Optimized font preloading -->
+
+<!-- Performance monitoring with Web Vitals -->
+<script type="module" src="/js/web-vitals.js" async defer></script>
 <!-- Variable fonts -->
 <link
   rel="preload"

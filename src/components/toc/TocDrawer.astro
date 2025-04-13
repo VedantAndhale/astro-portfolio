@@ -1,0 +1,224 @@
+---
+/**
+ * TocDrawer.astro
+ * A collapsible drawer TOC component, ideal for mobile views
+ */
+import TableOfContents from "./TableOfContents.astro";
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+    headings: MarkdownHeading[];
+    title?: string;
+    minDepth?: number;
+    maxDepth?: number;
+    class?: string;
+}
+
+const {
+    headings,
+    title = "Table of Contents",
+    minDepth = 0,
+    maxDepth = 4,
+    class: className = "",
+} = Astro.props;
+
+// Generate unique ID for the drawer
+const drawerId = `toc-drawer-${Math.random().toString(36).substring(2, 9)}`;
+---
+
+<div class={`toc-drawer ${className}`} id={drawerId}>
+    <button
+        class="toc-drawer-toggle"
+        aria-controls={drawerId}
+        aria-expanded="false"
+    >
+        <span class="toc-drawer-title">{title}</span>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="toc-drawer-icon"
+        >
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </button>
+
+    <div class="toc-drawer-content">
+        <TableOfContents
+            headings={headings}
+            title=""
+            minDepth={minDepth}
+            maxDepth={maxDepth}
+            position="inline"
+            collapsible={false}
+        />
+    </div>
+</div>
+
+<style>
+    .toc-drawer {
+        margin: 1.5rem 0 2.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        background-color: rgba(255, 255, 255, 0.03);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .toc-drawer:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .toc-drawer-toggle {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 1.5rem;
+        background: none;
+        border: none;
+        text-align: left;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: inherit;
+        cursor: pointer;
+        letter-spacing: 0.01em;
+        transition: background-color 0.2s ease;
+    }
+
+    .toc-drawer-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .toc-drawer-title {
+        font-size: 1.125rem;
+        letter-spacing: 0.015em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .toc-drawer-title::before {
+        content: "";
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 2px;
+    }
+
+    .toc-drawer-icon {
+        transition: transform 0.3s ease;
+        stroke-width: 2.5;
+    }
+
+    .toc-drawer-content {
+        max-height: 0;
+        overflow: hidden;
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+    }
+
+    .toc-drawer.open .toc-drawer-content {
+        max-height: 60vh; /* Reduced from 80vh to prevent excessive expansion */
+        padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        visibility: visible;
+        opacity: 1;
+        overflow-y: auto; /* Allow scrolling for very long TOCs */
+    }
+
+    .toc-drawer.open .toc-drawer-icon {
+        transform: rotate(180deg);
+    }
+
+    /* Show drawer on all screen sizes */
+    .toc-drawer {
+        display: block;
+        max-width: 100%;
+        position: relative;
+        z-index: 10;
+    }
+
+    /* Enhanced styling for desktop */
+    @media (min-width: 1024px) {
+        .toc-drawer {
+            max-width: min(100%, 700px);
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    /* Dark mode styles */
+    :global(.dark) .toc-drawer {
+        border-color: rgba(255, 255, 255, 0.1);
+        background-color: rgba(18, 18, 18, 0.4);
+        backdrop-filter: blur(12px);
+    }
+
+    :global(.dark) .toc-drawer:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    :global(.dark) .toc-drawer-title::before {
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const tocDrawers = document.querySelectorAll(".toc-drawer");
+
+        tocDrawers.forEach((drawer) => {
+            const toggleButton = drawer.querySelector(".toc-drawer-toggle");
+            const content = drawer.querySelector(".toc-drawer-content");
+
+            if (toggleButton && content) {
+                // Initialize - hide content by default
+                (content as HTMLElement).style.display = "none";
+                toggleButton.setAttribute("aria-expanded", "false");
+
+                // Add click event to toggle button
+                toggleButton.addEventListener("click", () => {
+                    const isExpanded =
+                        toggleButton.getAttribute("aria-expanded") === "true";
+                    toggleButton.setAttribute(
+                        "aria-expanded",
+                        isExpanded ? "false" : "true",
+                    );
+
+                    if (isExpanded) {
+                        (content as HTMLElement).style.display = "none";
+                        drawer.classList.remove("open");
+                    } else {
+                        (content as HTMLElement).style.display = "block";
+                        drawer.classList.add("open");
+                    }
+                });
+
+                // Add click events to all TOC links to close drawer when clicked
+                const tocLinks = content.querySelectorAll(".toc-link");
+                tocLinks.forEach((link) => {
+                    link.addEventListener("click", () => {
+                        // Close the drawer after clicking a topic
+                        setTimeout(() => {
+                            (content as HTMLElement).style.display = "none";
+                            drawer.classList.remove("open");
+                            toggleButton.setAttribute("aria-expanded", "false");
+                        }, 100); // Small delay to ensure navigation happens first
+                    });
+                });
+            }
+        });
+    });
+</script>

@@ -1,8 +1,11 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import TocDrawer from "@components/toc/TocDrawer.astro";
+import TocSidebar from "@components/toc/TocSidebar.astro";
 
 type Props = {
   entry: CollectionEntry<"blog"> | CollectionEntry<"projects">;
+  headings?: { depth: number; slug: string; text: string }[];
 };
 
 // Get the requested entry
@@ -41,11 +44,23 @@ const next = index < items.length - 1 ? items[index + 1] : null;
     <div class="w-full h-1 bg-gray-200 dark:bg-gray-800 absolute top-0 left-0">
       <div id="reading-progress" class="h-full bg-gradient-to-r from-blue-600 to-indigo-600 w-0"></div>
     </div>
+
+    <!-- Table of Contents (Drawer) - Shown on all devices if TOC is enabled -->
+    {Astro.props.headings && Astro.props.headings.length > 0 && ('showToc' in entry.data ? entry.data.showToc !== false : true) && (
+      <TocDrawer headings={Astro.props.headings} title="In this article" class="toc-universal" />
+    )}
     
-    <article
+    <div class="flex flex-col lg:flex-row relative overflow-hidden">
+      <div class="flex-grow w-full">
+        <article
       class="prose prose-slate max-w-none dark:prose-invert lg:prose-lg prose-headings:scroll-mt-24 
         prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white 
-        prose-h1:text-3xl prose-h2:text-2xl prose-h2:border-b prose-h2:border-gray-200 dark:prose-h2:border-gray-800 prose-h2:pb-2
+        prose-h1:text-3xl prose-h1:mt-8 prose-h1:mb-4 prose-h1:border-b prose-h1:border-gray-200 dark:prose-h1:border-gray-800 prose-h1:pb-2
+        prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
+        prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3
+        prose-h4:text-lg prose-h4:mt-6 prose-h4:mb-3
+        prose-h5:text-base prose-h5:font-semibold prose-h5:mt-5 prose-h5:mb-2
+        prose-h6:text-sm prose-h6:font-semibold prose-h6:mt-5 prose-h6:mb-2
         prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed
         prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:font-medium prose-a:no-underline prose-a:border-b prose-a:border-blue-600/30 dark:prose-a:border-blue-400/30 hover:prose-a:border-blue-600 dark:hover:prose-a:border-blue-400
         prose-img:rounded-xl prose-img:shadow-xl prose-img:mx-auto
@@ -60,15 +75,6 @@ const next = index < items.length - 1 ? items[index + 1] : null;
     >
       <Content />
     </article>
-    
-    <!-- Table of contents (automatically generated for h2 and h3) -->
-    <div id="toc-container" class="hidden lg:block absolute left-full ml-10 top-10 w-64">
-      <div class="sticky top-24 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-5 border border-gray-200 dark:border-gray-800 shadow-lg">
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-3" id="toc-heading">Table of Contents</h3>
-        <nav aria-labelledby="toc-heading">
-          <div id="toc" class="text-sm"></div>
-        </nav>
-      </div>
     </div>
   </div>
   

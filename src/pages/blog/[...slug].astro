@@ -19,6 +19,9 @@ export async function getStaticPaths() {
 type Props = CollectionEntry<"blog">;
 const post = Astro.props;
 const { title, summary, ogImage } = post.data;
+
+// Render the post to extract headings
+const { Content, headings } = await post.render();
 ---
 
 <ContentLayout entry={post}>
@@ -29,7 +32,7 @@ const { title, summary, ogImage } = post.data;
   </TopLayout>
   <BottomLayout>
     <div class="animate-fadeIn">
-      <ArticleBottomLayout entry={post} />
+      <ArticleBottomLayout entry={post} headings={headings} />
     </div>
   </BottomLayout>
 </ContentLayout>

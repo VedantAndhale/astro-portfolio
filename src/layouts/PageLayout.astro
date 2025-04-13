@@ -1,5 +1,6 @@
 ---
 import "@styles/global.css";
+import "@styles/dark-theme.css"; // Import our new dark theme CSS
 import BaseHead from "@components/BaseHead.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
@@ -23,7 +24,9 @@ import { SITE } from "@consts";
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
   </head>
-  <body class="min-h-screen flex flex-col bg-white dark:bg-gray-950">
+  <body
+    class="min-h-screen flex flex-col bg-white dark:bg-dark-bg text-black dark:text-dark-on-bg transition-colors duration-300"
+  >
     <Header />
     <Drawer />
     <main class="flex-1 w-full mx-auto pt-16 sm:pt-20 pb-8 sm:pb-12">

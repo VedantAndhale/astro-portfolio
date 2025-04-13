@@ -1,0 +1,130 @@
+/**
+ * Minimalist black and white theme styles
+ * Clean, modern aesthetic with maximum simplicity
+ */
+
+/* Base dark theme styling */
+.dark {
+    @apply bg-dark-bg text-dark-on-bg;
+
+    /* Improve readability in dark mode */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Slightly increased letter spacing for improved readability */
+    letter-spacing: 0.015em;
+}
+
+/* Minimalist component styling for dark mode */
+.dark .card {
+    @apply bg-dark-paper border-dark-surface-variant;
+    box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    transition: all var(--transition-normal) var(--easing-standard);
+    border-width: 1px;
+}
+
+.dark .card:hover {
+    @apply bg-dark-surface;
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.25);
+    transform: translateY(-1px);
+}
+
+/* Black and white button styling */
+.dark .btn-primary {
+    @apply bg-transparent text-dark-on-bg border border-dark-primary;
+    transition: all 0.2s ease;
+}
+
+.dark .btn-primary:hover {
+    @apply bg-dark-primary text-dark-on-primary;
+    transform: translateY(-1px);
+}
+
+.dark .btn-secondary {
+    @apply bg-transparent text-dark-secondary border border-dark-secondary;
+    transition: all 0.2s ease;
+}
+
+.dark .btn-secondary:hover {
+    @apply bg-dark-secondary text-dark-on-secondary;
+}
+
+/* Minimalist code blocks */
+.dark pre {
+    @apply bg-dark-surface border-dark-surface-variant text-dark-on-surface border-opacity-50 rounded;
+    border-width: 1px;
+}
+
+.dark code {
+    @apply text-dark-primary bg-dark-surface-variant bg-opacity-30 px-1 py-0.5 rounded;
+}
+
+/* Black and white link styling */
+.dark a:not(.btn) {
+    @apply text-dark-primary border-b border-dark-primary border-opacity-30 transition-all duration-200;
+    text-decoration: none;
+}
+
+.dark a:hover:not(.btn) {
+    @apply border-opacity-100;
+}
+
+/* Minimalist form elements */
+.dark input,
+.dark textarea,
+.dark select {
+    @apply bg-dark-paper border-dark-primary border-opacity-30 text-dark-on-surface rounded;
+    transition: all 0.2s ease;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+    @apply border-dark-primary border-opacity-100 ring-0 outline-none bg-dark-surface;
+    box-shadow: none;
+}
+
+/* Black and white table styling */
+.dark table {
+    @apply bg-transparent text-dark-on-surface border-collapse;
+    border-spacing: 0;
+}
+
+.dark thead {
+    @apply border-b border-dark-primary border-opacity-30;
+}
+
+.dark th {
+    @apply font-normal text-dark-primary py-3 px-4;
+}
+
+.dark td {
+    @apply py-3 px-4;
+}
+
+.dark tr:not(:last-child) td {
+    @apply border-b border-dark-surface-variant border-opacity-20;
+}
+
+.dark tbody tr:hover {
+    @apply bg-dark-surface-variant bg-opacity-20;
+}
+
+/* Minimalist scrollbar */
+.dark ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    @apply bg-dark-bg;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    @apply bg-dark-secondary rounded-full;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-primary;
+}
