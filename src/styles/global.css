@@ -702,3 +702,21 @@ article img {
     @apply bg-black/80 backdrop-blur-lg;
   }
 }
+
+/* Theme toggle accessibility improvements */
+#header-theme-button:focus-visible,
+#drawer-theme-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Add a subtle animation to make theme transition more pleasing */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ensure SVG elements inside theme buttons are properly clickable */
+#header-theme-button svg,
+#drawer-theme-button svg {
+  pointer-events: none;
+}
