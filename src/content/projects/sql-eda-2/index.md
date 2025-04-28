@@ -1,12 +1,12 @@
 ---
-title: "SQL EDA 2 python | SQL | EDA"
-technology: "python | SQL | EDA"
-summary: "SQl End to End Project"
-date: "Jun 26 2024"
+title: 'SQL EDA 2 python | SQL | EDA'
+technology: 'python | SQL | EDA'
+summary: 'SQl End to End Project'
+date: 'Jun 26 2024'
 tags:
-- PowerBI
-- SQL
-card: "Dashboard"
+  - PowerBI
+  - SQL
+card: 'Dashboard'
 demoUrl: https://github.com/VedantAndhale
 repoUrl: https://github.com/VedantAndhale
 ---

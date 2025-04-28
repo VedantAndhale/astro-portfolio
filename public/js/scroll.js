@@ -1,13 +1,13 @@
 // Optimized scroll handling script with throttling for better performance
 function throttle(func, limit) {
   let inThrottle;
-  return function () {
-    const args = arguments;
-    const context = this;
+  return function (...args) { // Use rest parameters
+    // const args = arguments; // No longer needed
+    // const context = this; // Avoid aliasing 'this'
     if (!inThrottle) {
-      func.apply(context, args);
+      func.apply(this, args); // Apply directly using 'this'
       inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
+      setTimeout(() => (inThrottle = false), limit);
     }
   };
 }

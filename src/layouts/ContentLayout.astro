@@ -1,9 +1,9 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import PageLayout from "./PageLayout.astro";
+import type { CollectionEntry } from 'astro:content';
+import PageLayout from './PageLayout.astro';
 
 type Props = {
-    entry: CollectionEntry<"projects"> | CollectionEntry<"blog">;
+  entry: CollectionEntry<'projects'> | CollectionEntry<'blog'>;
 };
 
 const { entry } = Astro.props;
@@ -12,21 +12,29 @@ const { title, summary, ogImage } = data;
 
 // Enhanced OG image path resolution
 const resolvedOgImage = (() => {
-    if (!ogImage) return "/open-graph.png";
+  if (!ogImage) return '/open-graph.png';
 
-    // If it's an absolute URL, use it as is
-    if (ogImage.startsWith("http")) return ogImage;
+  // If it's an absolute URL, use it as is
+  if (ogImage.startsWith('http')) return ogImage;
 
-    // If it's an absolute path from root, use it as is
-    if (ogImage.startsWith("/")) return ogImage;
+  // If it's an absolute path from root, use it as is
+  if (ogImage.startsWith('/')) return ogImage;
 
-    // For relative paths, construct the correct public path
-    // Remove ./ if present at the start
-    const cleanPath = ogImage.startsWith("./") ? ogImage.slice(2) : ogImage;
-    return `/${entry.collection}/${entry.slug}/${cleanPath}`;
+  // For relative paths, construct the correct public path
+  // Remove ./ if present at the start
+  const cleanPath = ogImage.startsWith('./') ? ogImage.slice(2) : ogImage;
+  return `/${entry.collection}/${entry.slug}/${cleanPath}`;
 })();
 ---
 
 <PageLayout title={title} description={summary} image={resolvedOgImage}>
+  {
+    /* Apply styles matching ArticleTop/BottomLayout to the content container, adjust padding for mobile */
+  }
+  <div
+    class="prose prose-sm prose-slate mx-auto max-w-3xl rounded-2xl border border-gray-200 bg-white/80 p-4 shadow-xl backdrop-blur-md dark:prose-invert sm:prose-base md:prose-lg prose-img:mx-auto prose-img:rounded-lg prose-img:shadow-lg dark:border-gray-800 dark:bg-gray-900/80 md:p-8"
+  >
     <slot />
+    {/* Render the passed Content component here */}
+  </div>
 </PageLayout>

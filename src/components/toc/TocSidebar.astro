@@ -3,65 +3,65 @@
  * TocSidebar.astro
  * A fixed sidebar TOC component for desktop views
  */
-import TableOfContents from "./TableOfContents.astro";
-import type { MarkdownHeading } from "astro";
+import TableOfContents from './TableOfContents.astro';
+import type { MarkdownHeading } from 'astro';
 
-interface Props {
-    headings: MarkdownHeading[];
-    title?: string;
-    minDepth?: number;
-    maxDepth?: number;
-    class?: string;
+interface TocSidebarProps {
+  headings: MarkdownHeading[];
+  title?: string;
+  minDepth?: number;
+  maxDepth?: number;
+  class?: string;
 }
 
 const {
-    headings,
-    title = "On this page",
-    minDepth = 2,
-    maxDepth = 3,
-    class: className = "",
-} = Astro.props;
+  headings,
+  title = 'On this page',
+  minDepth = 2,
+  maxDepth = 3,
+  class: className = '',
+}: TocSidebarProps = Astro.props;
 ---
 
 <div class={`toc-sidebar-container ${className}`}>
-    <div class="toc-sidebar-content">
-        <TableOfContents
-            headings={headings}
-            title={title}
-            minDepth={minDepth}
-            maxDepth={maxDepth}
-            position="sidebar"
-            collapsible={false}
-        />
-    </div>
+  <div class="toc-sidebar-content">
+    <TableOfContents
+      headings={headings}
+      title={title}
+      minDepth={minDepth}
+      maxDepth={maxDepth}
+      position="sidebar"
+      collapsible={false}
+    />
+  </div>
 </div>
 
 <style>
-    /* Fixed sidebar positioning with responsive behavior */
+  /* Fixed sidebar positioning with responsive behavior */
+  .toc-sidebar-container {
+    display: none;
+  }
+
+  /* Only show on larger screens */
+  @media (min-width: 1280px) {
     .toc-sidebar-container {
-        display: none;
+      display: block;
+      position: fixed;
+      top: 5rem; /* Adjust based on your header height */
+      right: 2rem;
+      width: 280px;
+      max-height: calc(100vh - 10rem);
+      overflow-y: auto;
     }
+  }
 
-    /* Only show on larger screens */
-    @media (min-width: 1280px) {
-        .toc-sidebar-container {
-            display: block;
-            position: fixed;
-            top: 5rem; /* Adjust based on your header height */
-            right: 2rem;
-            width: 280px;
-            max-height: calc(100vh - 10rem);
-            overflow-y: auto;
-        }
-    }
+  .toc-sidebar-content {
+    padding: 1rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+  }
 
-    .toc-sidebar-content {
-        padding: 1rem;
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    /* Styles for dark mode */
-    :global(.dark) .toc-sidebar-content {
-        border-left-color: rgba(255, 255, 255, 0.1);
-    }
+  /* Styles for dark mode */
+  :global(.dark) .toc-sidebar-content {
+    border-left-color: rgba(255, 255, 255, 0.1);
+  }
 </style>

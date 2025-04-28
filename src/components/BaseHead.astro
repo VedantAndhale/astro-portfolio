@@ -1,33 +1,22 @@
 ---
-interface Props {
+import FontOptimizer from './FontOptimizer.astro';
+
+interface BaseHeadProps {
   title: string;
   description: string;
   image?: string;
 }
+
+const {
+  title,
+  description,
+  image = '/open-graph.png',
+}: BaseHeadProps = Astro.props;
+
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const { title, description, image = "/open-graph.png" } = Astro.props;
 
-// Import FontOptimizer component
-import FontOptimizer from "./FontOptimizer.astro";
-
-// Construct absolute URL for the image
-let imageUrl: string;
-if (image.startsWith("http")) {
-  // Absolute URL
-  imageUrl = image;
-} else if (image.startsWith("/")) {
-  // Site root-relative path
-  imageUrl = new URL(image, Astro.site).toString();
-} else if (image.startsWith("./")) {
-  // Relative path to the current content file
-  // Extract the directory from the current pathname
-  const currentDir = Astro.url.pathname.replace(/\/[^/]*$/, "/");
-  const relativePath = image.substring(2); // Remove './'
-  imageUrl = new URL(`${currentDir}${relativePath}`, Astro.site).toString();
-} else {
-  // Other paths - assume site-relative
-  imageUrl = new URL(`/${image}`, Astro.site).toString();
-}
+// Construct the image URL, ensuring it's absolute
+const imageUrl = new URL(image, Astro.site).toString();
 ---
 
 <!-- Common head tags -->
@@ -36,7 +25,7 @@ if (image.startsWith("http")) {
 <link
   rel="icon"
   type="image/svg+xml"
-  href={import.meta.env.BASE_URL + "favicon.svg"}
+  href={import.meta.env.BASE_URL + 'favicon.svg'}
 />
 <meta name="generator" content={Astro.generator} />
 
@@ -57,9 +46,9 @@ if (image.startsWith("http")) {
 <style is:inline>
   /* Core critical styles to prevent layout shift and flash of unstyled content */
   :root {
-    --font-sans: "Inter var", "Plus Jakarta Sans", system-ui, sans-serif;
-    --font-display: "Plus Jakarta Sans", "Inter var", system-ui, sans-serif;
-    --font-mono: "Fira Code VF", monospace;
+    --font-sans: 'Inter var', 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-display: 'Plus Jakarta Sans', 'Inter var', system-ui, sans-serif;
+    --font-mono: 'Fira Code VF', monospace;
   }
 
   body {
@@ -129,8 +118,6 @@ if (image.startsWith("http")) {
   crossorigin
 />
 
-<!-- Modern typography styles with priority loading -->
-<link rel="stylesheet" href="/styles/modern.css" />
 
 <!-- Delay non-critical CSS -->
 <link
@@ -142,7 +129,7 @@ if (image.startsWith("http")) {
 <noscript><link rel="stylesheet" href="/styles.css" /></noscript>
 
 <!-- Preload critical assets but with lower priority than fonts -->
-<link rel="preload" href={import.meta.env.BASE_URL + "ui.svg"} as="image" />
+<link rel="preload" href={import.meta.env.BASE_URL + 'ui.svg'} as="image" />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -154,17 +141,17 @@ if (image.startsWith("http")) {
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:image" content={imageUrl} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta property="twitter:image" content={imageUrl} />
 
 <!-- Theme handling with type="module" and defer to not block rendering -->
 <script type="module" src="/js/theme.js"></script>

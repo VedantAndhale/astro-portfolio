@@ -1,305 +1,352 @@
-import { createSignal, createEffect, For, Show, onMount, onCleanup } from "solid-js";
-import { cn } from "@lib/utils";
+import { createSignal, For, Show } from 'solid-js';
+import { cn } from '@lib/utils';
 
-type FilterProps = {
-    tags: string[];
-    selectedTags: Set<string>;
-    onTagToggle: (tag: string) => void;
-    onClearAll: () => void;
-    title: string;
-    description: string;
+type PremiumFilterProps = {
+  tags: string[];
+  selectedTags: Set<string>;
+  onTagToggle: (tag: string) => void;
+  onClearAll: () => void;
+  title: string;
+  // description: string; // Removed
 };
 
 export default function PremiumFilter({
-    tags,
-    selectedTags,
-    onTagToggle,
-    onClearAll,
-    title,
-    description
-}: FilterProps) {
-    const [mobileExpanded, setMobileExpanded] = createSignal(false);
-    const [desktopExpanded, setDesktopExpanded] = createSignal(false);
-    let mobileFilterRef: HTMLDivElement | undefined;
-    let desktopFilterRef: HTMLDivElement | undefined;
+  tags,
+  selectedTags,
+  onTagToggle,
+  onClearAll,
+  title,
+  // description, // Removed
+}: PremiumFilterProps) {
+  const [mobileExpanded, setMobileExpanded] = createSignal(false);
+  const [desktopExpanded, setDesktopExpanded] = createSignal(false);
 
-    // Handle click outside to close filters
-    const handleClickOutside = (event: MouseEvent) => {
-        // For mobile filter
-        if (mobileExpanded() && mobileFilterRef && !mobileFilterRef.contains(event.target as Node)) {
-            setMobileExpanded(false);
-        }
+  return (
+    <div class="lg:w-64">
+      {/* Mobile filter toggle button */}
+      <button
+        class="flex w-full items-center justify-between rounded-lg border border-gray-200 bg-white/80 px-4 py-3 text-left shadow-sm backdrop-blur-sm dark:border-gray-800 dark:bg-gray-900/80 lg:hidden"
+        onClick={() => setMobileExpanded(!mobileExpanded())}
+        onKeyDown={(e) => {
+          if (e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            setMobileExpanded(!mobileExpanded());
+          }
+        }}
+        aria-expanded={mobileExpanded()}
+        aria-controls="mobile-filter-content"
+      >
+        <div class="flex items-center gap-3">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-md">
+            <svg
+              class="h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+          </div>
+          <span class="font-medium text-gray-800 dark:text-gray-200">
+            {title}
+          </span>
+        </div>
+        {/* Combined chevron and clear button - Visual elements */}
+        <div class="flex items-center gap-2">
+          <Show when={selectedTags.size > 0}>
+            <button
+              class="text-xs text-blue-600 hover:underline dark:text-blue-400"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClearAll();
+              }}
+              onKeyDown={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onClearAll();
+                }
+              }}
+              aria-label="Clear filters"
+            >
+              Clear
+            </button>
+          </Show>
+          <div
+            class={cn(
+              'flex h-6 w-6 items-center justify-center transition-transform duration-300',
+              mobileExpanded() ? 'rotate-180' : ''
+            )}
+          >
+            <svg
+              class="h-4 w-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+      </button>
 
-        // For desktop filter
-        if (desktopExpanded() && desktopFilterRef && !desktopFilterRef.contains(event.target as Node)) {
-            setDesktopExpanded(false);
-        }
-    };
-
-    onMount(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        onCleanup(() => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        });
-    });
-
-    return (
-        <>
-            {/* Mobile filter toggle button (only visible on mobile) */}
-            <div class="lg:hidden w-full mb-6" ref={mobileFilterRef}>
-                <button
+      {/* Mobile filter expanded view */}
+      <div
+        id="mobile-filter-content"
+        class={cn(
+          'overflow-hidden transition-all duration-300 lg:hidden',
+          mobileExpanded()
+            ? 'mt-3 max-h-[60vh] opacity-100'
+            : 'max-h-0 opacity-0'
+        )}
+      >
+        <div class="rounded-xl border border-gray-200 bg-white/90 p-5 shadow-lg backdrop-blur-lg dark:border-gray-800 dark:bg-gray-900/90">
+          <div class="mb-4 border-b border-gray-200 pb-4 dark:border-gray-800">
+            <div class="mb-3 flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300">
+              {selectedTags.size > 0 ? (
+                <div class="flex w-full items-center justify-between">
+                  <span>
+                    {selectedTags.size} tag{selectedTags.size > 1 ? 's' : ''}{' '}
+                    selected
+                  </span>
+                  <button
                     onClick={(e) => {
-                        e.stopPropagation(); // Prevent immediate propagation
-                        setMobileExpanded(!mobileExpanded());
+                      e.stopPropagation();
+                      onClearAll();
                     }}
-                    class="w-full flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-100/50 dark:border-blue-800/30 shadow-sm transition-all hover:shadow-md"
-                >
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-glow-blue">
-                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                            </svg>
-                        </div>
-                        <div class="text-left">
-                            <h3 class="font-semibold text-gray-900 dark:text-white">{title}</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">
-                                {selectedTags.size > 0 ? `${selectedTags.size} selected` : 'Tap to filter'}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <Show when={selectedTags.size > 0}>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    onClearAll();
-                                }}
-                                class="text-xs px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-800/30 text-blue-700 dark:text-blue-300"
-                            >
-                                Clear
-                            </button>
-                        </Show>
-                        <div class={cn(
-                            "w-6 h-6 flex items-center justify-center transition-transform duration-300",
-                            mobileExpanded() ? "rotate-180" : ""
-                        )}>
-                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="6 9 12 15 18 9"></polyline>
-                            </svg>
-                        </div>
-                    </div>
-                </button>
-
-                {/* Mobile filter expanded view - UPDATED to match desktop style */}
-                <div
-                    class={cn(
-                        "transition-all duration-300 overflow-hidden",
-                        mobileExpanded() ? "max-h-[60vh] opacity-100 mt-3" : "max-h-0 opacity-0"
-                    )}
-                    onClick={(e) => e.stopPropagation()} // Prevent clicks from closing the filter
-                >
-                    <div class="p-5 bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg rounded-xl border border-gray-200 dark:border-gray-800 shadow-lg">
-                        <div class="mb-4 border-b border-gray-200 dark:border-gray-800 pb-4">
-                            <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex justify-between items-center">
-                                {selectedTags.size > 0 ? (
-                                    <div class="flex justify-between items-center w-full">
-                                        <span>{selectedTags.size} tag{selectedTags.size > 1 ? 's' : ''} selected</span>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onClearAll();
-                                            }}
-                                            class="text-xs text-blue-600 dark:text-blue-400 hover:underline"
-                                        >
-                                            Clear all
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <span>Select filters below</span>
-                                )}
-                            </div>
-
-                            <div class="flex flex-wrap gap-2">
-                                <For each={[...selectedTags]}>
-                                    {(tag) => (
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onTagToggle(tag);
-                                            }}
-                                            class="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-700 dark:text-blue-300 border border-blue-200/50 dark:border-blue-800/30 shadow-sm hover:shadow-md transition-all"
-                                        >
-                                            {tag}
-                                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </button>
-                                    )}
-                                </For>
-                            </div>
-                        </div>
-
-                        {/* Updated mobile tag organization to match desktop */}
-                        <div class="relative">
-                            <div class="p-2">
-                                <div class="grid grid-cols-2 xs:grid-cols-3 gap-2 max-h-[350px] overflow-y-auto pr-2">
-                                    <For each={tags}>
-                                        {(tag) => (
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    onTagToggle(tag);
-                                                }}
-                                                class={cn(
-                                                    "flex items-center gap-2 px-3 py-2 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-800/70 transition-colors duration-200",
-                                                    selectedTags.has(tag) && "bg-blue-50 dark:bg-blue-900/20"
-                                                )}
-                                            >
-                                                {/* Simple colored square for checkbox - Mobile */}
-                                                <div class={cn(
-                                                    "w-4 h-4 rounded-sm flex-shrink-0 transition-colors",
-                                                    selectedTags.has(tag)
-                                                        ? "bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500"
-                                                        : "border border-gray-300 dark:border-gray-600"
-                                                )} />
-                                                <span class="text-sm text-gray-700 dark:text-gray-300 truncate">{tag}</span>
-                                            </button>
-                                        )}
-                                    </For>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    class="text-xs text-blue-600 hover:underline dark:text-blue-400"
+                  >
+                    Clear all
+                  </button>
                 </div>
+              ) : (
+                <span>Select filters below</span>
+              )}
             </div>
 
-            {/* Desktop filter (only visible on desktop) */}
-            <div class="hidden lg:block w-full" ref={desktopFilterRef}>
-                <div class="bg-gradient-to-br from-white to-gray-50/80 dark:from-gray-900 dark:to-gray-800/80 backdrop-blur-lg rounded-xl border border-gray-100/50 dark:border-gray-700/30 shadow-xl overflow-hidden">
-                    {/* Header with glass effect */}
-                    <div class="relative p-6 overflow-hidden">
-                        {/* Background blur effects */}
-                        <div class="absolute -top-12 -left-12 w-32 h-32 bg-blue-200/30 dark:bg-blue-700/10 rounded-full blur-3xl"></div>
-                        <div class="absolute -bottom-16 -right-16 w-32 h-32 bg-indigo-200/30 dark:bg-indigo-700/10 rounded-full blur-3xl"></div>
-
-                        {/* Content */}
-                        <div class="relative">
-                            <div class="flex flex-wrap justify-between items-center gap-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-glow-blue transform transition-transform hover:scale-105 duration-300">
-                                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <h2 class="text-xl font-bold text-gray-900 dark:text-white">{title}</h2>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">{description}</p>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center gap-3">
-                                    <div class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        {selectedTags.size > 0 ? (
-                                            <span>{selectedTags.size} tag{selectedTags.size > 1 ? 's' : ''} selected</span>
-                                        ) : (
-                                            <span>No filters applied</span>
-                                        )}
-                                    </div>
-
-                                    <Show when={selectedTags.size > 0}>
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onClearAll();
-                                            }}
-                                            class="text-sm px-4 py-1.5 rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-800/30 transition-colors"
-                                        >
-                                            Clear all
-                                        </button>
-                                    </Show>
-
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setDesktopExpanded(!desktopExpanded());
-                                        }}
-                                        class="px-4 py-1.5 rounded-md bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 transition-colors flex items-center gap-1"
-                                    >
-                                        <span>{desktopExpanded() ? "Hide filters" : "Show filters"}</span>
-                                        <div class={cn(
-                                            "w-5 h-5 flex items-center justify-center transition-transform duration-300",
-                                            desktopExpanded() ? "rotate-180" : ""
-                                        )}>
-                                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="6 9 12 15 18 9"></polyline>
-                                            </svg>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-wrap gap-2 mt-4">
-                                <For each={[...selectedTags]}>
-                                    {(tag) => (
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                onTagToggle(tag);
-                                            }}
-                                            class="inline-flex items-center gap-1.5 text-sm px-4 py-1.5 rounded-md bg-gradient-to-r from-blue-500/10 to-indigo-500/10 dark:from-blue-500/20 dark:to-indigo-500/20 text-blue-700 dark:text-blue-300 border border-blue-200/50 dark:border-blue-700/50 shadow-sm hover:shadow-md transition-all hover:from-blue-500/15 hover:to-indigo-500/15 dark:hover:from-blue-500/30 dark:hover:to-indigo-500/30"
-                                        >
-                                            {tag}
-                                            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                            </svg>
-                                        </button>
-                                    )}
-                                </For>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Tags section - expandable on desktop */}
-                    <div
-                        class={cn(
-                            "transition-all duration-300 overflow-hidden",
-                            desktopExpanded() ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"
-                        )}
-                        onClick={(e) => e.stopPropagation()} // Prevent clicks from closing the filter
+            <div class="flex flex-wrap gap-2">
+              <For each={[...selectedTags]}>
+                {(tag) => (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onTagToggle(tag);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onTagToggle(tag);
+                      }
+                    }}
+                    aria-label={`Remove filter: ${tag}`}
+                    class="inline-flex items-center gap-1 rounded-full border border-blue-200/50 bg-gradient-to-r from-blue-100 to-indigo-100 px-3 py-1.5 text-xs text-blue-700 shadow-sm transition-all hover:shadow-md dark:border-blue-800/30 dark:from-blue-900/30 dark:to-indigo-900/30 dark:text-blue-300"
+                  >
+                    {tag}
+                    <svg
+                      class="h-3 w-3"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                        <div class="relative">
-                            <div class="absolute inset-x-0 top-0 h-2 bg-gradient-to-b from-gray-200/20 dark:from-gray-700/20 to-transparent"></div>
-                            <div class="p-6 pt-4">
-                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 max-h-[250px] overflow-y-auto pr-2">
-                                    <For each={tags}>
-                                        {(tag) => (
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    onTagToggle(tag);
-                                                }}
-                                                class={cn(
-                                                    "flex items-center gap-2 px-3 py-2 rounded-lg text-left hover:bg-gray-100 dark:hover:bg-gray-800/70 transition-colors duration-200",
-                                                    selectedTags.has(tag) && "bg-blue-50 dark:bg-blue-900/20"
-                                                )}
-                                            >
-                                                {/* Simple colored square for checkbox - Desktop */}
-                                                <div class={cn(
-                                                    "w-4 h-4 rounded-sm flex-shrink-0 transition-colors",
-                                                    selectedTags.has(tag)
-                                                        ? "bg-blue-600 dark:bg-blue-500 border-blue-600 dark:border-blue-500"
-                                                        : "border border-gray-300 dark:border-gray-600"
-                                                )} />
-                                                <span class="text-sm text-gray-700 dark:text-gray-300 truncate">{tag}</span>
-                                            </button>
-                                        )}
-                                    </For>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                      <path
+                        d="M18 6L6 18M6 6L18 18"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </For>
             </div>
-        </>
-    );
+          </div>
+
+          {/* Mobile tag list */}
+          <div class="relative">
+            <div class="p-2">
+              <div class="grid max-h-[350px] grid-cols-2 gap-2 overflow-y-auto pr-2 xs:grid-cols-3">
+                <For each={tags}>
+                  {(tag) => (
+                    <button
+                      role="checkbox"
+                      aria-checked={selectedTags.has(tag)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onTagToggle(tag);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === ' ' || e.key === 'Enter') {
+                          e.preventDefault();
+                          onTagToggle(tag);
+                        }
+                      }}
+                      class={cn(
+                        'flex items-center gap-2 rounded-lg px-3 py-2 text-left transition-colors duration-200 hover:bg-gray-100 dark:hover:bg-gray-800/70',
+                        selectedTags.has(tag) &&
+                        'bg-blue-50 dark:bg-blue-900/20'
+                      )}
+                    >
+                      <div
+                        class={cn(
+                          'h-4 w-4 flex-shrink-0 rounded-sm transition-colors',
+                          selectedTags.has(tag)
+                            ? 'border-blue-600 bg-blue-600 dark:border-blue-500 dark:bg-blue-500'
+                            : 'border border-gray-300 dark:border-gray-600'
+                        )}
+                      />
+                      <span class="truncate text-sm text-gray-700 dark:text-gray-300">
+                        {tag}
+                      </span>
+                    </button>
+                  )}
+                </For>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop filter (only visible on desktop) */}
+      <div class="hidden lg:block">
+        <div class="mb-3 flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+            {title}
+          </h3>
+          <Show when={selectedTags.size > 0}>
+            <button
+              onClick={onClearAll}
+              class="text-sm text-blue-600 hover:underline dark:text-blue-400"
+            >
+              Clear all
+            </button>
+          </Show>
+        </div>
+
+        {/* Desktop selected tags */}
+        <Show when={selectedTags.size > 0}>
+          <div class="mb-4 border-b border-gray-200 pb-4 dark:border-gray-800">
+            <div class="flex flex-wrap gap-2">
+              <For each={[...selectedTags]}>
+                {(tag) => (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onTagToggle(tag);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onTagToggle(tag);
+                      }
+                    }}
+                    aria-label={`Remove filter: ${tag}`}
+                    class="inline-flex items-center gap-1.5 rounded-md border border-blue-200/50 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 px-4 py-1.5 text-sm text-blue-700 shadow-sm transition-all hover:from-blue-500/15 hover:to-indigo-500/15 hover:shadow-md dark:border-blue-700/50 dark:from-blue-500/20 dark:to-indigo-500/20 dark:text-blue-300 dark:hover:from-blue-500/30 dark:hover:to-indigo-500/30"
+                  >
+                    {tag}
+                    <svg
+                      class="h-3.5 w-3.5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M18 6L6 18M6 6L18 18"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </For>
+            </div>
+          </div>
+        </Show>
+
+        {/* Tags section - expandable on desktop */}
+        <div class="relative">
+          <div
+            id="desktop-filter-tags"
+            class={cn(
+              'overflow-hidden transition-all duration-300',
+              desktopExpanded() ? 'max-h-[1000px]' : 'max-h-[160px]'
+            )}
+          >
+            <div class="flex flex-wrap gap-2">
+              <For each={tags}>
+                {(tag) => (
+                  <button
+                    onClick={() => onTagToggle(tag)}
+                    class={cn(
+                      'rounded-md border px-3 py-1.5 text-sm transition-colors',
+                      selectedTags.has(tag)
+                        ? 'border-blue-300 bg-blue-100 text-blue-800 dark:border-blue-700 dark:bg-blue-900/50 dark:text-blue-200'
+                        : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
+                    )}
+                  >
+                    {tag}
+                  </button>
+                )}
+              </For>
+            </div>
+          </div>
+          <Show when={tags.length > 10}>
+            <div
+              class={cn(
+                'absolute bottom-0 left-0 right-0 flex justify-center bg-gradient-to-t from-white pt-8 pb-2 dark:from-gray-900',
+                desktopExpanded() ? 'hidden' : ''
+              )}
+            >
+              <button
+                onClick={() => setDesktopExpanded(true)}
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    setDesktopExpanded(true);
+                  }
+                }}
+                class="flex items-center gap-1 text-sm text-blue-600 hover:underline dark:text-blue-400"
+                aria-expanded="false"
+                aria-controls="desktop-filter-tags"
+              >
+                Show more
+                {/* ... chevron icon ... */}
+              </button>
+            </div>
+            <Show when={desktopExpanded()}>
+              <div class="mt-4 flex justify-center">
+                <button
+                  onClick={() => setDesktopExpanded(false)}
+                  onKeyDown={(e) => {
+                    if (e.key === ' ' || e.key === 'Enter') {
+                      e.preventDefault();
+                      setDesktopExpanded(false);
+                    }
+                  }}
+                  class="flex items-center gap-1 text-sm text-blue-600 hover:underline dark:text-blue-400"
+                  aria-expanded="true"
+                  aria-controls="desktop-filter-tags"
+                >
+                  Show less
+                  {/* ... chevron icon (rotated) ... */}
+                </button>
+              </div>
+            </Show>
+          </Show>
+        </div>
+      </div>
+    </div>
+  );
 }

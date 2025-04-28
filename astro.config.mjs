@@ -1,18 +1,18 @@
-import { defineConfig } from "astro/config"
-import mdx from "@astrojs/mdx"
-import sitemap from "@astrojs/sitemap"
-import tailwind from "@astrojs/tailwind"
-import solidJs from "@astrojs/solid-js"
-import critters from 'astro-critters'
-import prefetch from '@astrojs/prefetch'
-import partytown from '@astrojs/partytown'
+import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+import tailwind from '@astrojs/tailwind';
+import solidJs from '@astrojs/solid-js';
+import critters from 'astro-critters';
+import prefetch from '@astrojs/prefetch';
+import partytown from '@astrojs/partytown';
 
 // Skip importing compress from astro-compress here
 // We'll handle compression differently
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://vedant.me/", // Replace with your actual domain
+  site: 'https://vedant.me/', // Replace with your actual domain
   integrations: [
     mdx(),
     sitemap(),
@@ -26,7 +26,7 @@ export default defineConfig({
     }),
     prefetch({
       throttle: 3, // Limit concurrent prefetch requests
-      selector: "a[href^='/']:not([href*='.']):not([data-no-prefetch])" // Only prefetch internal pages
+      selector: "a[href^='/']:not([href*='.']):not([data-no-prefetch])", // Only prefetch internal pages
     }),
     // Import and use astro-compress for production builds
     {
@@ -57,13 +57,13 @@ export default defineConfig({
               });
             });
           }
-        }
-      }
+        },
+      },
     },
     partytown({
       // Adds dataLayer.push as a forwarding-event.
       config: {
-        forward: ["dataLayer.push"],
+        forward: ['dataLayer.push'],
         debug: false, // Disable in production
         resolveUrl: (url) => {
           // Help Partytown load resources from the right location
@@ -72,7 +72,7 @@ export default defineConfig({
             return new URL('https://cdn.example.com' + browserURL.pathname);
           }
           return url;
-        }
+        },
       },
     }),
   ],
@@ -90,8 +90,8 @@ export default defineConfig({
   markdown: {
     drafts: false,
     shikiConfig: {
-      theme: 'material-theme-palenight'
-    }
+      theme: 'material-theme-palenight',
+    },
   },
 
   vite: {
@@ -102,10 +102,10 @@ export default defineConfig({
         output: {
           manualChunks: {
             // Group vendor dependencies into separate chunks
-            'vendor': ['react', 'react-dom', 'solid-js'],
+            vendor: ['react', 'react-dom', 'solid-js'],
             'ui-components': [
               // Add common UI component paths here if you have many
-            ]
+            ],
           },
         },
       },
@@ -122,11 +122,11 @@ export default defineConfig({
           if (id.endsWith('.svg')) {
             return {
               code,
-              map: null
+              map: null,
             };
           }
-        }
-      }
+        },
+      },
     ],
     // Add caching for improved build performance
     server: {
@@ -136,5 +136,5 @@ export default defineConfig({
     },
   },
 
-  compressHTML: false // Disable HTML compression which might affect inline SVGs
-})
+  compressHTML: false, // Disable HTML compression which might affect inline SVGs
+});

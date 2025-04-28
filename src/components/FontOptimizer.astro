@@ -7,40 +7,40 @@
 
 // Add or modify font paths and formats as needed
 const criticalFonts = [
-    {
-        path: "/public/fonts/atkinson-regular.woff",
-        format: "woff",
-        display: "swap",
-        preload: true,
-    },
-    {
-        path: "/public/fonts/inter-var.woff2",
-        format: "woff2",
-        display: "swap",
-        preload: true,
-    },
+  {
+    path: '/fonts/atkinson-regular.woff',
+    format: 'woff',
+    display: 'swap',
+    preload: true,
+  },
+  {
+    path: '/fonts/inter-var.woff2',
+    format: 'woff2',
+    display: 'swap',
+    preload: true,
+  },
 ];
 ---
 
 {/* Preload critical fonts */}
 {
-    criticalFonts
-        .filter((font) => font.preload)
-        .map((font) => (
-            <link
-                rel="preload"
-                href={font.path}
-                as="font"
-                type={`font/${font.format}`}
-                crossorigin="anonymous"
-            />
-        ))
+  criticalFonts
+    .filter((font) => font.preload)
+    .map((font) => (
+      <link
+        rel="preload"
+        href={font.path}
+        as="font"
+        type={`font/${font.format}`}
+        crossorigin="anonymous"
+      />
+    ))
 }
 
 {/* Font-display style overrides */}
 <style is:global>
-    /* Apply font-display: swap to all font faces for better performance */
-    @font-face {
-        font-display: swap !important;
-    }
+  /* Apply font-display: swap to all font faces for better performance */
+  @font-face {
+    font-display: swap !important;
+  }
 </style>

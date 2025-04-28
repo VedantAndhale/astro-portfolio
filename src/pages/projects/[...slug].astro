@@ -1,14 +1,15 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
-import TopLayout from "@layouts/TopLayout.astro";
-import BottomLayout from "@layouts/BottomLayout.astro";
-import ArticleTopLayout from "@layouts/ArticleTopLayout.astro";
-import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro";
-import ContentLayout from "@layouts/ContentLayout.astro";
+import { type CollectionEntry, getCollection } from 'astro:content';
+import TopLayout from '@layouts/TopLayout.astro';
+import BottomLayout from '@layouts/BottomLayout.astro';
+import ArticleTopLayout from '@layouts/ArticleTopLayout.astro';
+import ArticleBottomLayout from '@layouts/ArticleBottomLayout.astro';
+import ContentLayout from '@layouts/ContentLayout.astro';
+import TocDrawer from '@components/toc/TocDrawer.astro'; // Import TocDrawer
 
 // Create the static projects pages
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
+  const projects = await getCollection('projects');
   return projects.map((project) => ({
     params: { slug: project.slug },
     props: project,
@@ -16,11 +17,10 @@ export async function getStaticPaths() {
 }
 
 // Get the requested project
-type Props = CollectionEntry<"projects">;
+type Props = CollectionEntry<'projects'>;
 const project = Astro.props;
-const { title, summary, ogImage } = project.data;
 
-// Render the project to extract headings
+// Render the project to extract headings and the Content component
 const { Content, headings } = await project.render();
 ---
 
@@ -30,9 +30,24 @@ const { Content, headings } = await project.render();
       <ArticleTopLayout entry={project} />
     </div>
   </TopLayout>
+
+  {/* Render TocDrawer ONLY if showToc is explicitly true */}
+  {
+    headings && headings.length > 0 && project.data.showToc === true && (
+      <TocDrawer
+        headings={headings}
+        title="Table of Content"
+        class="toc-universal mx-auto mb-8 max-w-3xl px-4 lg:hidden"
+      />
+    )
+  }
+
+  {/* Pass Content component directly as a child */}
+  <Content />
+
   <BottomLayout>
     <div class="animate-fadeIn">
-      <ArticleBottomLayout entry={project} headings={headings} />
+      <ArticleBottomLayout entry={project} />
     </div>
   </BottomLayout>
 </ContentLayout>

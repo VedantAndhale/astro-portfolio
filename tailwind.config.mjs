@@ -1,4 +1,4 @@
-import defaultTheme from "tailwindcss/defaultTheme";
+import typography from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -9,19 +9,19 @@ export default {
       colors: {
         // Minimalist black and white color scheme
         dark: {
-          bg: '#0F0F0F',         // Nearly black background
-          paper: '#161616',       // Slightly lighter than bg for cards
-          surface: '#1C1C1C',     // Subtle distinction for surfaces
+          bg: '#0F0F0F', // Nearly black background
+          paper: '#161616', // Slightly lighter than bg for cards
+          surface: '#1C1C1C', // Subtle distinction for surfaces
           'surface-variant': '#242424', // Hover states and variants
-          primary: '#FFFFFF',     // Pure white for primary elements
-          secondary: '#A0A0A0',   // Light gray for secondary elements
-          accent: '#FFFFFF',      // White for accent (focused minimalism)
-          error: '#CF6679',       // Keeping error color for required notifications
-          'on-bg': '#FFFFFF',     // White text on dark backgrounds
-          'on-surface': '#FFFFFF',// White text on surfaces
-          'on-primary': '#000000',// Black text on white elements
-          'on-secondary': '#000000', // Black text on secondary elements
-          'on-error': '#000000',  // Black text on error elements
+          primary: '#FFFFFF', // Pure white for primary elements
+          secondary: '#A0A0A0', // Light gray for secondary elements
+          accent: '#FFFFFF', // White for accent (focused minimalism)
+          error: '#CF6679', // Keeping error color for required notifications
+          'on-bg': '#FFFFFF', // White text on dark backgrounds
+          'on-surface': '#FFFFFF', // White text on surfaces
+          'on-primary': '#000000', // Black text on white elements
+          'on-secondary': '#000000000', // Black text on secondary elements
+          'on-error': '#000000', // Black text on error elements
         },
         blue: {
           50: '#eff6ff',
@@ -64,7 +64,7 @@ export default {
         '2xl': '1.5rem', // 24px
         '3xl': '1.875rem', // 30px
         '4xl': '2.25rem', // 36px
-        '5xl': '3.2rem',  // ~51.2px
+        '5xl': '3.2rem', // ~51.2px
         '6xl': '3.825rem', // ~61.2px
 
         // Responsive font sizes using clamp
@@ -81,7 +81,7 @@ export default {
       typography: {
         DEFAULT: {
           css: {
-            maxWidth: "full",
+            maxWidth: 'full',
             color: 'inherit',
             a: {
               'text-decoration': 'none',
@@ -97,125 +97,127 @@ export default {
               'font-family': 'var(--font-mono)',
               'background-color': 'var(--tw-prose-pre-bg)',
               'border-radius': '0.25rem',
-              'padding': '0.125rem 0.25rem',
+              padding: '0.125rem 0.25rem',
             },
           },
         },
       },
       spacing: {
-        '28': '7rem',
+        28: '7rem',
       },
       rotate: {
-        45: "45deg",
-        135: "135deg",
-        225: "225deg",
-        315: "315deg",
+        45: '45deg',
+        135: '135deg',
+        225: '225deg',
+        315: '315deg',
       },
       animation: {
-        twinkle: "twinkle 2s ease-in-out forwards",
-        meteor: "meteor 3s ease-in-out forwards",
-        "pulse-slow": "pulseGlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "spin-slow": "spinSlow 8s linear infinite",
-        "float": "float 3s ease-in-out infinite",
-        shimmer: "shimmer 2s linear infinite",
-        wave: "wave 2s infinite",
-        fadeIn: "fadeIn 1s ease-out both",
-        slideUpFade: "slideUpFade 1s ease-out both",
+        twinkle: 'twinkle 2s ease-in-out forwards',
+        meteor: 'meteor 3s ease-in-out forwards',
+        'pulse-slow': 'pulseGlow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin-slow': 'spinSlow 8s linear infinite',
+        float: 'float 3s ease-in-out infinite',
+        shimmer: 'shimmer 2s linear infinite',
+        wave: 'wave 2s infinite',
+        fadeIn: 'fadeIn 1s ease-out both',
+        slideUpFade: 'slideUpFade 1s ease-out both',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
-        'gradient-conic-to-br': 'conic-gradient(at bottom right, var(--tw-gradient-stops))',
-        'gradient-hero': 'radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%)',
+        'gradient-conic-to-br':
+          'conic-gradient(at bottom right, var(--tw-gradient-stops))',
+        'gradient-hero':
+          'radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 70%)',
       },
       keyframes: {
         twinkle: {
-          "0%, 100%": {
+          '0%, 100%': {
             opacity: 0.2,
           },
-          "50%": {
+          '50%': {
             opacity: 1,
           },
         },
         meteor: {
-          "0%": {
-            transform: "rotate(215deg) translateX(0)",
+          '0%': {
+            transform: 'rotate(215deg) translateX(0)',
             opacity: 1,
           },
-          "70%": {
+          '70%': {
             opacity: 1,
           },
-          "100%": {
-            transform: "rotate(215deg) translateX(-500px)",
+          '100%': {
+            transform: 'rotate(215deg) translateX(-500px)',
             opacity: 0,
           },
         },
         pulseGlow: {
-          "0%, 100%": {
+          '0%, 100%': {
             opacity: 0.6,
-            transform: "scale(1)",
+            transform: 'scale(1)',
           },
-          "50%": {
+          '50%': {
             opacity: 0.8,
-            transform: "scale(1.05)",
+            transform: 'scale(1.05)',
           },
         },
         spinSlow: {
-          "0%": {
-            transform: "rotate(0deg)",
+          '0%': {
+            transform: 'rotate(0deg)',
           },
-          "100%": {
-            transform: "rotate(360deg)",
+          '100%': {
+            transform: 'rotate(360deg)',
           },
         },
         float: {
-          "0%, 100%": {
-            transform: "translateY(0)",
+          '0%, 100%': {
+            transform: 'translateY(0)',
           },
-          "50%": {
-            transform: "translateY(-10px)",
+          '50%': {
+            transform: 'translateY(-10px)',
           },
         },
         shimmer: {
-          "0%": {
-            backgroundPosition: "-200% 0",
+          '0%': {
+            backgroundPosition: '-200% 0',
           },
-          "100%": {
-            backgroundPosition: "200% 0",
+          '100%': {
+            backgroundPosition: '200% 0',
           },
         },
         wave: {
-          "0%, 100%": {
-            transform: "rotate(0deg)",
+          '0%, 100%': {
+            transform: 'rotate(0deg)',
           },
-          "25%": {
-            transform: "rotate(20deg)",
+          '25%': {
+            transform: 'rotate(20deg)',
           },
-          "50%": {
-            transform: "rotate(0deg)",
+          '50%': {
+            transform: 'rotate(0deg)',
           },
-          "75%": {
-            transform: "rotate(15deg)",
+          '75%': {
+            transform: 'rotate(15deg)',
           },
         },
         fadeIn: {
-          "from": {
+          from: {
             opacity: 0,
-            transform: "translateY(20px)",
+            transform: 'translateY(20px)',
           },
-          "to": {
+          to: {
             opacity: 1,
-            transform: "translateY(0)",
+            transform: 'translateY(0)',
           },
         },
         slideUpFade: {
-          "from": {
+          from: {
             opacity: 0,
-            transform: "translateY(40px)",
+            transform: 'translateY(40px)',
           },
-          "to": {
+          to: {
             opacity: 1,
-            transform: "translateY(0)",
+            transform: 'translateY(0)',
           },
         },
       },
@@ -223,11 +225,11 @@ export default {
         '4xl': '2rem',
       },
       screens: {
-        'xs': '375px',
-        'sm': '640px',
-        'md': '768px',
-        'lg': '1024px',
-        'xl': '1280px',
+        xs: '375px',
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
         '2xl': '1536px',
       },
       container: {
@@ -242,5 +244,5 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [typography],
 };

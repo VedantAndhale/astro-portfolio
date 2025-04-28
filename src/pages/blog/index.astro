@@ -1,12 +1,12 @@
 ---
-import { getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import TopLayout from "@layouts/TopLayout.astro";
-import BottomLayout from "@layouts/BottomLayout.astro";
-import Blog from "@components/Blog";
-import { BLOG } from "@consts";
+import { getCollection } from 'astro:content';
+import PageLayout from '@layouts/PageLayout.astro';
+import TopLayout from '@layouts/TopLayout.astro';
+import BottomLayout from '@layouts/BottomLayout.astro';
+import Blog from '@components/Blog';
+import { BLOG } from '@consts';
 
-const posts = (await getCollection("blog"))
+const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort(
@@ -18,24 +18,36 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort(
   <TopLayout>
     <div class="relative animate-fadeIn">
       <!-- Decorative elements -->
-      <div class="absolute -top-10 -left-10 w-40 h-40 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl opacity-70"></div>
-      <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-indigo-100 dark:bg-indigo-900/20 rounded-full blur-3xl opacity-70"></div>
-      
+      <div
+        class="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-blue-100 opacity-70 blur-3xl dark:bg-blue-900/20"
+      >
+      </div>
+      <div
+        class="absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-indigo-100 opacity-70 blur-3xl dark:bg-indigo-900/20"
+      >
+      </div>
+
       <!-- Page heading -->
-      <div class="relative text-center py-12">
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 mb-4">
+      <div class="relative py-12 text-center">
+        <h1
+          class="mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-3xl font-bold text-transparent dark:from-blue-400 dark:to-indigo-400 md:text-4xl lg:text-5xl"
+        >
           {BLOG.TITLE}
         </h1>
-        
-        <p class="text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+
+        <p
+          class="mx-auto max-w-xl text-base text-gray-600 dark:text-gray-400 md:text-lg"
+        >
           {BLOG.DESCRIPTION}
         </p>
       </div>
     </div>
   </TopLayout>
-  
+
   <BottomLayout>
-    <div class="animate-fadeIn bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg rounded-2xl p-6 border border-gray-100 dark:border-gray-800 shadow-xl">
+    <div
+      class="animate-fadeIn rounded-2xl border border-gray-100 bg-white/60 p-6 shadow-xl backdrop-blur-lg dark:border-gray-800 dark:bg-gray-900/60"
+    >
       <Blog client:load tags={tags} data={posts} />
     </div>
   </BottomLayout>

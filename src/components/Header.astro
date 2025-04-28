@@ -1,40 +1,40 @@
 ---
-import { SITE, LINKS } from "@consts";
-import { cn } from "@lib/utils";
-import Search from "@components/Search";
+import { SITE, LINKS } from '@consts';
+import { cn } from '@lib/utils';
+import Search from '@components/Search';
 const { pathname } = Astro.url;
 const subpath = pathname.match(/[^/]+/g);
-import Container from "@components/Container.astro";
+import Container from '@components/Container.astro';
 
 // Get blog and project data for search
-import { getCollection } from "astro:content";
-const posts = (await getCollection("blog")).filter((post) => !post.data.draft);
-const projects = (await getCollection("projects")).filter(
-  (post) => !post.data.draft,
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
+const projects = (await getCollection('projects')).filter(
+  (post) => !post.data.draft
 );
 const searchData = [...posts, ...projects];
 ---
 
 <a href="#main-content" class="skip-to-content"> Skip to content </a>
 
-<header id="header" class="fixed top-0 w-full z-50 backdrop-blur-xl">
+<header id="header" class="fixed top-0 z-50 w-full backdrop-blur-xl">
   <div
-    class="absolute inset-x-0 h-full bg-white/85 dark:bg-gray-950/90 border-b border-gray-200/50 dark:border-gray-800/50"
+    class="absolute inset-x-0 h-full border-b border-gray-200/50 bg-white/85 dark:border-gray-800/50 dark:bg-gray-950/90"
   >
   </div>
   <div
-    class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-300 dark:via-blue-700/40 to-transparent"
+    class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent dark:via-blue-700/40"
   >
   </div>
 
   <Container size="md">
     <div
-      class="relative h-[58px] sm:h-16 md:h-18 w-full flex items-center justify-between"
+      class="md:h-18 relative flex h-[58px] w-full items-center justify-between sm:h-16"
     >
       <div class="flex items-center">
         <a
           href="/"
-          class="group relative flex items-center gap-1.5 py-1.5 px-3 sm:gap-2 sm:py-2 sm:px-4 rounded-full border border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 hover:-translate-y-0.5 overflow-hidden"
+          class="group relative flex items-center gap-1.5 overflow-hidden rounded-full border border-gray-200 bg-white/95 px-3 py-1.5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:shadow-md dark:border-gray-800 dark:bg-gray-900/95 sm:gap-2 sm:px-4 sm:py-2"
           aria-label="Home page"
         >
           <div class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]">
@@ -58,15 +58,15 @@ const searchData = [...posts, ...projects];
 
           <span class="relative flex h-3 w-3 sm:h-3.5 sm:w-3.5">
             <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"
             ></span>
             <span
-              class="relative inline-flex rounded-full h-full w-full bg-green-500 shadow-sm"
+              class="relative inline-flex h-full w-full rounded-full bg-green-500 shadow-sm"
             ></span>
           </span>
 
           <span
-            class="relative text-xs sm:text-sm font-medium font-display tracking-tight text-gray-700 dark:text-gray-300 group-hover:text-transparent bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 dark:group-hover:from-blue-400 dark:group-hover:to-indigo-400 transition-all duration-300"
+            class="relative bg-clip-text font-display text-xs font-medium tracking-tight text-gray-700 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 group-hover:text-transparent dark:text-gray-300 dark:group-hover:from-blue-400 dark:group-hover:to-indigo-400 sm:text-sm"
           >
             Open to work
           </span>
@@ -74,7 +74,7 @@ const searchData = [...posts, ...projects];
       </div>
 
       <nav
-        class="hidden md:flex items-center justify-center gap-2"
+        class="hidden items-center justify-center gap-2 md:flex"
         aria-label="Desktop navigation"
       >
         {
@@ -82,13 +82,13 @@ const searchData = [...posts, ...projects];
             <a
               href={LINK.HREF}
               class={cn(
-                "text-sm font-medium font-display tracking-tight",
-                "h-9 rounded-full px-3.5 sm:px-4",
-                "flex items-center justify-center",
-                "transition-all duration-300",
-                pathname === LINK.HREF || "/" + subpath?.[0] === LINK.HREF
-                  ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white shadow-sm"
-                  : "text-gray-700 dark:text-gray-300 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-800/30 dark:hover:to-gray-800/50 hover:text-gray-900 dark:hover:text-white hover:shadow-sm",
+                'font-display text-sm font-medium tracking-tight',
+                'h-9 rounded-full px-3.5 sm:px-4',
+                'flex items-center justify-center',
+                'transition-all duration-300',
+                pathname === LINK.HREF || '/' + subpath?.[0] === LINK.HREF
+                  ? 'bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white shadow-sm'
+                  : 'text-gray-700 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 hover:text-gray-900 hover:shadow-sm dark:text-gray-300 dark:hover:from-gray-800/30 dark:hover:to-gray-800/50 dark:hover:text-white'
               )}
             >
               {LINK.TEXT}
@@ -102,17 +102,17 @@ const searchData = [...posts, ...projects];
           id="header-search-button"
           aria-label="Search (⌘K)"
           class={cn(
-            "hidden md:flex",
-            "w-9 h-9 rounded-full items-center justify-center",
-            "bg-white/95 dark:bg-gray-900/95",
-            "border border-gray-200 dark:border-gray-800",
-            "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
-            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:-translate-y-0.5",
+            'hidden md:flex',
+            'w-9 h-9 rounded-full items-center justify-center',
+            'bg-white/95 dark:bg-gray-900/95',
+            'border border-gray-200 dark:border-gray-800',
+            'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400',
+            'shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:-translate-y-0.5'
           )}
         >
-          <svg class="w-[18px] h-[18px] stroke-current">
+          <svg class="h-[18px] w-[18px] stroke-current">
             <title>Search</title>
-            <use href={import.meta.env.BASE_URL + "ui.svg#search"}></use>
+            <use href={import.meta.env.BASE_URL + 'ui.svg#search'}></use>
           </svg>
         </button>
 
@@ -121,17 +121,17 @@ const searchData = [...posts, ...projects];
           target="_blank"
           aria-label={`RSS feed for ${SITE.TITLE}`}
           class={cn(
-            "hidden md:flex",
-            "w-9 h-9 rounded-full items-center justify-center",
-            "bg-white/95 dark:bg-gray-900/95",
-            "border border-gray-200 dark:border-gray-800",
-            "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
-            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:-translate-y-0.5",
+            'hidden md:flex',
+            'w-9 h-9 rounded-full items-center justify-center',
+            'bg-white/95 dark:bg-gray-900/95',
+            'border border-gray-200 dark:border-gray-800',
+            'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400',
+            'shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:-translate-y-0.5'
           )}
         >
-          <svg class="w-[18px] h-[18px] stroke-current">
+          <svg class="h-[18px] w-[18px] stroke-current">
             <title>RSS</title>
-            <use href={import.meta.env.BASE_URL + "ui.svg#rss"}></use>
+            <use href={import.meta.env.BASE_URL + 'ui.svg#rss'}></use>
           </svg>
         </a>
 
@@ -139,21 +139,21 @@ const searchData = [...posts, ...projects];
           id="header-theme-button"
           aria-label="Toggle light and dark theme"
           class={cn(
-            "hidden md:flex",
-            "w-9 h-9 rounded-full items-center justify-center",
-            "bg-white/95 dark:bg-gray-900/95",
-            "border border-gray-200 dark:border-gray-800",
-            "text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400",
-            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:rotate-12 hover:-translate-y-0.5",
+            'hidden md:flex',
+            'w-9 h-9 rounded-full items-center justify-center',
+            'bg-white/95 dark:bg-gray-900/95',
+            'border border-gray-200 dark:border-gray-800',
+            'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400',
+            'shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:rotate-12 hover:-translate-y-0.5'
           )}
         >
-          <svg class="w-[18px] h-[18px] stroke-current block dark:hidden">
+          <svg class="block h-[18px] w-[18px] stroke-current dark:hidden">
             <title>Light mode</title>
-            <use href={import.meta.env.BASE_URL + "ui.svg#sun"}></use>
+            <use href={import.meta.env.BASE_URL + 'ui.svg#sun'}></use>
           </svg>
-          <svg class="w-[18px] h-[18px] stroke-current hidden dark:block">
+          <svg class="hidden h-[18px] w-[18px] stroke-current dark:block">
             <title>Dark mode</title>
-            <use href={import.meta.env.BASE_URL + "ui.svg#moon"}></use>
+            <use href={import.meta.env.BASE_URL + 'ui.svg#moon'}></use>
           </svg>
         </button>
 
@@ -163,21 +163,21 @@ const searchData = [...posts, ...projects];
           aria-expanded="false"
           aria-controls="drawer"
           class={cn(
-            "flex md:hidden",
-            "w-10 h-10 rounded-full items-center justify-center",
-            "bg-white/95 dark:bg-gray-900/95",
-            "border border-gray-200 dark:border-gray-800",
-            "text-gray-700 dark:text-gray-300",
-            "shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:-translate-y-0.5",
+            'flex md:hidden',
+            'w-10 h-10 rounded-full items-center justify-center',
+            'bg-white/95 dark:bg-gray-900/95',
+            'border border-gray-200 dark:border-gray-800',
+            'text-gray-700 dark:text-gray-300',
+            'shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:-translate-y-0.5'
           )}
         >
-          <svg id="drawer-open" class="w-5 h-5 stroke-current">
+          <svg id="drawer-open" class="h-5 w-5 stroke-current">
             <title>Open menu</title>
-            <use href={import.meta.env.BASE_URL + "ui.svg#menu"}></use>
+            <use href={import.meta.env.BASE_URL + 'ui.svg#menu'}></use>
           </svg>
-          <svg id="drawer-close" class="w-5 h-5 stroke-current">
+          <svg id="drawer-close" class="h-5 w-5 stroke-current">
             <title>Close menu</title>
-            <use href={import.meta.env.BASE_URL + "ui.svg#x"}></use>
+            <use href={import.meta.env.BASE_URL + 'ui.svg#x'}></use>
           </svg>
         </button>
       </div>
@@ -216,54 +216,64 @@ const searchData = [...posts, ...projects];
 </style>
 
 <script is:inline>
-  function toggleDrawer() {
-    const drawer = document.getElementById("drawer");
-    const drawerButton = document.getElementById("header-drawer-button");
-    drawer?.classList.toggle("open");
-    drawerButton?.classList.toggle("open");
+  // Renamed function for clarity
+  function handleDrawerToggle() {
+    const drawer = document.getElementById('drawer');
+    const drawerButton = document.getElementById('header-drawer-button');
+    drawer?.classList.toggle('open');
+    drawerButton?.classList.toggle('open');
 
     // Update aria-expanded attribute for accessibility
     if (drawerButton) {
-      const isExpanded = drawerButton.classList.contains("open");
-      drawerButton.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+      const isExpanded = drawerButton.classList.contains('open');
+      drawerButton.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
     }
   }
 
-  function initializeSearchButton() {
-    const searchButton = document.getElementById("header-search-button");
-    searchButton?.addEventListener("click", () => {
+  // Renamed function for clarity
+  function initializeSearchShortcut() {
+    const searchButton = document.getElementById('header-search-button');
+    searchButton?.addEventListener('click', () => {
       // Simulate Cmd/Ctrl + K
       window.dispatchEvent(
-        new KeyboardEvent("keydown", {
-          key: "k",
-          metaKey: true,
-        }),
+        new KeyboardEvent('keydown', {
+          key: 'k',
+          metaKey: true, // Use metaKey for Cmd on Mac, falls back to Ctrl
+          ctrlKey: true, // Ensure Ctrl works on Windows/Linux
+        })
       );
     });
   }
 
-  function initializeDrawerButton() {
-    const drawerButton = document.getElementById("header-drawer-button");
-    drawerButton?.addEventListener("click", toggleDrawer);
+  // Renamed function for clarity
+  function initializeDrawerButtonListener() {
+    const drawerButton = document.getElementById('header-drawer-button');
+    // Use the renamed function
+    drawerButton?.addEventListener('click', handleDrawerToggle);
   }
 
-  function handleScroll() {
-    const header = document.getElementById("header");
+  // Renamed function for clarity
+  function handleHeaderScrollEffect() {
+    const header = document.getElementById('header');
     if (window.scrollY > 50) {
-      header?.classList.add("scrolled");
+      header?.classList.add('scrolled');
     } else {
-      header?.classList.remove("scrolled");
+      header?.classList.remove('scrolled');
     }
   }
 
-  window.addEventListener("scroll", handleScroll);
-  document.addEventListener("astro:after-swap", () => {
-    initializeDrawerButton();
-    initializeSearchButton();
-    handleScroll();
+  // Use the renamed function
+  window.addEventListener('scroll', handleHeaderScrollEffect);
+
+  // Use renamed functions in Astro lifecycle event
+  document.addEventListener('astro:after-swap', () => {
+    initializeDrawerButtonListener();
+    initializeSearchShortcut();
+    handleHeaderScrollEffect(); // Re-apply scroll effect after navigation
   });
 
-  initializeDrawerButton();
-  initializeSearchButton();
-  handleScroll();
+  // Initial setup on page load
+  initializeDrawerButtonListener();
+  initializeSearchShortcut();
+  handleHeaderScrollEffect(); // Apply scroll effect on initial load
 </script>

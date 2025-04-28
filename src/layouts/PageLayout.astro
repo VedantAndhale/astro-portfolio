@@ -1,14 +1,14 @@
 ---
-import "@styles/global.css";
-import "@styles/dark-theme.css"; // Import our new dark theme CSS
-import BaseHead from "@components/BaseHead.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import Drawer from "@components/Drawer.astro";
-import SpeedInsights from "@vercel/speed-insights/astro";
-import GoatCounter from "@components/analytics/GoatCounter.astro";
+import '@styles/global.css';
+import '@styles/dark-theme.css'; // Import our new dark theme CSS
+import BaseHead from '@components/BaseHead.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import Drawer from '@components/Drawer.astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+import GoatCounter from '@components/analytics/GoatCounter.astro';
 const { title, description, image } = Astro.props;
-import { SITE } from "@consts";
+import { SITE } from '@consts';
 ---
 
 <!doctype html>
@@ -25,12 +25,12 @@ import { SITE } from "@consts";
     />
   </head>
   <body
-    class="min-h-screen flex flex-col bg-white dark:bg-dark-bg text-black dark:text-dark-on-bg transition-colors duration-300"
+    class="flex min-h-screen flex-col bg-white text-black transition-colors duration-300 dark:bg-dark-bg dark:text-dark-on-bg"
   >
     <Header />
     <Drawer />
-    <main class="flex-1 w-full mx-auto pt-16 sm:pt-20 pb-8 sm:pb-12">
-      <div class="w-full max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8">
+    <main class="mx-auto w-full flex-1 pb-8 pt-16 sm:pb-12 sm:pt-20">
+      <div class="mx-auto w-full max-w-[2000px] px-4 sm:px-6 lg:px-8">
         <slot />
       </div>
     </main>
@@ -38,10 +38,10 @@ import { SITE } from "@consts";
     <SpeedInsights />
     <GoatCounter />
 
-    <!-- Background particles containers with reduced animation impact -->
+    <!-- Background particles containers -->
     <div
       id="bg-container"
-      class="fixed inset-0 -z-10 overflow-hidden pointer-events-none"
+      class="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       aria-hidden="true"
     >
       <!-- Light mode particles - will be styled by JS -->
@@ -58,14 +58,17 @@ import { SITE } from "@consts";
       <div id="stars3" class="opacity-0 transition-opacity duration-1000"></div>
     </div>
 
+    <!-- Add the copy code script -->
+    <script is:inline src="/js/copy-code.js"></script>
+
     <script>
       // Fade in background elements after main content is loaded
-      document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
           const particles = document.querySelectorAll(
-            "#particles1, #particles2, #particles3, #stars1, #stars2, #stars3",
+            '#particles1, #particles2, #particles3, #stars1, #stars2, #stars3'
           );
-          particles.forEach((el) => el.classList.remove("opacity-0"));
+          particles.forEach((el) => el.classList.remove('opacity-0'));
         }, 2000); // Delay for improved Speed Index
       });
     </script>

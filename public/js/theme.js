@@ -2,18 +2,20 @@
 (function () {
   // Immediately apply the theme to prevent flash of wrong theme
   function preloadTheme() {
-    // Try to get theme from localStorage, otherwise use device preference
+    // Try to get theme from localStorage, otherwise default to dark
     const userTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; // Keep this line if you want to respect device preference as a fallback
     const theme = userTheme === 'light' || userTheme === 'dark'
       ? userTheme
-      : prefersDark ? 'dark' : 'light';
+      : 'dark'; // Default to dark theme initially
 
     // Apply theme to documentElement
     document.documentElement.classList.toggle('dark', theme === 'dark');
 
-    // Store the theme
-    localStorage.setItem('theme', theme);
+    // Store the theme if it wasn't already set or if it was derived
+    if (!userTheme || userTheme !== theme) {
+      localStorage.setItem('theme', theme);
+    }
   }
 
   // Change theme without full page reload for better performance
@@ -33,9 +35,6 @@
 
   // Initialize theme buttons when they exist - with performance optimizations
   function initializeThemeButtons() {
-    const headerThemeButton = document.getElementById('header-theme-button');
-    const drawerThemeButton = document.getElementById('drawer-theme-button');
-
     // Use event delegation instead of multiple listeners
     document.addEventListener('click', (e) => {
       // Check if clicked element is a theme button

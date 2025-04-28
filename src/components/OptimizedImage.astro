@@ -1,137 +1,68 @@
 ---
 // OptimizedImage.astro - Enhanced image component for dark theme and performance
-interface Props {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
-    class?: string;
-    loading?: "lazy" | "eager";
-    decoding?: "async" | "sync" | "auto";
-    sizes?: string;
-    fetchpriority?: "high" | "low" | "auto";
-    critical?: boolean; // Prop to indicate if this is a critical above-the-fold image
-    darkModeFilter?: boolean; // Whether to apply a subtle filter in dark mode
-    blurHash?: string; // For progressive loading with blurHash placeholder
-    breakpoints?: number[]; // Responsive breakpoints for srcset generation
-    format?: "webp" | "avif" | "jpeg" | "png"; // Preferred image format
+interface OptimizedImageProps {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+  decoding?: 'async' | 'sync' | 'auto';
+  sizes?: string;
+  fetchpriority?: 'high' | 'low' | 'auto';
+  critical?: boolean;
+  darkModeFilter?: boolean;
 }
 
 const {
-    src,
-    alt,
-    width,
-    height,
-    class: className = "",
-    loading = "lazy",
-    decoding = "async",
-    sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw", // More specific default sizes
-    fetchpriority = "auto",
-    critical = false,
-    darkModeFilter = false,
-    blurHash,
-    breakpoints = [320, 640, 768, 1024, 1280, 1536], // Default responsive breakpoints
-    format = "webp", // Default to webp for best compression/quality ratio
-} = Astro.props;
+  src,
+  alt,
+  width,
+  height,
+  class: className = '',
+  loading = 'lazy',
+  decoding = 'async',
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+  fetchpriority = 'auto',
+  critical = false,
+  darkModeFilter = false,
+}: OptimizedImageProps = Astro.props;
 
-import { Image } from "astro:assets";
-import { getImage } from "astro:assets";
+// import { Image } from 'astro:assets'; // Keep if needed for future advanced features
 
 // Create dark mode class based on props
-const darkModeClass = darkModeFilter ? "dark-mode-image" : "";
+const darkModeClass = darkModeFilter ? 'dark-mode-image' : '';
 
-// Preload critical images
-const preload = critical ? true : false;
-
-// Handle both remote and local images
-const isRemoteImage = src.startsWith("http");
-
-// For critical images, override with eager loading and high priority
-const effectiveLoading = critical ? "eager" : loading;
-const effectiveFetchPriority = critical ? "high" : fetchpriority;
-const effectiveDecoding = critical ? "sync" : decoding;
-
-// Prepare preload link for critical images
-let imgSrc = "";
-if (critical && !isRemoteImage) {
-    imgSrc = src.startsWith("/") ? src : `/${src}`;
-}
-
-// Generate responsive image variants when not using remote images
-let generatedImages = [];
-let srcsetAttribute = "";
-
-if (!isRemoteImage) {
-    try {
-        // Filter breakpoints to only include those that make sense for this image
-        const filteredBreakpoints = breakpoints.filter((bp) => bp <= width * 2);
-
-        // For srcset, we'll use the built-in Astro image handling instead of manual processing
-        srcsetAttribute = filteredBreakpoints
-            .map((bp) => {
-                const targetWidth = Math.min(bp, width * 2);
-                return `${targetWidth}w`;
-            })
-            .join(", ");
-    } catch (error) {
-        console.error(
-            `Failed to prepare responsive image data for ${src}:`,
-            error,
-        );
-    }
-}
+// Explicitly type loadingStrategy
+const loadingStrategy: 'lazy' | 'eager' =
+  critical || loading === 'eager' ? 'eager' : 'lazy';
+const decodingStrategy = loadingStrategy === 'eager' ? 'sync' : decoding;
 ---
 
-<!-- Advanced image preloading for critical images -->{
-    critical && !isRemoteImage && (
-        <link
-            rel="preload"
-            href={src}
-            as="image"
-            type={`image/${format}`}
-            imagesrcset={srcsetAttribute}
-            imagesizes={sizes}
-            fetchpriority="high"
-            slot="head"
-        />
-    )
-}
+{/* Set all attributes individually */}
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  class={`${className} ${darkModeClass}`.trim()}
+  loading={loadingStrategy}
+  decoding={decodingStrategy}
+  sizes={sizes}
+  fetchpriority={fetchpriority}
+/>
 
-{
-    isRemoteImage ? (
-        <img
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            loading={effectiveLoading}
-            decoding={effectiveDecoding}
-            fetchpriority={effectiveFetchPriority}
-            sizes={sizes}
-            class={`optimized-image ${className} ${darkModeClass}`}
-            style={blurHash ? `background-image: url(${blurHash});` : ""}
-        />
-    ) : (
-        <Image
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            class={`optimized-image ${className} ${darkModeClass}`}
-            loading={effectiveLoading}
-            decoding={effectiveDecoding}
-            fetchpriority={effectiveFetchPriority}
-            quality={critical ? 85 : 75}
-            format={format}
-            densities={[1, 2]}
-            sizes={sizes}
-            style={
-                blurHash
-                    ? `background-image: url(${blurHash});`
-                    : critical
-                      ? ""
-                      : "content-visibility: auto;"
-            }
-        />
-    )
-}
+{/* Preload link generation logic could be added here if needed */}
+
+<style>
+  /* Add any specific styles for the image here */
+  img {
+    content-visibility: auto;
+    max-width: 100%; /* Ensure images are responsive by default */
+    height: auto; /* Maintain aspect ratio */
+  }
+  .dark-mode-image {
+    /* Example filter for dark mode */
+    filter: brightness(0.9) contrast(1.1);
+  }
+</style>

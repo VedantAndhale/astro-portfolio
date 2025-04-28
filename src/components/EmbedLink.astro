@@ -1,232 +1,133 @@
 ---
-// EmbedLink.astro - Enhanced iframe component with responsive design and visual improvements
+// EmbedLink.astro - Renders an iframe for embedding content with performance optimizations
+
 interface Props {
-    src: string;
-    title: string;
-    width?: number | string;
-    height?: number | string;
-    aspectRatio?: "16:9" | "4:3" | "1:1" | "9:16";
-    allowFullscreen?: boolean;
-    loading?: "lazy" | "eager";
-    class?: string;
-    style?: string;
-    theme?: "light" | "dark" | "auto";
-    border?: boolean;
-    rounded?: "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "full";
-    shadow?: "none" | "sm" | "md" | "lg" | "xl" | "2xl";
+  src: string;
+  title: string;
+  class?: string;
+  rounded?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'full';
+  shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'inner' | 'none';
+  aspectRatio?: string; // e.g., '16/9' or '4/3'
+  allow?: string; // e.g., "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen?: boolean;
 }
 
 const {
-    src,
-    title,
-    width = "100%",
-    height = "auto",
-    aspectRatio = "16:9",
-    allowFullscreen = true,
-    loading = "lazy",
-    class: className = "",
-    style = "",
-    theme = "auto",
-    border = true,
-    rounded = "lg",
-    shadow = "md",
+  src,
+  title,
+  class: className = '',
+  rounded,
+  shadow,
+  aspectRatio = '16/9', // Default aspect ratio
+  allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share',
+  allowfullscreen = true,
 } = Astro.props;
 
-// Calculate padding based on aspect ratio
-let paddingBottom;
-switch (aspectRatio) {
-    case "16:9":
-        paddingBottom = "56.25%"; // 9/16 = 0.5625
-        break;
-    case "4:3":
-        paddingBottom = "75%"; // 3/4 = 0.75
-        break;
-    case "1:1":
-        paddingBottom = "100%"; // 1/1 = 1
-        break;
-    case "9:16":
-        paddingBottom = "177.78%"; // 16/9 = 1.7778
-        break;
-    default:
-        paddingBottom = "56.25%"; // Default to 16:9
-}
-
-// Set border classes
-const borderClasses = border
-    ? "border border-gray-200 dark:border-gray-800"
-    : "";
-
-// Set rounded classes
-let roundedClasses;
-switch (rounded) {
-    case "none":
-        roundedClasses = "";
-        break;
-    case "sm":
-        roundedClasses = "rounded-sm";
-        break;
-    case "md":
-        roundedClasses = "rounded-md";
-        break;
-    case "lg":
-        roundedClasses = "rounded-lg";
-        break;
-    case "xl":
-        roundedClasses = "rounded-xl";
-        break;
-    case "2xl":
-        roundedClasses = "rounded-2xl";
-        break;
-    case "full":
-        roundedClasses = "rounded-full";
-        break;
-    default:
-        roundedClasses = "rounded-lg";
-}
-
-// Set shadow classes
-let shadowClasses;
-switch (shadow) {
-    case "none":
-        shadowClasses = "";
-        break;
-    case "sm":
-        shadowClasses = "shadow-sm";
-        break;
-    case "md":
-        shadowClasses = "shadow-md";
-        break;
-    case "lg":
-        shadowClasses = "shadow-lg";
-        break;
-    case "xl":
-        shadowClasses = "shadow-xl";
-        break;
-    case "2xl":
-        shadowClasses = "shadow-2xl";
-        break;
-    default:
-        shadowClasses = "shadow-md";
-}
-
-// Generate theme classes
-let themeClasses = "";
-if (theme === "light") {
-    themeClasses = "bg-white";
-} else if (theme === "dark") {
-    themeClasses = "bg-gray-900";
-} else {
-    themeClasses = "bg-white dark:bg-gray-900";
-}
-
-// Generate additional container classes for visual enhancement
-const containerClasses = `embed-container ${themeClasses} ${borderClasses} ${roundedClasses} ${shadowClasses} transition-all duration-300 hover:shadow-lg ${className}`;
+const roundedClass = rounded ? `rounded-${rounded}` : '';
+const shadowClass = shadow ? `shadow-${shadow}` : '';
+const uniqueId = `embed-${Math.random().toString(36).substring(7)}`;
 ---
 
-<figure class={containerClasses} style={style} data-embed-theme={theme}>
-    <div class="embed-aspect-ratio" style={`padding-bottom: ${paddingBottom};`}>
-        <iframe
-            src={src}
-            title={title}
-            width={width}
-            height={height}
-            allowfullscreen={allowFullscreen}
-            loading={loading}
-            referrerpolicy="no-referrer"
-            class="embed-iframe"
-            aria-label={title}></iframe>
-    </div>
-    {
-        title && (
-            <figcaption class="embed-caption text-center text-sm text-gray-600 dark:text-gray-400 mt-2 px-3 py-1">
-                {title}
-            </figcaption>
-        )
-    }
-</figure>
+<div
+  id={uniqueId}
+  class:list={[
+    `relative aspect-w-${aspectRatio.split('/')[0]} aspect-h-${aspectRatio.split('/')[1]} overflow-hidden`,
+    roundedClass,
+    shadowClass,
+    className,
+  ]}
+>
+  <!-- Placeholder -->
+  <div
+    class="placeholder absolute inset-0 flex items-center justify-center bg-gray-200 dark:bg-gray-700"
+  >
+    <svg
+      class="h-8 w-8 animate-spin text-gray-500 dark:text-gray-400"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+  </div>
+
+  <!-- Iframe (initially without src) -->
+  <iframe
+    data-src={src}
+    title={title}
+    class:list={[
+      'absolute inset-0 h-full w-full opacity-0 transition-opacity duration-500',
+      roundedClass,
+    ]}
+    allow={allow}
+    allowfullscreen={allowfullscreen}
+    loading="lazy"
+  >
+  </iframe>
+</div>
+
+<script define:vars={{ uniqueId }}>
+  const container = document.getElementById(uniqueId);
+  if (container) {
+    const iframe = container.querySelector('iframe');
+    const placeholder = container.querySelector('.placeholder');
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && iframe && !iframe.getAttribute('src')) {
+            const src = iframe.getAttribute('data-src');
+            if (src) {
+              iframe.setAttribute('src', src);
+              iframe.onload = () => {
+                if (placeholder) placeholder.style.display = 'none';
+                iframe.style.opacity = '1';
+              };
+            }
+            obs.unobserve(container); // Stop observing once loaded
+          }
+        });
+      },
+      { rootMargin: '50px' }
+    ); // Start loading 50px before it enters viewport
+
+    observer.observe(container);
+  }
+</script>
 
 <style>
-    .embed-container {
-        position: relative;
-        width: 100%;
-        max-width: 100%;
-        margin: 1.5rem 0;
-        overflow: hidden;
-        /* Create subtle highlight effect for the container */
-        background-image: linear-gradient(
-            to bottom right,
-            rgba(255, 255, 255, 0.05),
-            rgba(255, 255, 255, 0)
-        );
-        /* Create an elegant backdrop effect */
-        backdrop-filter: blur(4px);
-        transition: all 0.3s ease;
-    }
+  /* Ensure aspect ratio classes work */
+  .aspect-w-16 {
+    --tw-aspect-w: 16;
+  }
+  .aspect-h-9 {
+    --tw-aspect-h: 9;
+  }
+  .aspect-w-4 {
+    --tw-aspect-w: 4;
+  }
+  .aspect-h-3 {
+    --tw-aspect-h: 3;
+  }
 
-    .embed-container:hover {
-        /* Add subtle transform effect on hover */
-        transform: translateY(-2px);
-    }
+  [class*='aspect-w-'][class*='aspect-h-'] {
+    position: relative;
+    padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
+  }
 
-    .embed-aspect-ratio {
-        position: relative;
-        height: 0;
-        overflow: hidden;
-    }
+  /* Remove the absolute positioning for direct children as iframe is now absolute */
+  /* [class*='aspect-w-'][class*='aspect-h-'] > * { ... } */
 
-    .embed-iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-        /* Add inner shadow for depth */
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-    }
-
-    /* Enhanced styling for different themes */
-    .embed-container[data-embed-theme="light"] {
-        --embed-bg: rgb(255, 255, 255);
-        --embed-border: rgba(226, 232, 240, 1);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    .embed-container[data-embed-theme="dark"] {
-        --embed-bg: rgb(17, 24, 39);
-        --embed-border: rgba(55, 65, 81, 1);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-    }
-
-    .embed-container[data-embed-theme="auto"] {
-        --embed-bg: rgb(255, 255, 255);
-        --embed-border: rgba(226, 232, 240, 1);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    @media (prefers-color-scheme: dark) {
-        .embed-container[data-embed-theme="auto"] {
-            --embed-bg: rgb(17, 24, 39);
-            --embed-border: rgba(55, 65, 81, 1);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-        }
-    }
-
-    /* Add hover effect to emphasize the content */
-    .embed-container:hover .embed-iframe {
-        filter: brightness(1.03);
-    }
-
-    /* Accessibility focus states */
-    .embed-container:focus-within {
-        outline: 2px solid rgb(59, 130, 246);
-        outline-offset: 4px;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 640px) {
-        .embed-container {
-            margin: 1rem 0;
-        }
-    }
+  /* Keep iframe absolute positioning if needed, handled by iframe classes now */
 </style>

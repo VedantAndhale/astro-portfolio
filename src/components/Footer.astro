@@ -1,12 +1,12 @@
 ---
-import { SITE, SOCIALS } from "@consts";
-import Container from "@components/Container.astro";
-import { Image } from "astro:assets";
+import { SITE, SOCIALS } from '@consts';
+import Container from '@components/Container.astro';
+import { Image } from 'astro:assets';
 ---
 
-<footer class="relative bg-white dark:bg-black safe-bottom">
+<footer class="safe-bottom relative bg-white dark:bg-black">
   <div
-    class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300 dark:via-blue-700/40 to-transparent"
+    class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-300 to-transparent dark:via-blue-700/40"
   >
   </div>
 
@@ -18,22 +18,22 @@ import { Image } from "astro:assets";
     </div>
   </div>
 
-  <div class="py-8 sm:py-10 md:py-12 relative z-10">
+  <div class="relative z-10 py-8 sm:py-10 md:py-12">
     <Container size="md">
       <!-- Mobile Logo Section (only visible on mobile) -->
-      <div class="flex flex-col items-center mb-8 md:hidden">
+      <div class="mb-8 flex flex-col items-center md:hidden">
         <a
           href="/"
-          class="flex items-center gap-3 sm:gap-3.5 mb-3.5 group hover:scale-105 transition-transform"
+          class="group mb-3.5 flex items-center gap-3 transition-transform hover:scale-105 sm:gap-3.5"
           aria-label="Home page"
         >
           <div class="relative">
             <div
-              class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 dark:from-blue-600 dark:via-indigo-700 dark:to-purple-700 blur-sm opacity-70 animate-pulse-slow"
+              class="absolute inset-0 animate-pulse-slow rounded-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 opacity-70 blur-sm dark:from-blue-600 dark:via-indigo-700 dark:to-purple-700"
             >
             </div>
             <div
-              class="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-white dark:border-gray-800 shadow-md"
+              class="relative h-10 w-10 overflow-hidden rounded-full border-2 border-white shadow-md dark:border-gray-800 sm:h-11 sm:w-11"
             >
               <Image
                 src="/brand.png"
@@ -41,12 +41,12 @@ import { Image } from "astro:assets";
                 width={44}
                 height={44}
                 loading="lazy"
-                class="w-full h-full object-cover"
+                class="h-full w-full object-cover"
               />
             </div>
           </div>
           <span
-            class="text-base sm:text-lg font-bold font-display tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400"
+            class="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text font-display text-base font-bold tracking-tight text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400 sm:text-lg"
           >
             {SITE.TITLE}
           </span>
@@ -54,14 +54,14 @@ import { Image } from "astro:assets";
       </div>
 
       <!-- Back to Top Button -->
-      <div class="flex items-center justify-center sm:justify-end mb-6 sm:mb-8">
+      <div class="mb-6 flex items-center justify-center sm:mb-8 sm:justify-end">
         <button
           id="back-to-top"
           aria-label="Back to top of page"
-          class="group relative flex items-center gap-2 py-2 px-4 sm:py-2.5 sm:px-5 rounded-full bg-white/95 dark:bg-gray-900/95 border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 hover:-translate-y-1 overflow-hidden"
+          class="group relative flex items-center gap-2 overflow-hidden rounded-full border border-gray-200 bg-white/95 px-4 py-2 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-md dark:border-gray-800 dark:bg-gray-900/95 sm:px-5 sm:py-2.5"
         >
           <div
-            class="absolute inset-0 bg-gradient-to-r from-blue-50/40 to-indigo-50/40 dark:from-blue-900/15 dark:to-indigo-900/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            class="absolute inset-0 bg-gradient-to-r from-blue-50/40 to-indigo-50/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-blue-900/15 dark:to-indigo-900/15"
           >
           </div>
 
@@ -74,7 +74,7 @@ import { Image } from "astro:assets";
             stroke-width="2.5"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="relative stroke-gray-700 dark:stroke-gray-300 group-hover:stroke-blue-600 dark:group-hover:stroke-blue-400 transition-colors"
+            class="relative stroke-gray-700 transition-colors group-hover:stroke-blue-600 dark:stroke-gray-300 dark:group-hover:stroke-blue-400"
           >
             <title>Arrow up</title>
             <line
@@ -82,16 +82,16 @@ import { Image } from "astro:assets";
               y1="19"
               x2="12"
               y2="5"
-              class="opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-out"
+              class="translate-y-2 opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100"
             ></line>
             <polyline
               points="5 12 12 5 19 12"
-              class="group-hover:-translate-y-1 transition-transform duration-300 ease-out"
+              class="transition-transform duration-300 ease-out group-hover:-translate-y-1"
             ></polyline>
           </svg>
 
           <span
-            class="relative text-sm font-medium font-display tracking-tight text-gray-700 dark:text-gray-300 group-hover:text-transparent bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 dark:group-hover:from-blue-400 dark:group-hover:to-indigo-400 transition-all duration-300"
+            class="relative bg-clip-text font-display text-sm font-medium tracking-tight text-gray-700 transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 group-hover:text-transparent dark:text-gray-300 dark:group-hover:from-blue-400 dark:group-hover:to-indigo-400"
           >
             Back to top
           </span>
@@ -100,19 +100,19 @@ import { Image } from "astro:assets";
 
       <!-- Main Footer Content -->
       <div
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10"
+        class="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 md:gap-10"
       >
         <!-- Quick Links Section -->
         <div class="flex flex-col items-center sm:items-start">
           <h3
-            class="flex items-center justify-center sm:justify-start text-sm sm:text-base font-semibold font-display tracking-tight text-gray-900 dark:text-white mb-4 sm:mb-5 w-full"
+            class="mb-4 flex w-full items-center justify-center font-display text-sm font-semibold tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:justify-start sm:text-base"
           >
             <span
-              class="w-8 h-8 sm:w-9 sm:h-9 inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 mr-2.5 shadow-sm"
+              class="mr-2.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 shadow-sm dark:bg-blue-900/30 sm:h-9 sm:w-9"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 dark:text-blue-400"
+                class="h-3.5 w-3.5 text-blue-600 dark:text-blue-400 sm:h-4 sm:w-4"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -127,16 +127,16 @@ import { Image } from "astro:assets";
             Quick Links
           </h3>
           <div
-            class="flex flex-wrap justify-center sm:justify-start gap-2 sm:flex-col sm:gap-2.5 w-full"
+            class="flex w-full flex-wrap justify-center gap-2 sm:flex-col sm:justify-start sm:gap-2.5"
           >
             {
-              ["Blog", "Projects", "Resume"].map((item) => (
+              ['Blog', 'Projects', 'Resume'].map((item) => (
                 <a
                   href={`/${item.toLowerCase()}`}
-                  class="group relative text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors px-3 sm:px-3.5 py-1.5 rounded-full hover:bg-blue-50/70 dark:hover:bg-blue-900/30 flex items-center hover:shadow-sm font-medium"
+                  class="group relative flex items-center rounded-full px-3 py-1.5 text-sm font-medium text-gray-600 transition-colors hover:bg-blue-50/70 hover:text-blue-600 hover:shadow-sm dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 sm:px-3.5"
                   aria-label={`View ${item}`}
                 >
-                  <span class="absolute h-1.5 w-1.5 rounded-full bg-gray-300 dark:bg-gray-700 group-hover:bg-blue-500 dark:group-hover:bg-blue-500 transition-colors" />
+                  <span class="absolute h-1.5 w-1.5 rounded-full bg-gray-300 transition-colors group-hover:bg-blue-500 dark:bg-gray-700 dark:group-hover:bg-blue-500" />
                   <span class="ml-3">{item}</span>
                 </a>
               ))
@@ -147,14 +147,14 @@ import { Image } from "astro:assets";
         <!-- Connect With Me Section -->
         <div class="flex flex-col items-center sm:items-start">
           <h3
-            class="flex items-center justify-center sm:justify-start text-sm sm:text-base font-semibold font-display tracking-tight text-gray-900 dark:text-white mb-4 sm:mb-5 w-full"
+            class="mb-4 flex w-full items-center justify-center font-display text-sm font-semibold tracking-tight text-gray-900 dark:text-white sm:mb-5 sm:justify-start sm:text-base"
           >
             <span
-              class="w-8 h-8 sm:w-9 sm:h-9 inline-flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 mr-2.5 shadow-sm"
+              class="mr-2.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 shadow-sm dark:bg-blue-900/30 sm:h-9 sm:w-9"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 dark:text-blue-400"
+                class="h-3.5 w-3.5 text-blue-600 dark:text-blue-400 sm:h-4 sm:w-4"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -168,7 +168,7 @@ import { Image } from "astro:assets";
             </span>
             Connect With Me
           </h3>
-          <div class="flex flex-wrap gap-3 justify-center sm:justify-start">
+          <div class="flex flex-wrap justify-center gap-3 sm:justify-start">
             {
               SOCIALS.map((SOCIAL) => (
                 <a
@@ -176,10 +176,10 @@ import { Image } from "astro:assets";
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${SITE.TITLE} on ${SOCIAL.NAME}`}
-                  class="group relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/95 dark:bg-gray-800/95 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-110 hover:-translate-y-1 overflow-hidden"
+                  class="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-gray-200 bg-white/95 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:scale-110 hover:shadow-md dark:border-gray-700 dark:bg-gray-800/95 sm:h-11 sm:w-11"
                 >
-                  <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <svg class="relative z-10 w-4.5 h-4.5 sm:w-5 sm:h-5 fill-gray-700 dark:fill-gray-300 group-hover:fill-blue-600 dark:group-hover:fill-blue-400 transition-colors">
+                  <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-indigo-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-blue-900/20 dark:to-indigo-900/20" />
+                  <svg class="w-4.5 h-4.5 relative z-10 fill-gray-700 transition-colors group-hover:fill-blue-600 dark:fill-gray-300 dark:group-hover:fill-blue-400 sm:h-5 sm:w-5">
                     <title>{SOCIAL.NAME}</title>
                     <use href={`/social.svg#${SOCIAL.ICON}`} />
                   </svg>
@@ -190,19 +190,19 @@ import { Image } from "astro:assets";
         </div>
 
         <!-- Desktop Logo & Copyright Section (hidden on mobile) -->
-        <div class="hidden md:flex flex-col items-start">
+        <div class="hidden flex-col items-start md:flex">
           <a
             href="/"
-            class="flex items-center gap-3 sm:gap-3.5 mb-3.5 group hover:scale-105 transition-transform"
+            class="group mb-3.5 flex items-center gap-3 transition-transform hover:scale-105 sm:gap-3.5"
             aria-label="Home page"
           >
             <div class="relative">
               <div
-                class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 dark:from-blue-600 dark:via-indigo-700 dark:to-purple-700 blur-sm opacity-70 animate-pulse-slow"
+                class="absolute inset-0 animate-pulse-slow rounded-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 opacity-70 blur-sm dark:from-blue-600 dark:via-indigo-700 dark:to-purple-700"
               >
               </div>
               <div
-                class="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-white dark:border-gray-800 shadow-md"
+                class="relative h-9 w-9 overflow-hidden rounded-full border-2 border-white shadow-md dark:border-gray-800 sm:h-11 sm:w-11"
               >
                 <Image
                   src="/brand.png"
@@ -210,21 +210,21 @@ import { Image } from "astro:assets";
                   width={44}
                   height={44}
                   loading="lazy"
-                  class="w-full h-full object-cover"
+                  class="h-full w-full object-cover"
                 />
               </div>
             </div>
             <span
-              class="text-base sm:text-lg font-bold font-display tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400"
+              class="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text font-display text-base font-bold tracking-tight text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-violet-400 sm:text-lg"
             >
               {SITE.TITLE}
             </span>
           </a>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+          <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">
             &copy; {new Date().getFullYear()} All rights reserved
           </p>
           <p
-            class="text-xs text-gray-600 dark:text-gray-400 max-w-md leading-relaxed"
+            class="max-w-md text-xs leading-relaxed text-gray-600 dark:text-gray-400"
           >
             Data-driven solutions and insights from an enthusiastic analyst and
             developer
@@ -234,13 +234,13 @@ import { Image } from "astro:assets";
 
       <!-- Mobile Copyright Section (only visible on mobile) -->
       <div
-        class="md:hidden mt-8 text-center border-t border-gray-200 dark:border-gray-800 pt-5"
+        class="mt-8 border-t border-gray-200 pt-5 text-center dark:border-gray-800 md:hidden"
       >
         <p class="text-sm text-gray-600 dark:text-gray-400">
           &copy; {new Date().getFullYear()} All rights reserved
         </p>
         <p
-          class="text-xs text-gray-600 dark:text-gray-400 mt-2 max-w-xs mx-auto"
+          class="mx-auto mt-2 max-w-xs text-xs text-gray-600 dark:text-gray-400"
         >
           Data-driven solutions and insights from an enthusiastic analyst and
           developer
@@ -255,15 +255,17 @@ import { Image } from "astro:assets";
     event.preventDefault();
     window.scrollTo({
       top: 0,
-      behavior: "smooth",
+      behavior: 'smooth',
     });
   }
 
-  function inintializeBackToTop() {
-    const backToTop = document.getElementById("back-to-top");
-    backToTop?.addEventListener("click", goBackToTop);
+  // Rename inintializeBackToTop to initializeBackToTop
+  function initializeBackToTop() {
+    const backToTop = document.getElementById('back-to-top');
+    backToTop?.addEventListener('click', goBackToTop);
   }
 
-  document.addEventListener("astro:after-swap", inintializeBackToTop);
-  inintializeBackToTop();
+  // Update function calls
+  document.addEventListener('astro:after-swap', initializeBackToTop);
+  initializeBackToTop();
 </script>

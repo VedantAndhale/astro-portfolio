@@ -68,7 +68,7 @@ function generateDataPoints(n, maxSize = 3) {
   return value;
 }
 
-function initBG() {
+function initializeBackgroundEffects() {
   // Always consider mobile or tablet as lower performance for initial page render
   const isMobile = window.innerWidth < 1024; // Changed from 768 to 1024 to include tablets
   const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -85,7 +85,6 @@ function initBG() {
   // Light mode particles (data-like visualization) - reduced counts
   const particlesSmall = isHighPerformance ? generateParticles(isMobile ? 100 : 300, 'rgba(59, 130, 246, 0.3)') : ''; // blue
   const particlesMedium = isHighPerformance ? generateParticles(isMobile ? 50 : 150, 'rgba(99, 102, 241, 0.25)') : ''; // indigo
-  const particlesLarge = isHighPerformance ? generateParticles(isMobile ? 25 : 75, 'rgba(139, 92, 246, 0.2)') : ''; // violet
 
   // Light mode data points - reduced counts
   const dataPoints = isHighPerformance ? generateDataPoints(isMobile ? 40 : 150, 4) : '';
@@ -306,13 +305,13 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize minimal background for above-the-fold content
     setTimeout(() => {
       requestIdleCallback(function () {
-        initBG();
+        initializeBackgroundEffects();
       });
     }, 2000); // Increased to 2 seconds to help improve LCP
   } else {
     // Fallback for browsers that don't support IntersectionObserver
     setTimeout(() => {
-      initBG();
+      initializeBackgroundEffects();
     }, 2000);
   }
 });

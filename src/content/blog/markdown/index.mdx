@@ -1,16 +1,18 @@
 ---
-title: "Getting Started with Markdown"
-summary: "All the things you need to know to about markdowne"
+title: 'Getting Started with Markdown'
+summary: 'All the things you need to know to about markdowne'
 popular: true
-date: "Jun 3 2024"
-card: "Markdown"
+date: 'Jun 3 2024'
+card: 'Markdown'
 tags:
   - Tutorial
   - Markdown
-version: "1.2.5"
-lastUpdated: "2024-06-10"
-ogImage: "https://raw.githubusercontent.com/VedantAndhale/posters/refs/heads/main/Untitled.png"
+version: '1.2.5'
+lastUpdated: '2024-06-10'
+ogImage: 'https://raw.githubusercontent.com/VedantAndhale/posters/refs/heads/main/Untitled.png'
+showToc: true
 ---
+
 {/* # Writing Markdown */}
 
 ## Writing Markdown
@@ -240,9 +242,6 @@ Press <kbd><kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>Delete</kbd></kbd> to end the ses
 
 Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
 
-
-
-
 ## Writing MDX
 
 MDX is a special flavor of Markdown that supports embedded JavaScript & JSX syntax. This unlocks the ability to [mix JavaScript and UI Components into your Markdown content](https://docs.astro.build/en/guides/markdown-content/#mdx-features) for things like interactive charts or alerts.
@@ -260,37 +259,16 @@ import MyComponent from "./MyComponent.astro"
 </MyComponent>
 ```
 
-import MyComponent from "./MyComponent.astro"
+import MyComponent from './MyComponent.astro';
 
-<MyComponent name="You">
-  Welcome to MDX
-</MyComponent>
+<MyComponent name="You">Welcome to MDX</MyComponent>
 
-
-
-### An interactive Solid Js component
-
-```
-// Imported from components directory (src/components)
-import MyComponent from "@components/Counter"
-
-// Don't forget the astro client:load directive
-<Counter client:load />
-```
-
-import Counter from "@components/Counter"
-
-<Counter client:load />
-
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 
 ```python
 print("hello world")
 import pandas as pd
 df = pd.read_csv("file.csv")
 ```
-
-
-

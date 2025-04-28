@@ -29,7 +29,7 @@ module.exports = {
     ],
 
     // Resolve URLs that Partytown might struggle with
-    resolveUrl: function (url, location, type) {
+    resolveUrl: function (url /*, location, type*/) {
         // Handle CDN resources
         if (url.hostname.includes('cdn.')) {
             return url;

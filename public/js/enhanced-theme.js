@@ -34,14 +34,25 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize theme based on preference
         const initTheme = () => {
             let isDark;
-            if (localStorage.getItem('theme') === 'dark' ||
-                (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            // --- CHANGE: Prioritize dark mode if no theme is stored ---
+            if (localStorage.getItem('theme') === 'dark' || !localStorage.getItem('theme')) {
+                // --- END CHANGE ---
                 htmlElement.classList.add('dark');
                 isDark = true;
-            } else {
+                // --- CHANGE: Explicitly check for 'light' or system preference (if not dark) ---
+            } else if (localStorage.getItem('theme') === 'light' || window.matchMedia('(prefers-color-scheme: light)').matches) {
+                // --- END CHANGE ---
                 htmlElement.classList.remove('dark');
                 isDark = false;
             }
+            // --- CHANGE: Fallback if neither condition met (shouldn't happen often) ---
+            else {
+                // Default to dark if system preference is dark, otherwise light
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                htmlElement.classList.toggle('dark', prefersDark);
+                isDark = prefersDark;
+            }
+            // --- END CHANGE ---
             updateToggleUI(isDark);
         };
 
@@ -58,7 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Listen for system preference changes
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            // --- CHANGE: Only update if no explicit theme is set ---
             if (!localStorage.getItem('theme')) { // Only if user hasn't set preference
+                // --- END CHANGE ---
                 const newTheme = e.matches ? 'dark' : 'light';
                 htmlElement.classList.toggle('dark', e.matches);
                 updateToggleUI(e.matches);
