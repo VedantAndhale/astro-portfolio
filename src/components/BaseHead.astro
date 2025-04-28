@@ -1,17 +1,8 @@
 ---
 import FontOptimizer from './FontOptimizer.astro';
+import type { BaseHeadProps } from '../types'; // Use relative path
 
-interface BaseHeadProps {
-  title: string;
-  description: string;
-  image?: string;
-}
-
-const {
-  title,
-  description,
-  image = '/open-graph.png',
-}: BaseHeadProps = Astro.props;
+const { title, description, image = '/open-graph.png' } = Astro.props; // Remove explicit type annotation
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
@@ -78,7 +69,7 @@ const imageUrl = new URL(image, Astro.site).toString();
 <!-- Optimized font preloading -->
 
 <!-- Performance monitoring with Web Vitals -->
-<script type="module" src="/js/web-vitals.js" async defer></script>
+<script is:inline type="module" src="/js/web-vitals.js" async defer></script>
 <!-- Variable fonts -->
 <link
   rel="preload"
@@ -118,15 +109,16 @@ const imageUrl = new URL(image, Astro.site).toString();
   crossorigin
 />
 
-
 <!-- Delay non-critical CSS -->
+<!-- Remove incorrect manual stylesheet links - Astro handles CSS bundling -->
+<!--
 <link
   rel="stylesheet"
   href="/styles.css"
   media="print"
-  onload="this.media='all'"
 />
 <noscript><link rel="stylesheet" href="/styles.css" /></noscript>
+-->
 
 <!-- Preload critical assets but with lower priority than fonts -->
 <link rel="preload" href={import.meta.env.BASE_URL + 'ui.svg'} as="image" />
@@ -154,7 +146,7 @@ const imageUrl = new URL(image, Astro.site).toString();
 <meta property="twitter:image" content={imageUrl} />
 
 <!-- Theme handling with type="module" and defer to not block rendering -->
-<script type="module" src="/js/theme.js"></script>
+<script is:inline type="module" src="/js/theme.js"></script>
 
 <!-- Background animation script with async and type="module" -->
-<script type="module" src="/js/bg.js" async></script>
+<script is:inline type="module" src="/js/bg.js" async></script>

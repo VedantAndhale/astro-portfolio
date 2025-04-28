@@ -1,18 +1,6 @@
 ---
 // OptimizedImage.astro - Enhanced image component for dark theme and performance
-interface OptimizedImageProps {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  class?: string;
-  loading?: 'lazy' | 'eager';
-  decoding?: 'async' | 'sync' | 'auto';
-  sizes?: string;
-  fetchpriority?: 'high' | 'low' | 'auto';
-  critical?: boolean;
-  darkModeFilter?: boolean;
-}
+import type { OptimizedImageProps } from '../types'; // Use relative path
 
 const {
   src,
@@ -26,7 +14,7 @@ const {
   fetchpriority = 'auto',
   critical = false,
   darkModeFilter = false,
-}: OptimizedImageProps = Astro.props;
+} = Astro.props; // Remove explicit type annotation
 
 // import { Image } from 'astro:assets'; // Keep if needed for future advanced features
 

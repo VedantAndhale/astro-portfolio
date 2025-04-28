@@ -42,6 +42,7 @@ const projects = defineCollection({
     version: z.string().optional().default('1.0.0'),
     lastUpdated: z.coerce.date().optional(),
     ogImage: z.string().optional().default('/open-graph.png'),
+    showToc: z.boolean().optional().default(false),
   }),
 });
 

@@ -4,16 +4,17 @@
  * A collapsible drawer TOC component, ideal for mobile views
  */
 import TableOfContents from './TableOfContents.astro';
-import type { MarkdownHeading } from 'astro';
+// import type { MarkdownHeading } from 'astro'; // Remove unused import
+import type { TocDrawerProps } from '../../types'; // Use relative path
 
 // Rename Props to TocDrawerProps
-interface TocDrawerProps {
-  headings: MarkdownHeading[];
-  title?: string;
-  minDepth?: number;
-  maxDepth?: number;
-  class?: string;
-}
+// interface TocDrawerProps { // Remove local interface definition
+//   headings: MarkdownHeading[];
+//   title?: string;
+//   minDepth?: number;
+//   maxDepth?: number;
+//   class?: string;
+// }
 
 // Update props destructuring
 const {
@@ -22,7 +23,7 @@ const {
   minDepth = 0,
   maxDepth = 4,
   class: className = '',
-}: TocDrawerProps = Astro.props;
+} = Astro.props; // Remove explicit type annotation
 
 // Generate unique ID for the drawer
 const drawerId = `toc-drawer-${Math.random().toString(36).substring(2, 9)}`;

@@ -6,6 +6,7 @@ import ArticleTopLayout from '@layouts/ArticleTopLayout.astro';
 import ArticleBottomLayout from '@layouts/ArticleBottomLayout.astro';
 import ContentLayout from '@layouts/ContentLayout.astro';
 import TocDrawer from '@components/toc/TocDrawer.astro'; // Import TocDrawer
+import TocSidebar from '@components/toc/TocSidebar.astro'; // Import TocSidebar
 
 // Create the static projects pages
 export async function getStaticPaths() {
@@ -31,13 +32,25 @@ const { Content, headings } = await project.render();
     </div>
   </TopLayout>
 
-  {/* Render TocDrawer ONLY if showToc is explicitly true */}
+  {/* Render TocDrawer ONLY if showToc is explicitly true and headings exist */}
   {
     headings && headings.length > 0 && project.data.showToc === true && (
       <TocDrawer
         headings={headings}
         title="Table of Content"
         class="toc-universal mx-auto mb-8 max-w-3xl px-4 lg:hidden"
+      />
+    )
+  }
+  {
+    /* Render TocSidebar ONLY if showToc is explicitly true and headings exist */
+  }
+  {
+    headings && headings.length > 0 && project.data.showToc === true && (
+      <TocSidebar
+        headings={headings}
+        title="On this page"
+        class="hidden lg:block"
       />
     )
   }

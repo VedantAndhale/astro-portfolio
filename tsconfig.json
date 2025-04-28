@@ -4,11 +4,20 @@
     "strictNullChecks": true,
     "baseUrl": ".",
     "paths": {
-      "@*": ["src/*"]
+      "@*": [
+        "src/*"
+      ] // Revert back to original alias
     },
     "jsx": "preserve",
     "jsxImportSource": "solid-js"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro"],
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.astro"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

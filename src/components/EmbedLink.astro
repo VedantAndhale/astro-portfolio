@@ -77,33 +77,36 @@ const uniqueId = `embed-${Math.random().toString(36).substring(7)}`;
   </iframe>
 </div>
 
-<script define:vars={{ uniqueId }}>
-  const container = document.getElementById(uniqueId);
-  if (container) {
-    const iframe = container.querySelector('iframe');
-    const placeholder = container.querySelector('.placeholder');
+{/* Add is:inline to the script tag */}
+<script is:inline define:vars={{ uniqueId }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const linkElement = document.getElementById(uniqueId);
+    if (linkElement) {
+      const iframe = linkElement.querySelector('iframe');
+      const placeholder = linkElement.querySelector('.placeholder');
 
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && iframe && !iframe.getAttribute('src')) {
-            const src = iframe.getAttribute('data-src');
-            if (src) {
-              iframe.setAttribute('src', src);
-              iframe.onload = () => {
-                if (placeholder) placeholder.style.display = 'none';
-                iframe.style.opacity = '1';
-              };
+      const observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && iframe && !iframe.getAttribute('src')) {
+              const src = iframe.getAttribute('data-src');
+              if (src) {
+                iframe.setAttribute('src', src);
+                iframe.onload = () => {
+                  if (placeholder) placeholder.style.display = 'none';
+                  iframe.style.opacity = '1';
+                };
+              }
+              obs.unobserve(linkElement); // Stop observing once loaded
             }
-            obs.unobserve(container); // Stop observing once loaded
-          }
-        });
-      },
-      { rootMargin: '50px' }
-    ); // Start loading 50px before it enters viewport
+          });
+        },
+        { rootMargin: '50px' }
+      ); // Start loading 50px before it enters viewport
 
-    observer.observe(container);
-  }
+      observer.observe(linkElement);
+    }
+  });
 </script>
 
 <style>

@@ -4,17 +4,18 @@
  * A reusable Table of Contents component that extracts and displays headings from content
  */
 import type { MarkdownHeading } from 'astro';
+import type { TableOfContentsProps } from '../../types'; // Use relative path
 
 // Rename Props to TableOfContentsProps
-interface TableOfContentsProps {
-  headings: MarkdownHeading[];
-  title?: string;
-  minDepth?: number;
-  maxDepth?: number;
-  position?: 'sidebar' | 'inline';
-  class?: string;
-  collapsible?: boolean;
-}
+// interface TableOfContentsProps { // Remove local interface definition
+//   headings: MarkdownHeading[];
+//   title?: string;
+//   minDepth?: number;
+//   maxDepth?: number;
+//   position?: 'sidebar' | 'inline';
+//   class?: string;
+//   collapsible?: boolean;
+// }
 
 // Update props destructuring
 const {
@@ -25,11 +26,12 @@ const {
   position = 'sidebar',
   class: className = '',
   collapsible = false,
-}: TableOfContentsProps = Astro.props;
+} = Astro.props; // Remove explicit type annotation
 
 // Filter headings by min/max depth settings
 const filteredHeadings = headings.filter(
-  (heading) => heading.depth >= minDepth && heading.depth <= maxDepth
+  (heading: MarkdownHeading) =>
+    heading.depth >= minDepth && heading.depth <= maxDepth // Add type annotation
 );
 
 // Create nested structure for TOC
@@ -510,9 +512,10 @@ const tocId = `toc-${Math.random().toString(36).substring(2, 9)}`;
   }
 </style>
 
-<script define:vars={{ tocId }}>
-  // Add active state to current section
+{/* Add is:inline to the script tag */}
+<script is:inline define:vars={{ tocId }}>
   document.addEventListener('DOMContentLoaded', () => {
+    // const tocElement = document.getElementById(tocId); // Remove unused variable
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

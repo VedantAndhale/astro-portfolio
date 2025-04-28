@@ -12,7 +12,9 @@ const goatCounterCode =
 {/* Only include the script in production mode */}
 {
   import.meta.env.PROD && (
+    // Add is:inline to the script tag
     <script
+      is:inline
       data-goatcounter={`https://${goatCounterCode}.goatcounter.com/count`}
       async
       src="//gc.zgo.at/count.js"
