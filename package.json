@@ -23,6 +23,7 @@
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/solid-js": "^4.4.4",
     "@astrojs/tailwind": "^5.1.5",
+    "@astrojs/vercel": "^8.1.4",
     "@fontsource/dm-sans": "^5.2.5",
     "@fontsource/fira-code": "^5.2.5",
     "@fontsource/inter": "^5.2.5",

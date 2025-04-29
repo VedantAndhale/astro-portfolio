@@ -6,14 +6,17 @@ import solidJs from '@astrojs/solid-js';
 import critters from 'astro-critters';
 import prefetch from '@astrojs/prefetch';
 import partytown from '@astrojs/partytown';
+import vercel from '@astrojs/vercel/serverless'; // Import the Vercel adapter
 
 // Skip importing compress from astro-compress here
 // We'll handle compression differently
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server', // Add this line for Vercel serverless functions
   site: 'https://vedant.me/', // Replace with your actual domain
   integrations: [
+    vercel(), // Add the Vercel adapter here
     mdx(),
     sitemap(),
     solidJs(),
