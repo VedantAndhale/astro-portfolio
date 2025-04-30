@@ -114,16 +114,6 @@ const stack = [
   <script>
     // Defer non-critical background JS by adding it as a module to load after critical content
     document.addEventListener('DOMContentLoaded', () => {
-      // Create a script element
-      const script = document.createElement('script');
-      // Add background effects only after the page has loaded
-      script.src = '/js/bg.js';
-      script.type = 'module';
-      script.async = true;
-      script.defer = true;
-      // Append it to the end of body for better performance
-      document.body.appendChild(script);
-
       // Remove any empty anchor tags that might be causing spacing issues
       const emptyAnchors = document.querySelectorAll(
         'a:empty, a:only-child:not(:has(*)):not([href=""]):not([href="#"])'
@@ -206,7 +196,7 @@ const stack = [
         <!-- Modern introduction with animated text -->
         <div class="animate-slideUpFade space-y-4">
           <p
-            class="text-lg font-medium text-white-700 dark:text-white-300 md:text-xl"
+            class="text-white-700 dark:text-white-300 text-lg font-medium md:text-xl"
           >
             <span class="inline-flex items-center">
               <span class="mr-2 animate-wave">👋</span> Hi, I'm Vedant Andhale
