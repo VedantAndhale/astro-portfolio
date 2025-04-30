@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Vedant Andhale</title><description>Vedant Andhale&apos;s portfolio website and tech blog.</description><link>https://vedant.me/</link><item><title>SQL EDA 2 python | SQL | EDA</title><link>https://vedant.me/projects/sql-eda-2/</link><guid isPermaLink="true">https://vedant.me/projects/sql-eda-2/</guid><description>SQl End to End Project</description><pubDate>Tue, 25 Jun 2024 18:30:00 GMT</pubDate><content:encoded>SQl Demo Project page
+</content:encoded><author>Vedant Andhale</author></item><item><title>SQL</title><link>https://vedant.me/projects/sql/</link><guid isPermaLink="true">https://vedant.me/projects/sql/</guid><description>SQl End to End Project</description><pubDate>Tue, 25 Jun 2024 18:30:00 GMT</pubDate><content:encoded>SQl Demo Project page
+</content:encoded><author>Vedant Andhale</author></item><item><title>SQL EDA 1 SQl End to End Project SQl End to End Project</title><link>https://vedant.me/projects/sql-eda/</link><guid isPermaLink="true">https://vedant.me/projects/sql-eda/</guid><description>SQl End to End Project</description><pubDate>Mon, 24 Jun 2024 18:30:00 GMT</pubDate><content:encoded>SQl Demo Project page
+import EmbedLink from &apos;@components/EmbedLink.astro&apos;;
+dashboard
+&amp;lt;EmbedLink
+src=&quot;https://app.powerbi.com/view?r=eyJrIjoiODdhNTQ1N2MtY2M0ZC00MmEzLTgyZGQtYjBkOWM1NTY1OWIzIiwidCI6ImE3NTNhYzNmLWM2MGQtNDJiMS05YTdiLWI0YzJmN2Q0ZjZhMiJ9&amp;amp;discover=true&amp;amp;sampleId=653426d8-503a-4a10-8a02-71854968d73adiscover/gallery/653426d8-503a-4a10-8a02-71854968d73a&quot;
+title=&quot;BI Sample Embed&quot;
+/&amp;gt;
+youtube
+&amp;lt;EmbedLink
+src=&quot;https://www.youtube.com/embed/jWT6Uj022N4?si=tPQ8hioi83JNL_xM&quot;
+title=&quot;YouTube Video&quot;
+rounded=&quot;xl&quot;
+shadow=&quot;lg&quot;
+/&amp;gt;
+</content:encoded><author>Vedant Andhale</author></item><item><title>Getting Started with Markdown</title><link>https://vedant.me/blog/markdown/</link><guid isPermaLink="true">https://vedant.me/blog/markdown/</guid><description>All the things you need to know to about markdowne</description><pubDate>Sun, 02 Jun 2024 18:30:00 GMT</pubDate><content:encoded>{/* # Writing Markdown */}
+Writing Markdown
+Headings
+# H1
+
+## H2
+
+### H3
+
+#### H4
+
+##### H5
+
+###### H6
+
+
+H1
+H2
+H3
+H4
+H5
+H6
+Paragraph
+Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.
+Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.
+Images
+Relative image in the /public folder
+![blog placeholder](/open-graph.jpg)
+
+
+Relative Image in the same folder as the markdown
+![Test Relative Image](./spongebob.png)
+
+
+Blockquotes
+The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a footer or cite element, and optionally with in-line changes such as annotations and abbreviations.
+Blockquote without attribution
+Syntax
+&amp;gt; Tiam, ad mint andaepu dandae nostion secatur sequo quae.
+&amp;gt; **Note** that you can use _Markdown syntax_ within a blockquote.
+
+Output
+
+Tiam, ad mint andaepu dandae nostion secatur sequo quae.
+&lt;strong&gt;Note&lt;/strong&gt; that you can use &lt;em&gt;Markdown syntax&lt;/em&gt; within a blockquote.
+
+Blockquote with attribution
+Syntax
+&amp;gt; Don&apos;t communicate by sharing memory, share memory by communicating.&amp;lt;br/&amp;gt;
+&amp;gt; — &amp;lt;cite&amp;gt;Rob Pike[^1]&amp;lt;/cite&amp;gt;
+
+Output
+
+Don&apos;t communicate by sharing memory, share memory by communicating.&amp;lt;br/&amp;gt;
+— &amp;lt;cite&amp;gt;Rob Pike[^1]&amp;lt;/cite&amp;gt;
+
+[^1]: The above quote is excerpted from Rob Pike&apos;s &lt;a href=&quot;https://www.youtube.com/watch?v=PAAkCSZUG1c&quot;&gt;talk&lt;/a&gt; during Gopherfest, November 18, 2015.
+Tables
+Syntax
+| Italics   | Bold     | Code   |
+| --------- | -------- | ------ |
+| _italics_ | **bold** | `code` |
+
+Output
+
+
+
+Italics
+Bold
+Code
+
+
+
+
+&lt;em&gt;italics&lt;/em&gt;
+&lt;strong&gt;bold&lt;/strong&gt;
+code
+
+
+
+Code Blocks
+Syntax
+we can use 3 backticks ``` in new line and write snippet and close with 3 backticks on new line and to highlight language specific syntac, write one word of language name after first 3 backticks, for eg. html, javascript, css, markdown, typescript, txt, bash
+```html
+&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang=&quot;en&quot;&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&quot;utf-8&quot; /&amp;gt;
+    &amp;lt;title&amp;gt;Example HTML5 Document&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;Test&amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+```
+
+Output
+&amp;lt;!doctype html&amp;gt;
+&amp;lt;html lang=&quot;en&quot;&amp;gt;
+  &amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&quot;utf-8&quot; /&amp;gt;
+    &amp;lt;title&amp;gt;Example HTML5 Document&amp;lt;/title&amp;gt;
+  &amp;lt;/head&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;p&amp;gt;Test&amp;lt;/p&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+List Types
+Ordered List
+Syntax
+1. First item
+2. Second item
+3. Third item
+
+Output
+
+First item
+Second item
+Third item
+
+Unordered List
+Syntax
+- List item
+- Another item
+- And another item
+
+Output
+
+List item
+Another item
+And another item
+
+Nested list
+Syntax
+- Fruit
+  - Apple
+  - Orange
+  - Banana
+- Dairy
+  - Milk
+  - Cheese
+
+Output
+
+Fruit
+
+Apple
+Orange
+Banana
+
+
+Dairy
+
+Milk
+Cheese
+
+
+
+Other Elements — abbr, sub, sup, kbd, mark
+Syntax
+&amp;lt;abbr title=&quot;Graphics Interchange Format&quot;&amp;gt;GIF&amp;lt;/abbr&amp;gt; is a bitmap image format.
+
+H&amp;lt;sub&amp;gt;2&amp;lt;/sub&amp;gt;O
+
+X&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; + Y&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; = Z&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt;
+
+Press &amp;lt;kbd&amp;gt;&amp;lt;kbd&amp;gt;CTRL&amp;lt;/kbd&amp;gt;+&amp;lt;kbd&amp;gt;ALT&amp;lt;/kbd&amp;gt;+&amp;lt;kbd&amp;gt;Delete&amp;lt;/kbd&amp;gt;&amp;lt;/kbd&amp;gt; to end the session.
+
+Most &amp;lt;mark&amp;gt;salamanders&amp;lt;/mark&amp;gt; are nocturnal, and hunt for insects, worms, and other small creatures.
+
+Output
+&amp;lt;abbr title=&quot;Graphics Interchange Format&quot;&amp;gt;GIF&amp;lt;/abbr&amp;gt; is a bitmap image format.
+H&amp;lt;sub&amp;gt;2&amp;lt;/sub&amp;gt;O
+X&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; + Y&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt; = Z&amp;lt;sup&amp;gt;n&amp;lt;/sup&amp;gt;
+Press &amp;lt;kbd&amp;gt;&amp;lt;kbd&amp;gt;CTRL&amp;lt;/kbd&amp;gt;+&amp;lt;kbd&amp;gt;ALT&amp;lt;/kbd&amp;gt;+&amp;lt;kbd&amp;gt;Delete&amp;lt;/kbd&amp;gt;&amp;lt;/kbd&amp;gt; to end the session.
+Most &amp;lt;mark&amp;gt;salamanders&amp;lt;/mark&amp;gt; are nocturnal, and hunt for insects, worms, and other small creatures.
+Writing MDX
+MDX is a special flavor of Markdown that supports embedded JavaScript &amp;amp; JSX syntax. This unlocks the ability to &lt;a href=&quot;https://docs.astro.build/en/guides/markdown-content/#mdx-features&quot;&gt;mix JavaScript and UI Components into your Markdown content&lt;/a&gt; for things like interactive charts or alerts.
+If you have existing content authored in MDX, this integration will hopefully make migrating to Astro a breeze.
+An astro component with props
+// Imported from relative path (same dir as markdown file)
+import MyComponent from &quot;./MyComponent.astro&quot;
+
+&amp;lt;MyComponent name=&quot;You&quot;&amp;gt;
+  Welcome to MDX
+&amp;lt;/MyComponent&amp;gt;
+
+import MyComponent from &apos;./MyComponent.astro&apos;;
+&amp;lt;MyComponent name=&quot;You&quot;&amp;gt;Welcome to MDX&amp;lt;/MyComponent&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+&amp;lt;br /&amp;gt;
+print(&quot;hello world&quot;)
+import pandas as pd
+df = pd.read_csv(&quot;file.csv&quot;)
+
+</content:encoded><author>Vedant Andhale</author></item></channel></rss>
