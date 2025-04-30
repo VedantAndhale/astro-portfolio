@@ -412,10 +412,10 @@
     @apply text-[var(--color-text)] dark:text-[var(--color-text)];
     @apply antialiased;
     font-feature-settings: 'ss01', 'ss02', 'cv01', 'cv02';
-    /* --- ADD: Smooth transition for background and text color --- */
-    transition: background-color var(--transition-normal) var(--easing-standard),
-      color var(--transition-normal) var(--easing-standard);
-    /* --- END ADD --- */
+    /* --- REMOVED global transition --- */
+    /* transition: background-color var(--transition-normal) var(--easing-standard),
+      color var(--transition-normal) var(--easing-standard); */
+    /* --- END REMOVE --- */
   }
 
   /* Font smoothing and kerning */
@@ -582,10 +582,10 @@ body {
   /* --- UPDATED to use variables --- */
   @apply bg-[var(--color-bg)] dark:bg-[var(--color-bg)];
   @apply text-[var(--color-text)] dark:text-[var(--color-text)];
-  /* --- ADD: Ensure transition applies here too --- */
-  transition: background-color var(--transition-normal) var(--easing-standard),
-    color var(--transition-normal) var(--easing-standard);
-  /* --- END ADD --- */
+  /* --- REMOVED global transition --- */
+  /* transition: background-color var(--transition-normal) var(--easing-standard),
+    color var(--transition-normal) var(--easing-standard); */
+  /* --- END REMOVE --- */
 }
 
 body {
@@ -1174,9 +1174,11 @@ article img {
 
 /* Add a subtle animation to make theme transition more pleasing */
 html {
-  transition:
+  /* --- REMOVED global transition --- */
+  /* transition:
     background-color 0.3s ease,
-    color 0.3s ease;
+    color 0.3s ease; */
+  /* --- END REMOVE --- */
 }
 
 /* Ensure SVG elements inside theme buttons are properly clickable */

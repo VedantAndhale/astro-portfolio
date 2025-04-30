@@ -1,1 +1,0 @@
-document.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll('a:empty, a:only-child:not(:has(*)):not([href=""]):not([href="#"])').forEach(e=>{e.textContent?.trim()===""&&!e.querySelector("*")&&(console.log("Removing empty anchor:",e),e.remove())})});

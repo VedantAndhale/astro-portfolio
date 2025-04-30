@@ -1,1 +1,0 @@
-document.addEventListener("DOMContentLoaded",()=>{setTimeout(()=>{document.querySelectorAll("#particles1, #particles2, #particles3, #stars1, #stars2, #stars3").forEach(e=>e.classList.remove("opacity-0"))},2e3)});
