@@ -1,5 +1,4 @@
 ---
-import FontOptimizer from './FontOptimizer.astro';
 import type { BaseHeadProps } from '../types'; // Use relative path
 
 const { title, description, image = '/open-graph.png' } = Astro.props; // Remove explicit type annotation
@@ -26,9 +25,6 @@ const imageUrl = new URL(image, Astro.site).toString();
 
 <!-- Add DNS prefetch for any analytics or third-party services you use -->
 <link rel="dns-prefetch" href="https://analytics.example.com" />
-
-<!-- Import the FontOptimizer component -->
-<FontOptimizer />
 
 <!-- Preload and execute theme script before page renders to prevent flash -->
 <script is:inline src="/js/fixed-theme.js"></script>
