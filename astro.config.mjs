@@ -17,56 +17,56 @@ export default defineConfig({
   // output: 'server', // Keep commented out for now
   site: 'https://vedant.me/', // Replace with your actual domain
   integrations: [// Start with minimal integrations
-  // Keep tailwind for basic styling
-  tailwind({ applyBaseStyles: false }), // Keep vercel adapter
-  // mdx(), // Commented out
-  // sitemap(), // Commented out
-  // solidJs(), // Commented out
-  // critters({ // Commented out
-  //   fonts: true,
-  //   preload: 'swap',
-  //   inlineThreshold: 0, // Inline all CSS below 0kb
-  //   pruneSource: true, // Remove unused styles
-  // }),
-  // prefetch({ // Removed deprecated prefetch
-  //   throttle: 3, // Limit concurrent prefetch requests
-  //   selector: "a[href^='/']:not([href*='.']):not([data-no-prefetch])", // Only prefetch internal pages
-  // }),
-  // compress({ // Commented out
-  //   css: true,
-  //   html: {
-  //     removeAttributeQuotes: false,
-  //     removeComments: true,
-  //     removeRedundantAttributes: true,
-  //     removeScriptTypeAttributes: true,
-  //     removeStyleLinkTypeAttributes: true,
-  //     removeEmptyAttributes: true,
-  //     minifyJS: true,
-  //     minifyCSS: true,
-  //     useShortDoctype: true,
-  //     collapseWhitespace: true,
-  //   },
-  //   img: true,
-  //   js: true,
-  //   svg: false, // Don't touch SVG assets as requested
-  //   logger: 1, // Show only errors
-  // }),
-  // partytown({ // Commented out
-  //   // Adds dataLayer.push as a forwarding-event.
-  //   config: {
-  //     forward: ['dataLayer.push'],
-  //     debug: false, // Disable in production
-  //     resolveUrl: (url) => {
-  //       // Help Partytown load resources from the right location
-  //       const browserURL = new URL(url);
-  //       if (browserURL.hostname === 'cdn.example.com') {
-  //         return new URL('https://cdn.example.com' + browserURL.pathname);
-  //       }
-  //       return url;
-  //     },
-  //   },
-  // }),
-  vercel(), solidJs()],
+    // Keep tailwind for basic styling
+    tailwind({ applyBaseStyles: false }), // Keep vercel adapter
+    mdx(), // Ensure MDX is active
+    // sitemap(), // Commented out
+    // solidJs(), // Commented out
+    // critters({ // Commented out
+    //   fonts: true,
+    //   preload: 'swap',
+    //   inlineThreshold: 0, // Inline all CSS below 0kb
+    //   pruneSource: true, // Remove unused styles
+    // }),
+    // prefetch({ // Removed deprecated prefetch
+    //   throttle: 3, // Limit concurrent prefetch requests
+    //   selector: "a[href^='/']:not([href*='.']):not([data-no-prefetch])", // Only prefetch internal pages
+    // }),
+    // compress({ // Commented out
+    //   css: true,
+    //   html: {
+    //     removeAttributeQuotes: false,
+    //     removeComments: true,
+    //     removeRedundantAttributes: true,
+    //     removeScriptTypeAttributes: true,
+    //     removeStyleLinkTypeAttributes: true,
+    //     removeEmptyAttributes: true,
+    //     minifyJS: true,
+    //     minifyCSS: true,
+    //     useShortDoctype: true,
+    //     collapseWhitespace: true,
+    //   },
+    //   img: true,
+    //   js: true,
+    //   svg: false, // Don't touch SVG assets as requested
+    //   logger: 1, // Show only errors
+    // }),
+    // partytown({ // Commented out
+    //   // Adds dataLayer.push as a forwarding-event.
+    //   config: {
+    //     forward: ['dataLayer.push'],
+    //     debug: false, // Disable in production
+    //     resolveUrl: (url) => {
+    //       // Help Partytown load resources from the right location
+    //       const browserURL = new URL(url);
+    //       if (browserURL.hostname === 'cdn.example.com') {
+    //         return new URL('https://cdn.example.com' + browserURL.pathname);
+    //       }
+    //       return url;
+    //     },
+    //   },
+    // }),
+    vercel(), solidJs()],
 
   // Configure how assets are handled
   assets: true,

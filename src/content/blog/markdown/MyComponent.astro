@@ -1,0 +1,21 @@
+---
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+---
+
+<div class="my-component">
+  <h2>Hello, {name}!</h2>
+  <slot />
+</div>
+
+<style>
+  .my-component {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 1rem 0;
+  }
+</style>
