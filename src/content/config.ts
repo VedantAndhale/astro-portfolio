@@ -54,4 +54,22 @@ const legal = defineCollection({
   }),
 });
 
-export const collections = { resume, blog, projects, legal };
+const certifications = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    date: z.coerce.date(),
+    course: z.string(),
+    platform: z.string(),
+    credly: z.string().url().optional(),
+    certificate: z.string().url().optional(),
+    dateStart: z.coerce.date(),
+    technology: z.string(),
+    card: z.string().optional(),
+    pin: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+  }),
+});
+
+export const collections = { resume, blog, projects, legal, certifications };
