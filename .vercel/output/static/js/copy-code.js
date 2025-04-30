@@ -28,10 +28,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 await navigator.clipboard.writeText(code.textContent || '');
                 button.textContent = 'Copied!';
                 button.classList.add('copied'); // Add class for feedback
-
+                code.style.color = '#16a34a'; // Make code text green on copy
                 setTimeout(() => {
                     button.textContent = 'Copy';
                     button.classList.remove('copied'); // Remove feedback class
+                    code.style.color = '';
                 }, 2000);
             } catch (err) {
                 console.error('Failed to copy text: ', err);

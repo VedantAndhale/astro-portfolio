@@ -120,6 +120,14 @@ const imageUrl = new URL(image, Astro.site).toString();
 <noscript><link rel="stylesheet" href="/styles.css" /></noscript>
 -->
 
+<!-- Preload hero/profile image for optimal LCP -->
+<link
+  rel="preload"
+  as="image"
+  href="/image/profile.webp"
+  imagesrcset="/image/profile.webp 1x"
+  fetchpriority="high"
+/>
 <!-- Preload critical assets but with lower priority than fonts -->
 <link rel="preload" href={import.meta.env.BASE_URL + 'ui.svg'} as="image" />
 
